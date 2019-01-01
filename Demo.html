@@ -15,6 +15,7 @@
         }
         .form{
             padding: 10px;
+            
         }
         .cntr{
             width: 300px;
@@ -27,6 +28,9 @@
         input{
             width: 100%;
             margin-bottom: 2%;
+            border-radius: 2px;
+            border-style:solid;
+            border-color: lightgray
         }
     </style>
 </head>
@@ -37,8 +41,11 @@
 
         class App extends React.Component {
 
-            doCalc(num1,num2) { 
-                return num1+num2;
+            doCalc() {
+               // let num1=document.getElementById("num1");
+               // let num2=document.getElementById("num2");
+              //  let display=document.getElementById("display_sum");
+               return 4+3;
             };
 
             render() {
@@ -56,13 +63,13 @@
                     <div className="cntr">
                     <p style={textStyle}>Sign Up</p> {/*css modules*/}
                     <input className="form" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter name"/><br/>
-                    <input className="form" type="password"  placeholder="Enter Password"/><br/>
+                    <input className="form" type="password" placeholder="Enter Password"/><br/>
                     <input className="form" type="email" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Email"/><br/>
-                    <input className="form" type="number" style={{width:'50%'}}/>
-                    <input className="form" type="number" style={{width:'50%'}}/><br/>
-                    <input className="form" type="button" style={{width:'80%'}} value="Do Sum"/>
-                    <button style={display_sum} disabled>{this.doCalc(4,2)}</button><br/><br/>
-                    <input className="form" type="submit"/>
+                    <input className="form" type="number" id="num1" style={{width:'50%'}}/>
+                    <input className="form" type="number" id="num2" style={{width:'50%'}}/><br/>
+                    <input className="form" type="button" style={{width:'80%'}}  value="Do Sum"/>
+                    <button id="display_sum" id="sum" style={display_sum} disabled>{this.doCalc()}</button><br/><br/>
+                    <input className="form" style={{color:'white',background:'rgb(144, 52, 183)'}}  type="submit"/>
                     </div>
                 );
             }
