@@ -1,0 +1,7 @@
+1/1/19
+Render function should be Pure function
+state prop
+arrow function
+jsx
+render
+onchange example

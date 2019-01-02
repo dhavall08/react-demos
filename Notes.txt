@@ -1,0 +1,21 @@
+Javascript Arrow Function:https://flaviocopes.com/javascript-arrow-functions/
+
+Don't define function using "function" keyword in function definition in react.
+
+React JS uses JSX. (syntax extension to JavaScript)
+React doesn’t require using JSX, but most people find it helpful as a visual aid.
+
+example:
+const name = 'Josh Perez';
+const element = <h1>Hello, {name}</h1>;
+
+Babel converts JSX to Javascript.
+
+We split JSX over multiple lines for readability. While it isn’t required, when doing this, we also recommend wrapping it in parentheses to avoid the pitfalls of automatic semicolon insertion.
+(https://reactjs.org/docs/introducing-jsx.html)
+
+JSX Prevents Injection Attacks.
+
+Props can be any name.
+can be more than one ReactDOM methods.
+
