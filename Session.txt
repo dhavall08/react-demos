@@ -1,3 +1,7 @@
+31/12/18
+simple react program
+css styling in react
+
 1/1/19
 Render function should be Pure function
 state prop
@@ -5,3 +9,11 @@ arrow function
 jsx
 render
 onchange example
+
+task=>login page, validation onBlur
+
+2/1/19
+function binding
+props as event
+
+

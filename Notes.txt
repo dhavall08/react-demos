@@ -16,6 +16,12 @@ We split JSX over multiple lines for readability. While it isn’t required, whe
 
 JSX Prevents Injection Attacks.
 
-Props can be any name.
-can be more than one ReactDOM methods.
+Props can be any name.state cannot.
+we may have more than one ReactDOM methods.
+
+onClick, onChange, etc event function starts with ()=>{} not directly {} in tag
+
+no state manipulation in render method. (pure function)
+
+ctrl+del to remove all spaces in any editors.
 

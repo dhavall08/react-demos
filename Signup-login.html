@@ -1,0 +1,120 @@
+<!-- html5 tag changes styling-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>React!</title>
+
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+        .form{
+            padding: 10px;
+        }
+        .cntr{
+            width: 600px;
+            margin: auto;
+            margin-top: 100px;
+            
+        }
+        .block{
+            height: 300px;
+            width: 250px;
+            border: 2px solid grey;
+            border-radius: 5px;
+            padding: 20px;
+            padding-bottom: 70px;
+        }
+        input{
+            width: 100%;
+            margin-bottom: 2%;
+            border-radius: 3px;
+            border-style:solid;
+            border-color: lightgray
+        }
+        #textStyle{
+                    color:'grey';
+                    font-size: '25px';
+                    width:'100%';
+                    text-align:'center';
+                }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class SignUp extends React.Component {
+
+            doSignUp() {
+            //debugger // to debug javascript
+               let name=document.getElementById("name").value;
+               let email=document.getElementById("email").value;
+               let password=document.getElementById("password").value;
+               
+            };
+
+            render() {
+
+                let display_sum={padding:'3.7%',paddingRight:'8.4%',paddingLeft:'8.4%',textAlign:'center',border:'1px solid lightgrey'};
+
+                return(
+                    <div>
+                    <form onSubmit={()=>this.doSignUp()}>
+                    <p className="textStyle">Sign Up</p> {/*css modules*/}
+                    <input className="form" id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name"/><br/>
+                    <input className="form" id="email" type="email" placeholder="Enter Email"/><br/>
+                    <input className="form" id="password" type="password"  style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Password"/><br/><br/>
+                    <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '90px'}} value="Register" type="submit"/>
+                    </form>
+                    </div>
+                );
+            }
+        }
+
+        class SignIn extends React.Component {
+            
+            doSignIn() {
+               let name=document.getElementById("name").value;
+               let email=document.getElementById("email").value;
+               let password=document.getElementById("password").value;
+               
+            };            
+            render(){
+                return(
+                <div>
+                    <form>
+                    <p className="textStyle">Sign In</p> {/*css modules*/}
+                    <input className="form" type="email" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Email"/><br/>
+                    <input className="form" type="password"  placeholder="Enter Password"/><br/><br/>
+                    <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '130px'}}  value="Sign In" type="submit"/>
+                    </form>
+                    </div>
+                );
+            }
+        } 
+
+        class Parent extends React.Component {
+            render(){
+                return(
+                <div className="cntr">
+                <div className="block" style={{float:'left'}}><SignUp/></div>
+                <div className="block" style={{float:'right'}}><SignIn/></div>
+                </div>
+                );
+            }
+        } 
+
+        ReactDOM.render(<Parent />,document.getElementById('root'));
+    
+    </script>
+
+</body>
+
+</html>
