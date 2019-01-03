@@ -43,6 +43,7 @@
                     width:'100%';
                     text-align:'center';
                 }
+                
     </style>
 </head>
 
@@ -66,10 +67,13 @@
             doSignUp = (e) => {
             //debugger // to debug javascript
                 e.preventDefault(); // to prevent reloading the page
-
-                this.props.getName(this.state.name);               
-                this.props.getEmail(this.state.email);
-                this.props.getPass(this.state.password);
+                if(this.state.name!='' && this.state.password!='' && this.state.email!='')
+                {
+                    this.props.getName(this.state.name);               
+                    this.props.getEmail(this.state.email);
+                    this.props.getPass(this.state.password);
+                    alert("Hi "+ this.state.name +", you registered successfully.");
+                }
             //    let name=document.getElementById("name").value;
             //    let email=document.getElementById("email").value;
             //    let password=document.getElementById("password").value;
@@ -90,10 +94,10 @@
                     <div>
                     <form onSubmit={this.doSignUp}>
                     <p className="textStyle">Sign Up</p> {/*css modules*/}
-                    <input className="form" id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name" onChange={e=>this.setState({name:e.target.value})}/><br/>
-                    <input className="form" onChange={e=>this.setState({email:e.target.value})} id="email" type="email" placeholder="Enter Email"/><br/>
-                    <input className="form"  onChange={e=>this.setState({password:e.target.value})} id="password" type="password"  style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Password"/><br/><br/>
-                    <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '90px'}} value="Register" type="submit"/>
+                    <input className="form" id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name" onBlur={e=>this.setState({name:e.target.value})} required/><br/>
+                    <input className="form" onBlur={e=>this.setState({email:e.target.value})} id="email" type="email" placeholder="Enter Email" required/><br/>
+                    <input className="form"  onBlur={e=>this.setState({password:e.target.value})} id="password" type="password"  style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Password" required/><br/><br/>
+                    <input className="form" id="signup" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '90px'}} value="Register" type="submit"/>
                     </form>
                     </div>
                 );
@@ -112,16 +116,22 @@
             
             doSignIn = (e)=> {
             e.preventDefault(); // to prevent reloading the page
+            
                let data=this.props.setData;
-               console.log(data);
+               if(data.email=="" || data.password=="")
+               {
+                   alert('Sign Up and try again.');
+                }
+               else{
+                   console.log(data);
                if(this.state.email===data.email && this.state.pass===data.password){
                    alert('Login Successfully');
                }
-               else {               
-                   alert('Login Failed')
+               else { 
+                   alert('Login Failed. Do register or enter correct details.');
                }
-               
-               debugger
+               }
+              // debugger
             };            
 
             render(){
@@ -130,7 +140,7 @@
                     <form onSubmit={this.doSignIn}>
                     <p className="textStyle">Sign In</p> {/*css modules*/}
                     <input className="form" id="login_email" type="email" onChange={e=>this.setState({email:e.target.value})} style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Email" required/><br/>
-                    <input className="form" id="login_pass" type="password"  onChange={e=>this.setState({pass:e.target.value})} placeholder="Enter Password"/><br/><br/>
+                    <input className="form" id="login_pass" type="password"  onChange={e=>this.setState({pass:e.target.value})} placeholder="Enter Password" required/><br/><br/>
                     <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '130px'}}  value="Sign In" type="submit"/>
                     </form>
                     </div>
