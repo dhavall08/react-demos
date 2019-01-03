@@ -51,8 +51,8 @@
     <script type="text/babel">
 
         class SignUp extends React.Component {
-            constructor(){
-                super();
+            constructor(props){
+                super(props);
                 this.state = { // ES6
                     
                         name:'',
@@ -60,17 +60,25 @@
                         password:''
                 
                 };
+                this.doSignUp = this.doSignUp.bind(this);
             }
 
-            doSignUp = () => {
+            doSignUp = (e) => {
             //debugger // to debug javascript
-               let name=document.getElementById("name").value;
-               let email=document.getElementById("email").value;
-               let password=document.getElementById("password").value;
-               this.setState( (prevState,props)=>{ return { // error
-                   name:name,email:email,password:password});
-               console.log(this.state);
-               debugger
+                e.preventDefault(); // to prevent reloading the page
+
+                this.props.getName(this.state.name);               
+                this.props.getEmail(this.state.email);
+                this.props.getPass(this.state.password);
+            //    let name=document.getElementById("name").value;
+            //    let email=document.getElementById("email").value;
+            //    let password=document.getElementById("password").value;
+            //    this.setState({name:name,email:email,password:password}, ()=> {
+            //     console.log('In:',this.state); //callback function
+            //    });
+            //    console.log('Out:', this.state);
+              
+              // debugger
                
             };
 
@@ -80,12 +88,11 @@
 
                 return(
                     <div>
-                    {console.log(this.state.name)}
-                    <form onSubmit={()=>this.doSignUp()}>
+                    <form onSubmit={this.doSignUp}>
                     <p className="textStyle">Sign Up</p> {/*css modules*/}
-                    <input className="form" id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name"/><br/>
-                    <input className="form" id="email" type="email" placeholder="Enter Email"/><br/>
-                    <input className="form" id="password" type="password"  style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Password"/><br/><br/>
+                    <input className="form" id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name" onChange={e=>this.setState({name:e.target.value})}/><br/>
+                    <input className="form" onChange={e=>this.setState({email:e.target.value})} id="email" type="email" placeholder="Enter Email"/><br/>
+                    <input className="form"  onChange={e=>this.setState({password:e.target.value})} id="password" type="password"  style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Password"/><br/><br/>
                     <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '90px'}} value="Register" type="submit"/>
                     </form>
                     </div>
@@ -94,20 +101,36 @@
         }
 
         class SignIn extends React.Component {
+            constructor(props){
+                super(props);
+                this.doSignIn = this.doSignIn.bind(this);
+                this.state={
+                    email:'',
+                    pass:''
+                }
+            }
             
-            doSignIn() {
-               let name=document.getElementById("name").value;
-               let email=document.getElementById("email").value;
-               let password=document.getElementById("password").value;
+            doSignIn = (e)=> {
+            e.preventDefault(); // to prevent reloading the page
+               let data=this.props.setData;
+               console.log(data);
+               if(this.state.email===data.email && this.state.pass===data.password){
+                   alert('Login Successfully');
+               }
+               else {               
+                   alert('Login Failed')
+               }
                
+               debugger
             };            
+
             render(){
                 return(
                 <div>
-                    <form>
+                    <form onSubmit={this.doSignIn}>
                     <p className="textStyle">Sign In</p> {/*css modules*/}
-                    <input className="form" type="email" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Email"/><br/>
-                    <input className="form" type="password"  placeholder="Enter Password"/><br/><br/>
+                    <input className="form" id="login_email" type="email" onChange={e=>this.setState({email:e.target.value})} style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Email" required/><br/>
+                    <input className="form" id="login_pass" type="password"  onChange={e=>this.setState({pass:e.target.value})} placeholder="Enter Password"/><br/><br/>
                     <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '130px'}}  value="Sign In" type="submit"/>
                     </form>
                     </div>
@@ -116,18 +139,47 @@
         } 
 
         class Parent extends React.Component {
+            constructor(){
+                super();
+                this.state={
+                    name:'',
+                    password:'',
+                    email:''
+                }
+            }
+            
+            getName(value){
+                this.setState({name: value});
+            }
+
+            getEmail(value){
+                this.setState({email: value});
+            }
+
+            getPass(value){
+                this.setState({password: value});
+            }
             render(){
                 return(
                 <div className="cntr">
-                <div className="block" style={{float:'left'}}><SignUp/></div>
-                <div className="block" style={{float:'right'}}><SignIn/></div>
+                <div className="block" style={{float:'left'}}>
+                    <SignUp getName={(value)=>this.getName(value)} 
+                            getEmail={(value)=>this.getEmail(value)} 
+                            getPass={(value)=>this.getPass(value)}/>
+                </div>
+                <div className="block" style={{float:'right'}}>
+                    <SignIn setData={this.state}/>
+                </div>
+                {console.log(this.state)}
                 </div>
                 );
             }
+           
         } 
 
         ReactDOM.render(<Parent />,document.getElementById('root'));
     
     </script>
 </body>
+
 </html>
