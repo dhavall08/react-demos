@@ -51,12 +51,26 @@
     <script type="text/babel">
 
         class SignUp extends React.Component {
+            constructor(){
+                super();
+                this.state = { // ES6
+                    
+                        name:'',
+                        email:'',
+                        password:''
+                
+                };
+            }
 
-            doSignUp() {
+            doSignUp = () => {
             //debugger // to debug javascript
                let name=document.getElementById("name").value;
                let email=document.getElementById("email").value;
                let password=document.getElementById("password").value;
+               this.setState( (prevState,props)=>{ return { // error
+                   name:name,email:email,password:password});
+               console.log(this.state);
+               debugger
                
             };
 
@@ -66,6 +80,7 @@
 
                 return(
                     <div>
+                    {console.log(this.state.name)}
                     <form onSubmit={()=>this.doSignUp()}>
                     <p className="textStyle">Sign Up</p> {/*css modules*/}
                     <input className="form" id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name"/><br/>
@@ -114,7 +129,5 @@
         ReactDOM.render(<Parent />,document.getElementById('root'));
     
     </script>
-
 </body>
-
 </html>
