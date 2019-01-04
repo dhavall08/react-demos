@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <title>React!</title>
 
-    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <script src="./../react.development.js"></script>
+    <script src="./../react-dom.development.js"></script>
+    <script src="./../babel.js"></script>
 
     <style>
         body{
@@ -23,7 +23,7 @@
             
         }
         .block{
-            height: 300px;
+            height: 400px;
             width: 250px;
             border: 2px solid grey;
             border-radius: 5px;
@@ -59,33 +59,34 @@
                         name:'',
                         email:'',
                         password:'',
-                        invalid: false
-                
+                        mobile:'',
+                        invalid: false,
+                        invalidMob: false,
+                        invalidPass:false,
+                        registered: false,
+                        displayDiv: false
                 };
                 this.doSignUp = this.doSignUp.bind(this);
                 this.emailValidation= this.emailValidation.bind(this);
+                this.mobileValidation= this.mobileValidation.bind(this);
+                this.passValidation= this.passValidation.bind(this);
             }
 
             doSignUp = (e) => {
             //debugger // to debug javascript
                 e.preventDefault(); // to prevent reloading the page
-                if(this.state.name!='' && this.state.password!='' && this.state.email!='')
+                if(this.state.name!='' && this.state.password!='' && this.state.email!='' && this.state.invalid==false && this.state.invalidMob==false && this.state.invalidPass==false)
                 {
                     this.props.getName(this.state.name);               
                     this.props.getEmail(this.state.email);
                     this.props.getPass(this.state.password);
+                    this.props.getMobile(this.state.mobile);
+                    this.setState({registered:true});
                     alert("Hi "+ this.state.name +", you registered successfully.");
                 }
-            //    let name=document.getElementById("name").value;
-            //    let email=document.getElementById("email").value;
-            //    let password=document.getElementById("password").value;
-            //    this.setState({name:name,email:email,password:password}, ()=> {
-            //     console.log('In:',this.state); //callback function
-            //    });
-            //    console.log('Out:', this.state);
-              
-              // debugger
-               
+                else{
+                    this.setState({displayDiv:true});
+                }
             };
 
             emailValidation(e){
@@ -100,20 +101,50 @@
                 }
             }
 
+            mobileValidation(e){
+                if(/^\d{10}$/.test(e.target.value))
+                {
+                    this.setState({mobile:e.target.value,invalidMob: false});
+                }
+                else
+                {
+                    this.setState({invalidMob:true});
+                }
+            }
+
+            passValidation(e){
+                if(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(e.target.value))
+                {
+                    this.setState({password:e.target.value,invalidPass:false});
+                }
+                else{
+                    this.setState({invalidPass:true});
+                }
+            }
+
             render() {
 
                 let display_sum={padding:'3.7%',paddingRight:'8.4%',paddingLeft:'8.4%',textAlign:'center',border:'1px solid lightgrey'};
 
                 return(
                     <div>
-                    <form onSubmit={this.doSignUp}>
+                    <form onSubmit={this.doSignUp} style={{height:'400px'}}>
                     <p className="textStyle">Sign Up</p> {/*css modules*/}
-                    <input className="form" id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name" onBlur={e=>this.setState({name:e.target.value})} required/><br/>
-                    <input className="form" onBlur={this.emailValidation} id="email" type="email" placeholder="Enter Email" required/><br/>
-                    <input className="form"  onBlur={e=>this.setState({password:e.target.value})} id="password" type="password"  style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Password" required/><br/><br/>
-                    <label style={{color:'red'}}>{this.state.invalid ? "Invalid email id." : ''}</label>
-                    <br/><br/>
-                    <input className="form" id="signup" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '70px'}} value="Register" type="submit"/>
+                    
+                    <input className="form" autoComplete="off"  id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name" onBlur={e=>this.setState({name:e.target.value})} required/><br/>
+                    
+                    <input className="form" autoComplete="off" onChange={this.emailValidation} id="email" type="email" placeholder="Enter Email" required style={{border: this.state.invalid ? "2px solid #ff4b4b" : '2px solid lightgrey'}}/><br/>
+                    
+                    <input className="form" onChange={this.passValidation} id="password" type="password"  style={{background:'lightgrey',borderWidth:'0',border: this.state.invalidPass ? "2px solid #ff4b4b" : '2px solid lightgrey'}} placeholder="Enter Password" required/><br/>
+                    
+                    <input className="form" autoComplete="off" style={{border: this.state.invalidMob ? "2px solid #ff4b4b" : '2px solid lightgrey'}} onChange={this.mobileValidation} id="Mobile" type="text" placeholder="Enter Mobile no." required/><br/><br/>
+                    <div style={{height:'100px', visibility: this.state.displayDiv ? 'visible' : 'hidden'}}>
+                    <label style={{color:'red'}}>{this.state.invalid ? "• invalid email id. " : ''}</label>
+                    <label style={{color:'red'}}>{this.state.invalidMob ? "• invalid mobile no. " : ''}</label>
+                    <label style={{color:'red'}}>{this.state.invalidPass ? "• invalid password " : ''}</label>
+                    </div><br/><br/>
+                    
+                    <input className="form" id="signup" style={{color:'white',background:'rgb(144, 52, 183)',marginBottom: '0px',background: this.state.registered ? 'rgb(183, 183, 183)' : 'rgb(144, 52, 183)'}} disabled={this.state.registered ? true : false} value="Register" type="submit"/>
                     </form>
                     </div>
                 );
@@ -153,8 +184,8 @@
                 }
                else{
                    console.log(data);
-               if(this.state.email===data.email && this.state.pass===data.password){
-                   alert('Login Successfully');
+               if(this.state.email===data.email && this.state.pass===data.password && this.state.invalid==false){
+                   alert('Login Succeed.');
                }
                else { 
                    alert('Login Failed. Do register or enter correct details.');
@@ -166,9 +197,9 @@
             render(){
                 return(
                 <div>
-                    <form onSubmit={this.doSignIn}>
+                    <form onSubmit={this.doSignIn} style={{height:'400px'}}>
                     <p className="textStyle">Sign In</p> {/*css modules*/}
-                    <input className="form" id="login_email" type="email" onBlur={this.emailValidation} style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Email" required/><br/>
+                    <input className="form" id="login_email" type="email" style={{border: this.state.invalid ? "2px solid #ff4b4b" : '0px',background:'lightgrey'}} onBlur={this.emailValidation} placeholder="Enter Email" required/><br/>
                     <input className="form" id="login_pass" type="password"  onBlur={e=>this.setState({pass:e.target.value})} placeholder="Enter Password" required/><br/><br/>
                     <label style={{color:'red'}}>{this.state.invalid ? "Invalid email id." : ' '}</label><br/><br/>
                     <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '110px'}}  value="Sign In" type="submit"/>
@@ -184,28 +215,39 @@
                 this.state={
                     name:'',
                     password:'',
-                    email:''
+                    email:'',
+                    mobile:''
                 }
             }
             
-            getName(value){
-                this.setState({name: value});
-            }
+            getValue(value,field)
+            {
+                switch(field){
+                    case "name":
+                    this.setState({name: value});
+                    break;
 
-            getEmail(value){
-                this.setState({email: value});
-            }
+                    case "email":
+                    this.setState({email: value});
+                    break;
 
-            getPass(value){
-                this.setState({password: value});
+                    case "password":
+                    this.setState({password: value});
+                    break;
+
+                    case "mob":
+                    this.setState({mobile: value});
+                    break;
+                }
             }
             render(){
                 return(
                 <div className="cntr">
                 <div className="block" style={{float:'left'}}>
-                    <SignUp getName={(value)=>this.getName(value)} 
-                            getEmail={(value)=>this.getEmail(value)} 
-                            getPass={(value)=>this.getPass(value)}/>
+                    <SignUp getName={(value)=>this.getValue(value,"name")} 
+                            getEmail={(value)=>this.getValue(value,"email")} 
+                            getPass={(value)=>this.getValue(value,"password")}
+                            getMobile={(value)=>this.getValue(value,"mob")}/>
                 </div>
                 <div className="block" style={{float:'right'}}>
                     <SignIn setData={this.state}/>
