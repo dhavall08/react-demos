@@ -136,7 +136,7 @@
                     <input className="form" onChange={this.passValidation} id="password" type="password"  style={{background:'#ececec',borderWidth:'0',border: this.state.invalidPass ? "2px solid #ff4b4b" : '2px solid lightgrey'}} placeholder="Enter Password" required/><br/>
                     
                     <input className="form" autoComplete="off" style={{border: this.state.invalidMob ? "2px solid #ff4b4b" : '2px solid lightgrey'}} onChange={this.mobileValidation} id="Mobile" type="text" placeholder="Enter Mobile no." required/><br/><br/>
-                    <div style={{height:'80px', visibility: this.state.displayDiv ? 'visible' : 'hidden'}}>
+                    <div style={{height:'71px', visibility: this.state.displayDiv ? 'visible' : 'hidden'}}>
                     <label style={{color:'red'}}>{this.state.invalid ? "• invalid email id. " : ''}</label>
                     <label style={{color:'red'}}>{this.state.invalidMob ? "• invalid mobile no. " : ''}</label>
                     <label style={{color:'red'}}>{this.state.invalidPass ? "• invalid password " : ''}</label>
