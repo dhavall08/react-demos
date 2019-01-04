@@ -16,4 +16,11 @@ task=>login page, validation onBlur
 function binding
 props as event
 
+3/1/19
+different binding ways
+callback fn
+disable btn after timeout
 
+4/1/19
+create react project
+package.json

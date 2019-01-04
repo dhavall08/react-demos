@@ -25,3 +25,11 @@ no state manipulation in render method. (pure function)
 
 ctrl+del to remove all spaces in any editors.
 
+Binding:
+https://codeburst.io/binding-functions-in-react-b168d2d006cb
+
+if function is arrow function in argument then binding is not required.
+
+not getElementById, instead use JSX in tag property
+
+binding methods:http://stackinsight.blogspot.com/2019/01/handle-events-react.html

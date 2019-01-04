@@ -19,7 +19,7 @@
         .cntr{
             width: 600px;
             margin: auto;
-            margin-top: 100px;
+            margin-top: 50px;
             
         }
         .block{
@@ -37,12 +37,6 @@
             border-style:solid;
             border-color: lightgray
         }
-        #textStyle{
-                    color:'grey';
-                    font-size: '25px';
-                    width:'100%';
-                    text-align:'center';
-                }
                 
     </style>
 </head>
@@ -83,6 +77,7 @@
                     this.props.getMobile(this.state.mobile);
                     this.setState({registered:true});
                     alert("Hi "+ this.state.name +", you registered successfully.");
+                    this.setState({displayDiv:true});
                 }
                 else{
                     this.setState({displayDiv:true});
@@ -128,23 +123,26 @@
 
                 return(
                     <div>
-                    <form onSubmit={this.doSignUp} style={{height:'400px'}}>
-                    <p className="textStyle">Sign Up</p> {/*css modules*/}
+                    <form onSubmit={this.doSignUp} >
+                    <p style={{color:'grey',
+            fontSize: '25px',
+            width:'100%',
+            textAlign:'center'}}>Sign Up</p> {/*css modules*/}
                     
-                    <input className="form" autoComplete="off"  id="name" type="text" style={{background:'lightgrey',borderWidth:'0'}} placeholder="Enter Name" onBlur={e=>this.setState({name:e.target.value})} required/><br/>
+                    <input className="form" autoComplete="off"  id="name" type="text" style={{background:'#ececec',borderWidth:'2px',border:'ff4b4b'}} placeholder="Enter Name" onBlur={e=>this.setState({name:e.target.value})} required/><br/>
                     
                     <input className="form" autoComplete="off" onChange={this.emailValidation} id="email" type="email" placeholder="Enter Email" required style={{border: this.state.invalid ? "2px solid #ff4b4b" : '2px solid lightgrey'}}/><br/>
                     
-                    <input className="form" onChange={this.passValidation} id="password" type="password"  style={{background:'lightgrey',borderWidth:'0',border: this.state.invalidPass ? "2px solid #ff4b4b" : '2px solid lightgrey'}} placeholder="Enter Password" required/><br/>
+                    <input className="form" onChange={this.passValidation} id="password" type="password"  style={{background:'#ececec',borderWidth:'0',border: this.state.invalidPass ? "2px solid #ff4b4b" : '2px solid lightgrey'}} placeholder="Enter Password" required/><br/>
                     
                     <input className="form" autoComplete="off" style={{border: this.state.invalidMob ? "2px solid #ff4b4b" : '2px solid lightgrey'}} onChange={this.mobileValidation} id="Mobile" type="text" placeholder="Enter Mobile no." required/><br/><br/>
-                    <div style={{height:'100px', visibility: this.state.displayDiv ? 'visible' : 'hidden'}}>
+                    <div style={{height:'80px', visibility: this.state.displayDiv ? 'visible' : 'hidden'}}>
                     <label style={{color:'red'}}>{this.state.invalid ? "• invalid email id. " : ''}</label>
                     <label style={{color:'red'}}>{this.state.invalidMob ? "• invalid mobile no. " : ''}</label>
                     <label style={{color:'red'}}>{this.state.invalidPass ? "• invalid password " : ''}</label>
                     </div><br/><br/>
                     
-                    <input className="form" id="signup" style={{color:'white',background:'rgb(144, 52, 183)',marginBottom: '0px',background: this.state.registered ? 'rgb(183, 183, 183)' : 'rgb(144, 52, 183)'}} disabled={this.state.registered ? true : false} value="Register" type="submit"/>
+                    <input className="form" id="signup" style={{color:'white',background:'rgb(144, 52, 183)',background: this.state.registered ? 'rgb(183, 183, 183)' : 'rgb(144, 52, 183)'}} disabled={this.state.registered ? true : false} value="Register" type="submit"/>
                     </form>
                     </div>
                 );
@@ -158,7 +156,8 @@
                 this.state={
                     email:'',
                     pass:'',
-                    invalid: false
+                    invalid: false,
+                    displayDiv:false
                 }
                 this.emailValidation= this.emailValidation.bind(this);
             }
@@ -179,15 +178,22 @@
             e.preventDefault(); // to prevent reloading the page
                let data=this.props.setData;
                if(data.email=="" || data.password=="")
-               {
-                   alert('Sign Up and try again.');
+                {
+                    if(!this.state.invalid)
+                        {alert('Sign Up and try again.');}
+                    else{
+                        this.setState({displayDiv:true});
+                    }
+
                 }
                else{
                    console.log(data);
                if(this.state.email===data.email && this.state.pass===data.password && this.state.invalid==false){
                    alert('Login Succeed.');
+                   this.setState({displayDiv:false});
                }
-               else { 
+               else {
+                    this.setState({displayDiv:true});
                    alert('Login Failed. Do register or enter correct details.');
                }
                }
@@ -197,12 +203,20 @@
             render(){
                 return(
                 <div>
-                    <form onSubmit={this.doSignIn} style={{height:'400px'}}>
-                    <p className="textStyle">Sign In</p> {/*css modules*/}
-                    <input className="form" id="login_email" type="email" style={{border: this.state.invalid ? "2px solid #ff4b4b" : '0px',background:'lightgrey'}} onBlur={this.emailValidation} placeholder="Enter Email" required/><br/>
+                    <form onSubmit={this.doSignIn} >
+                    <p style={{ color:'grey',
+            fontSize: '25px',
+            width:'100%',
+            textAlign:'center'}}>Sign In</p> {/*css modules*/}
+                    <input className="form" id="login_email" autoComplete="off"  type="email" style={{background:'#ececec',border: this.state.invalid ? "2px solid #ff4b4b" : '2px solid lightgrey'}} onChange={this.emailValidation} placeholder="Enter Email" required/><br/>
+
                     <input className="form" id="login_pass" type="password"  onBlur={e=>this.setState({pass:e.target.value})} placeholder="Enter Password" required/><br/><br/>
-                    <label style={{color:'red'}}>{this.state.invalid ? "Invalid email id." : ' '}</label><br/><br/>
-                    <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '110px'}}  value="Sign In" type="submit"/>
+
+                    <div style={{height:'100px', visibility: this.state.displayDiv ? 'visible' : 'hidden'}}>
+                    <label style={{color:'red'}}>{this.state.invalid ? "• invalid email id. " : ''}</label>
+                    </div><br/><br/>
+
+                    <input className="form" style={{color:'white',background:'rgb(144, 52, 183)',marginTop: '60px'}}  value="Sign In" type="submit"/>
                     </form>
                     </div>
                 );
@@ -249,6 +263,7 @@
                             getPass={(value)=>this.getValue(value,"password")}
                             getMobile={(value)=>this.getValue(value,"mob")}/>
                 </div>
+                
                 <div className="block" style={{float:'right'}}>
                     <SignIn setData={this.state}/>
                 </div>
