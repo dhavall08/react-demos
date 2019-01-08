@@ -35,3 +35,5 @@ not getElementById, instead use JSX in tag property
 binding methods:http://stackinsight.blogspot.com/2019/01/handle-events-react.html
 
 installed babel/sublime extension and esLint (for error checking)
+
+props passing in constructor is used to use of props in state in constructor. without it props can be undefined.
