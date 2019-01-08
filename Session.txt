@@ -27,3 +27,6 @@ package.json
 
 7/1/19
 react project with two forms submitting value to the parent.
+
+8/1/19
+same project, optimize
