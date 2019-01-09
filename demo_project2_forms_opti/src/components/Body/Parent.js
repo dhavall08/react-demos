@@ -18,16 +18,29 @@ class Parent extends Component {
             }
         }
     }
-
+    /* other way
+        newFun(value, field, form) {
+            let obj = this.state[form];
+            obj[field] = value;
+            this.setState({ [form]: obj });
+        }
+    */
     render() {
         console.log("Signup", this.state.signup);
         console.log("Signin", this.state.signin);
         return (
             <div className="cntr">
                 <div className="block" style={{ float: 'left' }}>
+                    {/* passed function in setState instead of object */}
                     <SignUp
                         setValues={(value, field) => this.setState(state => (state.signup[field] = value))} />
-                    {/* passed function in setState instead of object */}
+                    {/* Another way
+                    <SignUp
+                        setValues={(value, field) => this.newFun(value, field, "signup")} />
+                    */
+
+
+                    }
                 </div>
                 <div className="block" style={{ float: 'right' }}>
                     <SignIn

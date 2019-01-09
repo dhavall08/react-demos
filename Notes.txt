@@ -28,6 +28,10 @@ ctrl+del to remove all spaces in any editors.
 Binding:
 https://codeburst.io/binding-functions-in-react-b168d2d006cb
 
+Don't log after setState. it's async so run in background.
+
+Don't user this.state.anyname inside setState, instead, pass the function in setState. ex. this.setState((state,props)=>{})
+
 if function is arrow function in argument then binding is not required.
 
 not getElementById, instead use JSX in tag property
