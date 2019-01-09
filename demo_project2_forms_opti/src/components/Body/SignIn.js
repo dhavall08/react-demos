@@ -6,14 +6,26 @@ class SignIn extends Component {
     render() {
         return (
             <div>
-                <form onSubmit={e=>e.preventDefault()} >
-                    <p className="heading">Sign In</p>
+                <form onSubmit={e => e.preventDefault()} >
+                    <p
+                        className="heading">Sign In</p>
+                    <InputField
+                        name="login_email"
+                        type="email"
+                        place="Enter Email"
+                        blurevent={this.props.setValues} />
 
-                    <InputField id="login_email" type="email" place="Enter Email" blurevent={this.props.setValues}/>
+                    <InputField
+                        name="login_pass"
+                        type="password"
+                        place="Enter Password"
+                        blurevent={this.props.setValues} />
 
-                    <InputField id="login_pass" type="password" place="Enter Password" blurevent={this.props.setValues}/>
-
-                    <input className="form" style={{width:'100%',  color: 'white', background: 'rgb(144, 52, 183)', marginTop: '175px' }} value="Sign In" type="submit" />
+                    <input
+                        style={{ width: '100%', color: 'white', background: 'rgb(144, 52, 183)', marginTop: '175px' }}
+                        className="form"
+                        value="Sign In"
+                        type="submit" />
                 </form>
             </div>
         );

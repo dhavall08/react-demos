@@ -16,7 +16,7 @@ We split JSX over multiple lines for readability. While it isn’t required, whe
 
 JSX Prevents Injection Attacks.
 
-Props can be any name.state cannot.
+Props can be any name(?).state cannot.
 we may have more than one ReactDOM methods.
 
 onClick, onChange, etc event function starts with ()=>{} not directly {} in tag
@@ -37,3 +37,7 @@ binding methods:http://stackinsight.blogspot.com/2019/01/handle-events-react.htm
 installed babel/sublime extension and esLint (for error checking)
 
 props passing in constructor is used to use of props in state in constructor. without it props can be undefined.
+
+JSX is converted to React.createElement('div',{class},React.getElementById...) So importing React is must.
+
+Component name should be start with capital character.
