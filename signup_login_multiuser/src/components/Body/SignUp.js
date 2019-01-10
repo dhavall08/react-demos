@@ -4,28 +4,15 @@ import './style.css';
 
 class SignUp extends Component {
 
-    constructor(props){
-        super(props);
-        this.state={
-            newForm:true
-        }
-    }
     doSubmit(e){
         e.preventDefault();
         this.props.setValues('submit','');
-    }
-    valueEmpty(){
-       // debugger
-        if(this.state.newForm === "true")
-        {
-            return ''
-        }
     }
 
     render() {
         return (
             <div>
-                <form onSubmit={e => e.preventDefault()} >
+                <form >
                     <p className="heading">Sign Up</p>
                     <InputField
                         name="firstName"
@@ -43,8 +30,7 @@ class SignUp extends Component {
                         name="email"
                         type="email"
                         place="Enter Email"
-                        blurevent={this.props.setValues}
-                        validate="true" />
+                        blurevent={this.props.setValues}/>
 
                     <InputField
                         name="password"
@@ -54,11 +40,10 @@ class SignUp extends Component {
 
                     <input
                         className="form"
-                        style={{ width: '100%', color: 'white', background: 'rgb(144, 52, 183)', marginTop: '90px' }}
+                        style={{ width: '100%', color: 'white', background: 'rgb(144, 52, 183)', marginTop: '85px' }}
                         name="signup"
-                        value="Register"
                         type="Reset"
-                        onClick={e=>this.doSubmit(e)} />
+                        onClick={e=>{this.doSubmit(e)}} />
                 </form>
             </div>
         );

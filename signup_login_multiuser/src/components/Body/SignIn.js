@@ -30,7 +30,7 @@ class SignIn extends Component {
                         style={{ width: '100%', color: 'white', background: 'rgb(144, 52, 183)', marginTop: '175px' }}
                         className="form"
                         value="Sign In"
-                        type="submit"
+                        type="reset"
                         onClick={e=>this.doSignIn(e)}  />
                 </form>
             </div>
