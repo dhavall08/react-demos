@@ -7,10 +7,18 @@ class Parent extends Component {
         super();
         this.state = {
             signup: [],
-            current: {},
-            signin:{}
-
+            current: {
+                firstName:'',
+                lastName:'',
+                email:'',
+                password:'',
+            },
+            signin:{
+                login_email:'',
+                login_pass:''
+            }
         }
+        this.checkUserLogin=this.checkUserLogin.bind(this);
     }
     /* other way
         newFun(value, field, form) {
@@ -22,38 +30,61 @@ class Parent extends Component {
 
     addNewUser(value, field) {
         if (value === 'submit' && this.state.current['firstName'] !== "" && this.state.current['lastName'] !== "" && this.state.current['email'] !== "" && this.state.current['password'] !== "") {
-            let existingUser = this.state.signup.filter((person) => person.email === this.state.current['email'])
-            if (existingUser.length !==0) {
+            let obj=this.state.signup;
+            let existingUser = obj.filter((person)=>{
+                if(person.email === this.state.current['email'])
+                {
+                    return 1;
+                }
+                else {return 0;}
+            });
+            if (existingUser.length !== 0) {
                 return alert('Email id is already taken.')
             }
             else {
-                this.setState(state => ({ signup: [...state.signup, state.current] }));
-               // this.setState({ current: {} });
+                let objs=this.state.signup;
+                this.setState(state => ({ signup: [...objs, state.current] }));
+                alert("Registered Successfully.")
+               this.setState({ current: {} });
             }
         }
         else if (value !== 'submit') {
             let obj = this.state.current;
             obj[field] = value;
             this.setState({ current: obj });
+        }
+        else{
+            alert("Empty/Invalid Fields.")
         }
     }
 
     checkUserLogin(value,field){
-        if (value === 'signin' && this.state.current['login_email'] !== "" && this.state.current['login_pass'] !== "") {
-            let existingUser = this.state.signup.filter((person) => person.email === this.state.current['email'])
+        if (value === 'signin' && this.state.signin['login_email'] !== "" && this.state.signin['login_pass'] !== "") {
+            let obj=this.state.signup;
+            let existingUser = obj.filter((person)=>{
+                if(person.email === this.state.signin['login_email'] && person.password === this.state.signin['login_pass'])
+                {
+                    return 1;
+                }
+                else {return 0;}
+            });
             if (existingUser.length !==0) {
-                return alert('Email id is already taken.')
+                return alert('Login Successful.');
             }
-            else {
-                this.setState(state => ({ signup: [...state.signup, state.current] }));
-               // this.setState({ current: {} });
+            else{
+                //this.setState({signin:{}});
+                return alert('Incorrect Email/Password.');
             }
         }
-        else if (value !== 'submit') {
-            let obj = this.state.current;
+        else if (value !== 'signin') {
+            let obj = this.state.signin;
             obj[field] = value;
-            this.setState({ current: obj });
+            this.setState({ signin: obj });
         }
+        else{
+            return alert('Invalid Email');
+        }
+        
 
     }
     

@@ -3,7 +3,7 @@ import InputField from './InputField';
 
 class SignIn extends Component {
 
-    doSubmit(e){
+    doSignIn(e){
         e.preventDefault();
         this.props.setValues('signin','');
     }
