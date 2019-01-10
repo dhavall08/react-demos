@@ -3,9 +3,9 @@ import InputField from './InputField';
 
 class SignIn extends Component {
 
-    doSignIn(e){
+    doSignIn(e) {
         e.preventDefault();
-        this.props.setValues('signin','');
+        this.props.setValues('signin', '');
     }
 
     render() {
@@ -30,8 +30,8 @@ class SignIn extends Component {
                         style={{ width: '100%', color: 'white', background: 'rgb(144, 52, 183)', marginTop: '175px' }}
                         className="form"
                         value="Sign In"
-                        type="reset"
-                        onClick={e=>this.doSignIn(e)}  />
+                        type="submit"
+                        onClick={e => this.doSignIn(e)} />
                 </form>
             </div>
         );

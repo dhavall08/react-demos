@@ -55,7 +55,7 @@ class Parent extends Component {
         if (value === 'signin' && this.state.signin['login_email'] !== "" && this.state.signin['login_pass'] !== "") {
             let obj = this.state.signup;
             let existingUser = obj.filter((person) => {
-                if (person.email === this.state.signin['login_email'] && person.password === this.state.signin['login_pass']) {
+                if (person.email.toLowerCase() === this.state.signin['login_email'].toLowerCase() && person.password === this.state.signin['login_pass']) {
                     debugger
                     return 1;
                 }

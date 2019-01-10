@@ -38,7 +38,6 @@ class InputField extends Component {
             }
         }
 
-
         return (
             <div>
                 <input className="form" autoComplete="off"
