@@ -15,14 +15,19 @@ class Parent extends Component {
             },
             signin: {
                 login_email: '',
-                login_pass: ''
+                login_pass: '',
             }
         }
         this.checkUserLogin = this.checkUserLogin.bind(this);
     }
 
-    addNewUser(value, field) {
-        if (value === 'submit' && this.state.current['firstName'] !== "" && this.state.current['lastName'] !== "" && this.state.current['email'] !== "" && this.state.current['password'] !== "") {
+    addNewUser(value, invalid, field) {
+        if (value === 'submit' &&
+            this.state.current['firstName'] !== "" && this.state.current['invalid_firstName'] === false &&
+            this.state.current['lastName'] !== "" && this.state.current['invalid_lastName'] === false &&
+            this.state.current['email'] !== "" && this.state.current['invalid_email'] === false &&
+            this.state.current['password'] !== "" && this.state.current['invalid_password'] === false
+        ) {
             let obj = this.state.signup;
             let existingUser = obj.filter((person) => {
                 if (person.email === this.state.current['email']) {
@@ -34,9 +39,16 @@ class Parent extends Component {
                 return alert('Email id is already taken.')
             }
             else {
-                let objs = this.state.signup;
-                this.setState(state => ({ signup: [...objs, state.current] }));
-                alert("Registered Successfully.")
+                // let objs = this.state.signup;
+                this.setState(state => ({
+                    signup: [...state.signup, state.current], current: {
+                        firstName: '',
+                        lastName: '',
+                        email: '',
+                        password: '',
+                    }
+                }));
+                alert("Registered Successfully.");
                 //current object is as it is
             }
         }
@@ -44,6 +56,8 @@ class Parent extends Component {
             let obj = { ...this.state.current };
             // dont directly assign current to obj because it create reference which changes both when we change a single
             obj[field] = value;
+            let invalid_name = "invalid_" + field;
+            obj[invalid_name] = invalid;
             this.setState({ current: obj });
         }
         else {
@@ -51,31 +65,40 @@ class Parent extends Component {
         }
     }
 
-    checkUserLogin(value, field) {
-        if (value === 'signin' && this.state.signin['login_email'] !== "" && this.state.signin['login_pass'] !== "") {
+    checkUserLogin(value, invalid, field) {
+        if (value === 'signin' && this.state.signin['login_email'] !== "" && this.state.signin['login_pass'] !== "" && this.state.signin['invalid_login_email'] === false) {
             let obj = this.state.signup;
             let existingUser = obj.filter((person) => {
                 if (person.email.toLowerCase() === this.state.signin['login_email'].toLowerCase() && person.password === this.state.signin['login_pass']) {
-                    debugger
                     return 1;
                 }
                 else { return 0; }
             });
             if (existingUser.length !== 0) {
+                this.setState({
+                    signin: {
+                        login_email: '',
+                        login_pass: ''
+                    }
+                });
                 return alert('Login Successful.');
             }
             else {
-                //this.setState({signin:{}});
                 return alert('Incorrect Email/Password.');
             }
         }
-        else if (value !== 'signin') {
-            let obj = this.state.signin;
-            obj[field] = value;
-            this.setState({ signin: obj });
-        }
         else {
-            return alert('Invalid Email');
+            if (value === 'signin') {
+                return alert('Invalid Email');
+            }
+            else {
+                let obj = { ...this.state.signin };
+                // dont directly assign current to obj because it create reference which changes both when we change a single
+                obj[field] = value;
+                let invalid_name = "invalid_" + field;
+                obj[invalid_name] = invalid;
+                this.setState({ signin: obj });
+            }
         }
     }
 
@@ -85,11 +108,13 @@ class Parent extends Component {
                 <div className="block" style={{ float: 'left' }}>
                     {/* passed function in setState instead of object */}
                     <SignUp
-                        setValues={(value, field) => this.addNewUser(value, field)} />
+                        passState={this.state.current}
+                        setValues={(value, invalid, field) => this.addNewUser(value, invalid, field)} />
                 </div>
                 <div className="block" style={{ float: 'right' }}>
                     <SignIn
-                        setValues={(value, field) => this.checkUserLogin(value, field)} />
+                        passState={this.state.signin}
+                        setValues={(value, invalid, field) => this.checkUserLogin(value, invalid, field)} />
                 </div>
 
             </div>

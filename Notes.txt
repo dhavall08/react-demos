@@ -45,3 +45,5 @@ props passing in constructor is used to use of props in state in constructor. wi
 JSX is converted to React.createElement('div',{class},React.getElementById...) So importing React is must.
 
 Component name should be start with capital character.
+
+Don't directly assign current to obj because it create reference which changes both when we change a single

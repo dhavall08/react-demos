@@ -30,3 +30,10 @@ react project with two forms submitting value to the parent.
 
 8/1/19
 same project, optimize
+
+9/1/19
+Multiuser in forms
+React Developer Tools
+
+10/1/19
+life cycle
