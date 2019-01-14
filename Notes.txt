@@ -1,5 +1,7 @@
 Javascript Arrow Function:https://flaviocopes.com/javascript-arrow-functions/
 
+In javascript every function is an object. An object is a collection of key:value pairs. If a value is a primitive (integer, string, boolean), or another object, the value is considered a property. If a value is a function, it is called a 'method'.
+
 Don't define function using "function" keyword in function definition in react.
 
 React JS uses JSX. (syntax extension to JavaScript)
@@ -16,7 +18,7 @@ We split JSX over multiple lines for readability. While it isn’t required, whe
 
 JSX Prevents Injection Attacks.
 
-Props can be any name(?).state cannot.
+Props can be any name in stateless component(not in stateful-class based).state isnot available in stateless.
 we may have more than one ReactDOM methods.
 
 onClick, onChange, etc event function starts with ()=>{} not directly {} in tag
@@ -47,3 +49,13 @@ JSX is converted to React.createElement('div',{class},React.getElementById...) S
 Component name should be start with capital character.
 
 Don't directly assign current to obj because it create reference which changes both when we change a single
+
+Functional Components (also called presentational, dumb, stateless) (Class based components may also be stateless)
+Class based Components (also called containers, smart, stateful)
+user Functional Components as many as possible.
+
+onClick={this.funName} ...dont do '()' after function name because it would execute method when render() is called.
+we only pass the reference.
+another way is to use like onClick={() => this.funName(arg)} when we want to pass arguments. (inefficient)
+
+CSS Style auto add styles for all browsers. (lik webkit,..etc)
