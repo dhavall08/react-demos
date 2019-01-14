@@ -22,11 +22,15 @@ class Parent extends Component {
     }
 
     addNewUser(value, invalid, field) {
+        // user this way : pass isSubmit parameter
+        // if(!isSubmit){
+        //     const {firstName, lastName} = this.state.current;
+        // }
         if (value === 'submit' &&
-            this.state.current['firstName'] !== "" && this.state.current['invalid_firstName'] === false &&
-            this.state.current['lastName'] !== "" && this.state.current['invalid_lastName'] === false &&
-            this.state.current['email'] !== "" && this.state.current['invalid_email'] === false &&
-            this.state.current['password'] !== "" && this.state.current['invalid_password'] === false
+            this.state.current['firstName'] !== "" && !this.state.current['invalid_firstNam6e'] &&
+            this.state.current['lastName'] !== "" && !this.state.current['invalid_lastName'] &&
+            this.state.current['email'] !== "" && !this.state.current['invalid_email'] &&
+            this.state.current['password'] !== "" && !this.state.current['invalid_password']
         ) {
             let obj = this.state.signup;
             let existingUser = obj.filter((person) => {
@@ -109,7 +113,9 @@ class Parent extends Component {
                     {/* passed function in setState instead of object */}
                     <SignUp
                         passState={this.state.current}
-                        setValues={(value, invalid, field) => this.addNewUser(value, invalid, field)} />
+                        setValues={(value, invalid, field) => this.addNewUser(value, invalid, field)
+                            //pass isSubmit for submit button
+                        } />
                 </div>
                 <div className="block" style={{ float: 'right' }}>
                     <SignIn

@@ -13,8 +13,6 @@ class InputField extends Component {
                 re = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
                 break;
             case "firstName":
-                re = /^[A-Z]*[a-z]*$/;
-                break;
             case "lastName":
                 re = /^[A-Z]*[a-z]*$/;
                 break;
@@ -41,6 +39,7 @@ class InputField extends Component {
                     placeholder={this.props.place || this.props.name /* if value is not passed of placeholder */}
                     onChange={(e) => this.validate(e)}
                     required />
+                    {/* add new element for error message */}
             </div>
         );
     }

@@ -6,7 +6,7 @@ class SignUp extends Component {
 
     doSubmit(e) {
         e.preventDefault();
-        this.props.setValues('submit', '', '');
+        this.props.setValues('submit', '', '',true);
     }
 
     render() {
@@ -18,6 +18,7 @@ class SignUp extends Component {
                         name="firstName"
                         type="text"
                         place="Enter First Name"
+                        err="invalid"
                         value={this.props.passState}
                         changeevent={this.props.setValues} />
 
