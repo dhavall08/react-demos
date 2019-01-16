@@ -59,3 +59,9 @@ we only pass the reference.
 another way is to use like onClick={() => this.funName(arg)} when we want to pass arguments. (inefficient)
 
 CSS Style auto add styles for all browsers. (lik webkit,..etc)
+
+Life cycle methods are called only when the state variable is changed. Not the variable of nested object of state.
+
+callback should be function in setState. Not expression/ statement
+
+function inside setState won't rerender if nested object is changed.
