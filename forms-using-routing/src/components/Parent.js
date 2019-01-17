@@ -105,7 +105,7 @@ class Parent extends Component {
             }
         }
     }
-
+    
     render() {
         return (
             <div className="cntr">

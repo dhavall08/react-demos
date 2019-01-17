@@ -73,7 +73,7 @@ class SignUpPage extends Component {
             <div className="container">
                 <div className="banner">
                     <h1>Create your account Now!</h1><br />
-                    <h2>It's free!</h2><br/>
+                    <h2>It's free!</h2><br />
                     <p>Already a user? <NavLink to='./SignIn'>Login Here</NavLink></p>
                 </div>
                 <div className="cntr">
