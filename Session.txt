@@ -46,3 +46,7 @@ session of rounting
 topics covered:
 static,dynamic
 rounting file,exact path match,basename in BrowserRouter, switch, link, navLink, history, parameter passing from url"
+
+17/1/9
+nested routing
+project structure
