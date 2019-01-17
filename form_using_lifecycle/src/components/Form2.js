@@ -16,20 +16,36 @@ class Form2 extends Component {
         console.log("Form2 Constructor");
     }
     componentWillReceiveProps(props) {
-        console.log('Form2 willreceiveprops')
+        console.log('Form2 willreceiveprops',props.value['name'])
         if (this.props !== props) { // change only if props changes
-            this.setState({
-                name: props.value['name'],
-                gender: props.value['gender'],
-                Ahmedabad: props.value['Ahmedabad'],
-                NewYork: props.value['NewYork'],
-                London: props.value['London']
-            }, () => { console.log(this.state) }); // callback should be function, not statement/expr.
+            // this.setState({
+            //     name: props.value['name'],
+            //     gender: props.value['gender'],
+            //     Ahmedabad: props.value['Ahmedabad'],
+            //     NewYork: props.value['NewYork'],
+            //     London: props.value['London']
+            // }, () => { console.log(this.state) }); // callback should be function, not statement/expr.
         }
     }
     componentWillMount() {
-
         console.log("Form2 componentWillMount");
+    }
+    componentDidMount(){
+        console.log("Form2 componentDidMount");
+    }
+    componentWillUpdate(nextProps, nextState){
+        //dont use setState here
+        console.log("Form2 componentWillUpdate",nextProps.value['name']);
+    }
+    componentDidUpdate(prevProps, prevState,snapshot){
+        console.log("Form2 componentDidUpdate", prevProps.value['name']);
+    }
+    componentWillUnmount(){
+        console.log("Form2 componentWillUnmount");
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('Form2 shouldComponentUpdate',nextProps.value['name'])
+        return true;
     }
     render() {
         console.log("Form2 render");

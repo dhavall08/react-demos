@@ -22,8 +22,8 @@ class Body extends Component {
     componentDidMount() {
         console.log('Body Component did mount');
     }
-    shouldComponentUpdate() {
-        console.log('Body should component update')
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('Body shouldComponentUpdate')
         return true;
     }
 
