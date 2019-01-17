@@ -37,3 +37,12 @@ React Developer Tools
 
 10/1/19
 life cycle
+
+11/1/19
+implementing life cycle methods
+
+16/1/19
+session of rounting
+topics covered:
+static,dynamic
+rounting file,exact path match,basename in BrowserRouter, switch, link, navLink, history, parameter passing from url"
