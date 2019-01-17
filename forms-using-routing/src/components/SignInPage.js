@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import SignIn from './SignIn';
 
-class SignUpPage extends Component {
+class SignInPage extends Component {
     constructor() {
         super();
         this.state = {
@@ -76,4 +76,4 @@ class SignUpPage extends Component {
                 );
             }
         }
-        export default SignUpPage;
+        export default SignInPage;
