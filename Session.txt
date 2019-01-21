@@ -50,3 +50,9 @@ rounting file,exact path match,basename in BrowserRouter, switch, link, navLink,
 17/1/9
 nested routing
 project structure
+
+18/1/19
+Axios
+API call using fetch
+Loading
+
