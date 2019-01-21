@@ -67,3 +67,28 @@ callback should be function in setState. Not expression/ statement
 function inside setState won't rerender if nested object is changed.
 
 function should be outside render as it is always created in each render if put in render.
+
+div vs Fragment when wrapping whole in jsx. <Fragment> or <React.Fragment> is fast. can also write as <>.
+
+<Component {...props}> pass copy of props to element.
+
+use of render attribute in Route tag to get props in its arrow function.
+
+component in route can be function or object(extends React.Component)?
+
+not two browserouter in same class
+
+'npm install eject' will add package in package.json which is added in nodemudules.
+
+for pseudo selector and media queries : Radium library
+
+javascript fetch() vs Ajavx call. fetch "by default" dont send cookies.
+
+fetch method in componentwillmount or componentdidmoun
+
+axios vs fetch:
+https://medium.com/@thejasonfile/fetch-vs-axios-js-for-making-http-requests-2b261cdd3af5
+-need to call json() method from response to get actual data in fetch
+-catch error
+
+Pure Component do shallow checking. Render only if nextprop and current are not same. (shouldComponentUpdate isnot required in PureComponent)
