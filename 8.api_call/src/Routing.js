@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, BrowserRouter, Route, Redirect, NavLink } from 'react-router-dom';
 import RecordList from './containers/RecordList/RecordList';
-import NewRecord from './containers/RecordList/NewRecord';
-import EditRecord from './containers/RecordList/EditRecord';
 
 class Routing extends Component {
   render() {

@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './RecordList.css'
 import axios from 'axios';
 import NewRecord from './NewRecord';
 import EditRecord from './EditRecord';
 
 class RecordList extends Component {
-    constructor(){
-        super();
-        
-    }
     state = {
         loading: true,
         users: [],
@@ -56,7 +52,7 @@ class RecordList extends Component {
     getPages = () => {
         let pagearray = [];
         for (let i = 1; i <= this.state.users.total_pages; i++) {
-            if (this.state.currentPage == i) { // not === compare
+            if (this.state.currentPage ==  i) { // not === compare
                 pagearray.push(<button key={i} id={i} onClick={e => e.preventDefault()} className="page pageselected" disabled>{i}</button>);
             }
             else {
@@ -79,7 +75,7 @@ class RecordList extends Component {
    
     render() {
         console.log("render");
-        if (this.props.match.params.id == 'new') {
+        if (this.props.match.params.id === 'new') {
             return <NewRecord />;
         }
         else if (this.props.match.params.id) {

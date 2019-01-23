@@ -38,7 +38,7 @@ class EditRecord extends Component {
             'job': this.state.user.last_name
         })
             .then(res => {
-                this.setState({ isSubmitted: true }, function() {
+                this.setState({ isSubmitted: true }, function () {
                     if (res.status === 200)
                         console.log('[Edit Record] Data Updated.', res)
                 });
@@ -64,15 +64,25 @@ class EditRecord extends Component {
                     <form className='addUserForm' onSubmit={this.editRecord} name='addUserForm'>
                         <div className='field'>
                             <label>Name:</label><br />
-                            <input onChange={e => this.setState({ user: {...this.state.user,first_name:e.target.value }})} type='text' value={this.state.user.first_name} placeholder='Enter First name' /><br />
+                            <input
+                                onChange={e => this.setState({ user: { ...this.state.user, first_name: e.target.value } })}
+                                type='text'
+                                value={this.state.user.first_name}
+                                placeholder='Enter First name' /><br />
                         </div>
                         <div className='field'>
                             <label>Job:</label><br />
-                            <input onChange={e => this.setState({ user: {...this.state.user,last_name:e.target.value }})} value={this.state.user.last_name} type='text' placeholder='Enter Job' /><br />
+                            <input
+                                onChange={e => this.setState({ user: { ...this.state.user, last_name: e.target.value } })}
+                                value={this.state.user.last_name}
+                                type='text'
+                                placeholder='Enter Job' /><br />
                         </div>
                         <div className='field'>
                             <label>Avatar:</label><br />
-                            <img src={this.state.user.avatar} /><br />
+                            <img
+                                src={this.state.user.avatar}
+                                alt={this.state.user.first_name} /><br />
                         </div>
                         <button type='submit'>Submit</button>
                         <NavLink to='/list'><button>Cancel</button></NavLink>
