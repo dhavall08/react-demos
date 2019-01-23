@@ -92,3 +92,12 @@ https://medium.com/@thejasonfile/fetch-vs-axios-js-for-making-http-requests-2b26
 -catch error
 
 Pure Component do shallow checking. Render only if nextprop and current are not same. (shouldComponentUpdate isnot required in PureComponent)
+
+in REST , data and functionality are considered resources and are accessed using Uniform Resource Identifiers (URIs)
+Action | SQL | Http
+--------------------
+Create-Insert-PUT
+Read-Select-GET
+Update-Update-POST
+Delete-Delete-DELETE
+ 
