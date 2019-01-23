@@ -1,0 +1,71 @@
+.contain{
+    margin: auto;
+    width: 900px;
+}
+
+.page{
+    color: #4c4c4c;
+    width: 35px;
+    text-decoration: none;
+    padding: 10px;
+    margin: 2px;
+    background-color: #e4e4e4;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.otherpages:hover{
+    color: #111111;
+    background: #a7a7a7;
+    font-weight: bold;
+}
+
+.pageselected{
+    color:#ffffff;
+    font-weight: bold;
+    background: #585858;
+}
+
+.pagination{
+    padding: 15px 15px 15px 0px;
+    width: fit-content;
+    margin: 0px;
+    float: left;
+}
+
+.active{
+    font-weight: bold;
+}
+.div-table{
+    display: table;
+    width: auto;
+    margin: auto;
+    border: 1px solid #c5c5c5;
+}
+.div-row{
+    height: 60px;
+    width: auto;
+    clear: both;
+    border: 1px solid #c5c5c5;
+}
+
+.div-col {
+    padding: 10px;
+    float: left; /* fix for  buggy browsers */
+    display: table-column;         
+    width: 200px;     
+    height: 40px; 
+    border-right: 1px solid #c5c5c5;
+
+  }
+
+.div-col img{
+      height: 40px;
+  }
+  
+.fetching{
+    position: absolute;
+    margin: 25px;
+    color: #535353;
+}

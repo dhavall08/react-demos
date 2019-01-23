@@ -1,0 +1,23 @@
+.addUserForm input[type=text]{
+    margin: 10px;
+    margin-left: 0px;
+    padding:10px;
+    border: 0px;
+    background-color: #e6e6e6;
+    border-radius: 3px;
+}
+
+.addUserForm button{
+    margin: 10px;
+    margin-left: 0px;
+    padding:10px;
+    border-radius: 4px;
+    border: 0px;
+    background-color: #e6e6e6;
+    cursor: pointer;
+
+}
+.addUserForm button[type=submit]{
+    background-color: #585858;
+    color:white;
+}
