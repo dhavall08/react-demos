@@ -1,0 +1,14 @@
+.profile-depts
+{
+    margin: auto;
+}
+.profile-depts li
+{ 
+    float: left;
+}
+
+.profile-depts li a
+{
+    text-decoration: none;
+    padding: 10px;
+}
