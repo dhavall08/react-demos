@@ -1,0 +1,52 @@
+@media screen  and (min-width: 800px) and (max-width: 1400px) {
+  .App {
+  width: 100%;
+  }
+}
+
+@media screen  and (max-width: 900px) {
+  .App {
+      width: 1024px;
+      }
+  }
+
+
+@media screen  and (min-width: 1400px) {
+  .App {
+      margin: auto;
+      width: 1400px;
+      }
+  }
+.App {
+  margin: auto;
+  text-align: center;
+  background-color: #282c34 !important;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.App p {
+  color: white;
+}
+
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 200px;
+  margin: auto;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1500deg);
+  }
+}
