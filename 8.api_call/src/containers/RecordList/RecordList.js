@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import './RecordList.css'
 import axios from 'axios';
+import NewRecord from './NewRecord';
+import EditRecord from './EditRecord';
 
 class RecordList extends Component {
+    constructor(){
+        super();
+        
+    }
     state = {
         loading: true,
         users: [],
         currentPage: 1,
         pagechange: false,
+        starting_id:1
     }
     componentDidMount() {
         console.log("componentDidMount");
@@ -34,13 +41,14 @@ class RecordList extends Component {
     }
     fetchUrl = () => {
         let url = 'https://reqres.in/api/users/';
-        axios.get(url,{
+        axios.get(url, {
             params: {
-                page : this.state.currentPage
+                page: this.state.currentPage
             }
         })
             .then(res => {
-                this.setState({ users: res.data, loading: false, pagechange: false }, () => { console.log(res.data) });
+                this.setState({ users: res.data, loading: false, pagechange: false,starting_id:(res.data.page-1)*3+1 }, () => { console.log(res.data);
+                });
             }).catch(function (error) {
                 console.log(error);
             });
@@ -68,39 +76,48 @@ class RecordList extends Component {
         }))
 
     }
+   
     render() {
         console.log("render");
-        return (
-            <>
-                {this.state.loading ? <p>Please wait while we are getting user details...</p> :
-                    <div>
-                        <div className='div-table'>
-                            <div className='div-row'>
-                                <div className="div-col"><strong>Firstname</strong></div>
-                                <div className="div-col"><strong>Lastname</strong></div>
-                                <div className="div-col"><strong>Avatar</strong></div>
-                                <div className="div-col"><strong>Action</strong></div>
-                            </div>
-
-                            {this.state.loading || this.state.users.data.map((user, index) => (
-                                <div key={index} className='div-row'>
-                                    <div className="div-col">{user.first_name}</div>
-                                    <div className="div-col">{user.last_name}</div>
-                                    <div className="div-col"><img alt="Profile" src={user.avatar} /></div>
-                                    <div className="div-col">
-                                        <NavLink to="">Edit</NavLink> |
-                                    <NavLink to=""> Delete</NavLink>
-                                    </div>
+        if (this.props.match.params.id == 'new') {
+            return <NewRecord />;
+        }
+        else if (this.props.match.params.id) {
+            return <EditRecord id={this.props.match.params.id}/>;
+        }
+        else {
+            return (
+                <>
+                    {this.state.loading ? <p>Please wait while we are getting user details...</p> :
+                        <div>
+                            <div className='div-table'>
+                                <div className='div-row'>
+                                    <div className="div-col"><strong>Firstname</strong></div>
+                                    <div className="div-col"><strong>Lastname</strong></div>
+                                    <div className="div-col"><strong>Avatar</strong></div>
+                                    <div className="div-col"><strong>Action</strong></div>
                                 </div>
-                            )) // if { } bracket, then write return
-                            }
+
+                                {this.state.loading || this.state.users.data.map((user, index) => (
+                                    <div key={index} className='div-row'>
+                                        <div className="div-col">{user.first_name}</div>
+                                        <div className="div-col">{user.last_name}</div>
+                                        <div className="div-col"><img alt="Profile" src={user.avatar} /></div>
+                                        <div className="div-col">
+                                            <NavLink to={"/list/" + (this.state.starting_id+index)}>Edit</NavLink> |
+                                <NavLink to=""> Delete</NavLink>
+                                        </div>
+                                    </div>
+                                )) // if { } bracket, then write return
+                                }
+                            </div>
+                            {this.getPages()}
+                            {this.state.pagechange && <span className="fetching">Fetching details..</span>}
                         </div>
-                        {this.getPages()}
-                        {this.state.pagechange && <span className="fetching">Fetching details..</span>}
-                    </div>
-                }
-            </>
-        );
+                    }
+                </>
+            );
+        }
     }
 }
 

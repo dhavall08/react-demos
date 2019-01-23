@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import './NewRecord.css';
 import axios from 'axios';
 
@@ -28,6 +28,7 @@ class NewRecord extends Component {
     render() {
 
         if (this.state.isSubmitted === true) {
+            
             return <Redirect to='/list' />
         }
         return (
@@ -44,7 +45,7 @@ class NewRecord extends Component {
                         <input onChange={e => this.setState({ job: e.target.value })} value={this.state.job} type='text' placeholder='Enter Job' /><br />
                     </div>
                     <button type='submit'>Submit</button>
-                    <NavLink to='/list'><button>Cancel</button></NavLink>
+                   <button onClick={()=><Redirect to='/list'/>}>Cancel</button>
                 </form>
             </>
         );

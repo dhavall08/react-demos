@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Switch, BrowserRouter, Route, Redirect, NavLink } from 'react-router-dom';
 import RecordList from './containers/RecordList/RecordList';
 import NewRecord from './containers/RecordList/NewRecord';
+import EditRecord from './containers/RecordList/EditRecord';
 
 class Routing extends Component {
   render() {
@@ -20,8 +21,7 @@ class Routing extends Component {
             <Route exact path='/'>
               <Redirect to='/list' />
             </Route>
-            <Route exact path="/list" component={RecordList} />
-            <Route exact path="/list/new" component={NewRecord} />
+            <Route exact path="/list/:id?" component={RecordList} />
             <Route component={() => <p>404! Page not found!</p>} />
           </Switch>
         </div>
