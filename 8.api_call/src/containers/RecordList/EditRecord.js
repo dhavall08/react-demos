@@ -4,10 +4,13 @@ import './NewRecord.css';
 import axios from 'axios';
 
 class EditRecord extends Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
-            user: {},
+            user: {
+                first_name:'',
+                last_name:'',
+            },
             isSubmitted: false,
             loading: true
         }

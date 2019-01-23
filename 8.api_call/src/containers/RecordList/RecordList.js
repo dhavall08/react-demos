@@ -52,7 +52,7 @@ class RecordList extends Component {
     getPages = () => {
         let pagearray = [];
         for (let i = 1; i <= this.state.users.total_pages; i++) {
-            if (this.state.currentPage ==  i) { // not === compare
+            if (parseInt(this.state.currentPage) ===  i) {
                 pagearray.push(<button key={i} id={i} onClick={e => e.preventDefault()} className="page pageselected" disabled>{i}</button>);
             }
             else {
