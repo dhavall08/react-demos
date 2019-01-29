@@ -1,145 +1,128 @@
 import axios from 'axios';
 
-const apiUrl = 'https://reqres.in/api/users/';
 const baseUrl = 'https://reqres.in/api/';
-const res = {
-    success: true || false,
-    data: null,
-    error: null
-};
 
-const get = (url) =>{
-    const apiUrl = `${baseUrl}${url}`
-    return axios.get(apiUrl)
+const getUserList = (url) => {
+  const apiUrl = `${baseUrl}${url}`
+  return axios.get(apiUrl)
     .then(response => {
-        return {
-            success:true,
-            data: response.data,
-            error: null
-        };
+      return {
+        success: true,
+        data: response.data,
+        error: null
+      };
     })
-    .catch(err =>{
-        return {
-            success: false,
-            error: 'Something Went Wrong!',
-            data:null
-        }
+    .catch(error => {
+      return {
+        success: false,
+        error: 'Something Went Wrong!' + error,
+        data: null
+      }
     })
 }
 
-const apiListRecords = (currentPage) => {
-    let url = apiUrl;
-
-    axios.get(url, {
-        params: {
-            page: currentPage
-        }
-    }).then(response => {
-        res.data = response.data;
-        res.success = true;
-    }).catch(error => {
-        res.success = false;
-        res.error = "Error occurred." + error;
-        res.data = null;
-    })
-
-    return res;
+const setUserRecord = (url, firstname, job) => {
+  const apiUrl = `${baseUrl}${url}`
+  return axios.post(apiUrl, {
+    'name': firstname,
+    'job': job
+  }).then(response => {
+    if (response.status === 201) {
+      return {
+        success: true,
+        error: null,
+        data: null,
+      }
+    }
+  }).catch((error) => {
+    return {
+      success: false,
+      error: 'Something Went Wrong!' + error,
+      data: null
+    }
+  });
 };
 
-const apiAddRecord = (firstname, job) => {
-    let url = apiUrl;
-    axios.post(url, {
-        'name': firstname,
-        'job': job
-    }).then(response => {
-        if (res.status === 201) {
-            console.log('this.....', this);
-            res.success = true;
-            res.error = null;
-            res.data = null;
-            //alert("Data Submitted");
-            // this.props.history.push('/list');
-
-        }
-    }).catch((error) => {
-        res.success = true;
-        res.error = error;
-        res.data = null;
-        res.success = false;
-    });
-
-    return res;
-
-
-    // let url = apiUrl;
-    // const data = {
-    //     'name': firstname,
-    //     'job': job
-    // };
-
-    // return postAPI(url, data).then()
+const updateUserRecord = (url, firstname, lastname) => {
+  let apiUrl = `${baseUrl}${url}`;
+  return axios.put(apiUrl, {
+    'name': firstname,
+    'job': lastname
+  }).then(response => {
+    if (response.status === 200) {
+      console.log('[HttpInterceptor][Edit Record] Data Updated.');
+      return {
+        data: null,
+        success: true,
+        error: null,
+      }
+    }
+    else {
+      return {
+        data: null,
+        success: false,
+        error: "Error code" + response.status,
+      }
+    }
+  }).catch(error => {
+    return {
+      data: null,
+      success: false,
+      error: "Error Message" + error,
+    }
+  })
 };
 
-const apiEditRecord = (firstname, lastname, id) => {
-    let url = apiUrl + id;
-    axios.put(url, {
-        'name': firstname,
-        'job': lastname
-    }).then(response => {
-        if (response.status === 200) {
-            res.data = null;
-            res.success = true;
-            res.error = null;
-            console.log('[Edit Record] Data Updated.', res)
-        }
-        else {
-            res.data = null;
-            res.success = false;
-            res.error = "Error code" + response.status;
-        }
-    }).catch(error => {
-        res.data = null;
-        res.success = false;
-        res.error = "Error Message" + error;
-    })
-    return res;
-};
-const apiSingleRecord = (id) => {
-    let url = apiUrl + id;
-    axios.get(url).then(response => {
-        if (response.status === 200) {
-            res.data = response.data.data;
-            res.success = true;
-            res.error = null;
-        }
-    })
-    return res;
+const getSingleRecord = (url) => {
+  let apiUrl = baseUrl + url;
+  return axios.get(apiUrl).then(response => {
+    if (response.status === 200) {
+      return {
+        data: response.data.data,
+        success: true,
+        error: null
+      }
+    }
+    else {
+      return {
+        data: null,
+        success: false,
+        error: "Error Code" + response.status,
+      }
+    }
+  }).catch(error => {
+    return {
+      data: null,
+      success: false,
+      error: "Error Message" + error,
+    }
+  })
 };
 
-const apiDeleteRecord = (id) => {
-    let url = apiUrl + id;
-    axios.delete(url).then(response => {
-        if (response.status === 204 || response.status === 200) {
-            res.data = null;
-            res.success = true;
-            res.error = null;
-        }
-        else {
-            res.data = null;
-            res.success = false;
-            res.error = 'Error code: ' + response.status;
-        }
-    }).catch(error => {
-        res.data = null;
-        res.success = false;
-        res.error = "Error occurred.";
-    });
-    return res;
+const deleteSingleRecord = (url) => {
+  let apiUrl = baseUrl + url;
+  axios.delete(apiUrl).then(response => {
+    if (response.status === 204 || response.status === 200) {
+      return {
+        data: null,
+        success: true,
+        error: null
+      }
+    }
+    else {
+      return {
+        data: null,
+        success: false,
+        error: 'Error code: ' + response.status
+      }
+    }
+  }).catch(error => {
+    return {
+      data: null,
+      success: false,
+      error: 'Error code: ' + error
+    }
+  });
 };
 
-// const postAPI =(url, data) =>{  
-//     let url = apiUrl;
-//     return axios.post(url, data).then().catch()
-// }
-
-export { apiListRecords, apiAddRecord, apiEditRecord, apiSingleRecord, apiDeleteRecord, get }
+export { setUserRecord, updateUserRecord, getSingleRecord, deleteSingleRecord, getUserList }

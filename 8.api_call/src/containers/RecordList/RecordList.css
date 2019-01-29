@@ -51,6 +51,7 @@
 
 
 .div-col {
+    color: #585858;
     padding: 10px;
     float: left; /* fix for  buggy browsers */
     display: table-column;         
@@ -58,7 +59,11 @@
     height: 40px; 
     border-right: 1px solid #c5c5c5;
     border-top: 1px solid #c5c5c5;
-    color: #585858;
+}
+
+.div-col a {
+    color: inherit;
+    text-decoration: none;
 }
 
 .heading-row{
@@ -92,3 +97,4 @@
     margin-top: 30px;
     color: #585858;
 }
+

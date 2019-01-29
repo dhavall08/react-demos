@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink } from 'react-router-dom';
 import './EditRecord.css';
-import { apiEditRecord, apiSingleRecord } from '../../api/api';
+import { apiEditRecord, apiSingleRecord } from '../../apiCalls/apiCalls';
 
 class EditRecord extends Component {
     constructor() {

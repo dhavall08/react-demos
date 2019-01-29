@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
-import { Switch, BrowserRouter, Route, Redirect, NavLink } from 'react-router-dom';
-import './Routing.css';
+import { Switch, BrowserRouter, Route, Redirect } from 'react-router-dom';
 import NewRecord from './containers/NewRecord/NewRecord';
 import RecordList from './containers/RecordList/RecordList';
+import Header from './containers/Header/Header'
 
 class Routing extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className='header-div'>
-          <p className="heading">User CRUD Application</p>
-          <div className="header-names"><NavLink exact to='/list' className='header-name' activeClassName="active">Record List</NavLink> <span>|</span>
-            <NavLink to='/list/new' className='header-name' activeClassName="active"> Add Record</NavLink>
-          </div>
+        <div>
+         <Header />
           <Switch>
             <Route exact path='/'>
               <Redirect to='/list' />
