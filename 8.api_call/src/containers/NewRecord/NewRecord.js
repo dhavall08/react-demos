@@ -1,77 +1,124 @@
 import React, { Component } from 'react';
-import { Redirect, NavLink } from 'react-router-dom';
 import './NewRecord.css';
-import { apiAddRecord } from '../../api/api';
+import { apiAddRecord, apiSingleRecord, apiEditRecord } from '../../api/api';
 
 class NewRecord extends Component {
-    state = {
-        firstname: '',
-        job: '',
-        isSubmitted: false,
-        loading: false,
-        error: false,
-        wait: 'Submit'
+    constructor(props) {
+        super(props);
+        this.state = {
+            firstname: '',
+            job: '',
+            isSubmitted: false,
+            loading: true,
+            error: false,
+            buttonValue: 'Submit',
+            newUser: props.match.params.id === 'new'
+        }
+    }
+
+    componentDidMount() {
+        console.log('did mount')
+        if (this.props.match.params.id === 'new')
+            this.setState({ newUser: true });
+
+        else if (!isNaN(this.props.match.params.id)) {
+            this.getSingleRecord();
+            this.setState({ newUser: false, loading: false });
+        }
+        else
+            this.props.history.push('/invalid')
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState !== this.state) {
+        }
+    }
+
+    getSingleRecord = () => {
+        let res = apiSingleRecord(this.props.match.params.id,(res)=> {
+            if (res.success) {
+                this.setState({ firstname: res.first_name, job: res.last_name, avatar: res.avatar },
+                    function () {
+                        console.log('[NewRecord] Single Data Fethced.', res)
+                    });
+            }
+            else {
+                console.log("[NewRecord] Error fetching single record", res.error);
+            }
+        })
+    }
+
+    editRecord = (e) => {
+        e.preventDefault();
+        let res = apiEditRecord(this.state.user.firstname, this.state.user.last_name, this.props.id);
+        if (res.success) {
+            alert('Edited Record');
+            this.props.history.push('/list');
+        }
+        else {
+            alert(res.error);
+        }
     }
 
     addRecord = (e) => {
         e.preventDefault();
-        this.setState({ wait: 'Please wait...', loading: true });
+
+        this.setState({ buttonValue: 'Please wait...', loading: true });
+
         if (this.state.firstname === '' || this.state.job === '') {
-            this.setState({ wait: 'Submit', loading: true });
+            this.setState({ buttonValue: 'Submit', loading: true });
             alert('Empty form.')
             return false;
         }
-        apiAddRecord(this.state.firstname, this.state.job)
-        .then(res => {
 
-res ={
-    success: true || false,
-    data:null,
-    error: null
-}
+        let res = apiAddRecord(this.state.firstname, this.state.job)
 
-            if(!res.success){
-                this.setState({ error: true, loading: false, wait: 'Error! Try again.' });
-                return false;
-            }
-
-
-
-            this.setState({ isSubmitted: true, error: false }, function () {
-                if (res.status === 201) {
-                    this.setState({ error: false, loading: false, wait: 'Submit' });
-                    console.log('Data Submitted.', res);
-                    alert("Data Submitted");
-                    
-                }
-
-
-            });
-        }).catch(function (error) {
-            this.setState({ error: true, loading: false, wait: 'Error! Try again.' });
-            console.log(error);
-        });
+        if (res.success === true) {
+            this.setState({ isSubmitted: true, error: false, loading: false, buttonValue: 'Submit' });
+            console.log('[New Record - new] Data Submitted.', res);
+            alert("Data Submitted");
+            this.props.history.push('/list');
+        }
+        else {
+            this.setState({ error: true, loading: false, buttonValue: 'Error! Try again.' });
+        }
     }
 
     render() {
-        if (this.state.isSubmitted === true) {
-            return <Redirect to='/list' />
-        } // delete
+        let { firstname, job, avatar, buttonValue, newUser } = this.state;
+        
         return (
             <div className='add-record'>
-                <p className='heading'>Add User</p>
+                <p className='heading'>{newUser ? 'Add User' : 'Edit User'}</p>
 
-                <form className='addUserForm' onSubmit={(e) => this.addRecord(e)} name='addUserForm'>
+                <form className='addUserForm' onSubmit={(e) => newUser ? this.addRecord(e) : this.editRecord(e)} name='addUserForm'>
                     <div className='field'>
                         <label>Name:</label><br />
-                        <input onChange={e => this.setState({ firstname: e.target.value })} type='text' value={this.state.firstname} placeholder='Enter First name' /><br />
+                        <input
+                            onChange={e => this.setState({ firstname: e.target.value })}
+                            value={firstname}
+                            type='text'
+                            placeholder='Enter First name' /><br />
                     </div>
                     <div>
                         <label>Job:</label><br />
-                        <input onChange={e => this.setState({ job: e.target.value })} value={this.state.job} type='text' placeholder='Enter Job' /><br />
+                        <input
+                            onChange={e => this.setState({ job: e.target.value })}
+                            value={job}
+                            type='text'
+                            placeholder='Enter Job' /><br />
                     </div>
-                    <button name='submit' type='submit'>{this.state.wait}</button>
-                    <NavLink to='/list'><button>Cancel</button></NavLink>
+                    {
+                        newUser ||
+                        <div className='field'>
+                            <label>Avatar:</label><br />
+                            <img
+                                src={avatar}
+                                alt={firstname} /><br />
+                        </div>
+                    }
+                    <button name='submit' type='submit'>{buttonValue}</button>
+                    <button onClick={() => this.props.history.push('/list')}>Cancel</button>
                 </form>
             </div>
         );

@@ -1,52 +1,28 @@
-import axios from 'axios';
+import * as Interceptor from './../HttpInterceptor/HttpInterceptor';
 
-const apiUrl='https://reqres.in/api/users/';
-
-const apiListRecords = (currentPage) => {
-    let url = apiUrl;
-    return axios.get(url, {
-        params: {
-            page: currentPage
-        }
-    })
+const apiListRecords = (currentPage,callback) => {
+    callback(Interceptor.apiListRecords(currentPage));
 };
 
 const apiAddRecord = (firstname, job) => {
-    let url = apiUrl;
-    return axios.post(url, {
-        'name': firstname,
-        'job': job
-    })
-
-    // let url = apiUrl;
-    // const data = {
-    //     'name': firstname,
-    //     'job': job
-    // };
-
-    // return postAPI(url, data).then()
+    return Interceptor.apiAddRecord(firstname,job);
 };
 
 const apiEditRecord = (firstname, lastname, id) => {
-    let url = apiUrl + id;
-    return axios.put(url, {
-        'name': firstname,
-        'job': lastname
-    })
+    return Interceptor.apiEditRecord(firstname,lastname,id);
+    
 };
-const apiSingleRecord = (id) => {
-    let url = apiUrl + id;
-    return axios.get(url)
+const apiSingleRecord = (id,callbackfun) => {
+    callbackfun(Interceptor.apiSingleRecord(id));
 };
 
 const apiDeleteRecord = (id) => {
-    let url = apiUrl + id;
-    return axios.delete(url)
+    return Interceptor.apiDeleteRecord(id);
 };
 
-// const postAPI =(url, data) =>{  
-//     let url = apiUrl;
-//     return axios.post(url, data).then().catch()
-// }
+const getUserList = (page) => {
+ const url = `users?page=${page}`;
+ return Interceptor.get(url);
+}
 
-export { apiListRecords, apiAddRecord, apiEditRecord, apiSingleRecord, apiDeleteRecord }
+export { apiListRecords, apiAddRecord, apiEditRecord, apiSingleRecord, apiDeleteRecord, getUserList }

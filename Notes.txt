@@ -84,7 +84,7 @@ for pseudo selector and media queries : Radium library
 
 javascript fetch() vs Ajavx call. fetch "by default" dont send cookies.
 
-fetch method in componentwillmount or componentdidmoun
+fetch method in componentwillmount or componentdidmount
 
 axios vs fetch:
 https://medium.com/@thejasonfile/fetch-vs-axios-js-for-making-http-requests-2b261cdd3af5
@@ -96,8 +96,30 @@ Pure Component do shallow checking. Render only if nextprop and current are not 
 in REST , data and functionality are considered resources and are accessed using Uniform Resource Identifiers (URIs)
 Action | SQL | Http
 --------------------
-Create-Insert-PUT
+Create-Insert-PUT/Post
 Read-Select-GET
-Update-Update-POST
+Update-Update-POST/Put (in oracle, post)
 Delete-Delete-DELETE
- 
+
+Callback functions in callback hell
+Promise (can also be created with custom)
+Async await- await can be written inside async function, before promise.
+use try,catch in async function to handle error
+
+window.confirm(not only confirm)
+
+
+naming convention
+loading and fetch...one variable
+grid different table
+check response before state update
+redirect using push method
+e.preventDefault()	
+make httpintercepter
+
+es lint
+add '.eslintrc.json' and package.json with dependencies
+run command 'npm i -D babel-eslint ......(or add babel-eslint in devdependency)
+(husky prevents bad commit or push)
+
+propTypes package

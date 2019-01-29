@@ -23,7 +23,7 @@ class EditRecord extends Component {
     getRecord = () => {
         apiSingleRecord(this.props.id)
             .then(res => {
-                this.setState({ user: res.data.data }, function () {
+                this.setState({ user: res.data.data }, function (res) {
                     if (res.status === 200)
                         console.log('[Edit Record] Single Data Fethced.', res.data.data)
                 });
