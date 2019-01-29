@@ -38,17 +38,17 @@
     font-weight: bold;
 }
 .div-table{
-    display: table;
+    margin-top: 20px;
     width: auto;
-    margin: auto;
-    border: 1px solid #c5c5c5;
+    border-left: 1px solid #c5c5c5;
+    border-bottom: 1px solid #c5c5c5;
 }
 .div-row{
     height: 60px;
-    width: auto;
+    width: fit-content;
     clear: both;
-    border: 1px solid #c5c5c5;
 }
+
 
 .div-col {
     padding: 10px;
@@ -57,15 +57,38 @@
     width: 200px;     
     height: 40px; 
     border-right: 1px solid #c5c5c5;
+    border-top: 1px solid #c5c5c5;
+    color: #585858;
+}
 
-  }
+.heading-row{
+    border-bottom: 1px solid #c5c5c5;
+    height: 40px;
+}
+
+.heading-col{
+    
+    height: 20px;
+}
 
 .div-col img{
       height: 40px;
   }
   
 .fetching{
-    position: absolute;
+    float: left;
     margin: 25px;
-    color: #535353;
+    margin-left: 0px;
+    color: #585858;
+}
+
+
+
+.recordList{
+    color: #585858;
+}
+
+.recordList .message{
+    margin-top: 30px;
+    color: #585858;
 }

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Redirect, NavLink } from 'react-router-dom';
-import './NewRecord.css';
-import axios from 'axios';
+import './EditRecord.css';
+import { apiEditRecord, apiSingleRecord } from '../../api/api';
 
 class EditRecord extends Component {
     constructor() {
         super();
         this.state = {
             user: {
-                first_name:'',
-                last_name:'',
+                first_name: '',
+                last_name: '',
             },
             isSubmitted: false,
             loading: true
@@ -21,8 +21,7 @@ class EditRecord extends Component {
         this.setState({ loading: false });
     }
     getRecord = () => {
-        let url = 'https://reqres.in/api/users/' + this.props.id;
-        axios.get(url)
+        apiSingleRecord(this.props.id)
             .then(res => {
                 this.setState({ user: res.data.data }, function () {
                     if (res.status === 200)
@@ -35,11 +34,7 @@ class EditRecord extends Component {
 
     editRecord = (e) => {
         e.preventDefault();
-        let url = 'https://reqres.in/api/users/' + this.props.id;
-        axios.put(url, {
-            'name': this.state.user.firstname,
-            'job': this.state.user.last_name
-        })
+        apiEditRecord(this.state.user.firstname, this.state.user.last_name, this.props.id)
             .then(res => {
                 this.setState({ isSubmitted: true }, function () {
                     if (res.status === 200)
@@ -53,7 +48,6 @@ class EditRecord extends Component {
     render() {
         // console.log("id", this.props.match.params.id)
         if (this.state.isSubmitted === true) {
-
             return <Redirect to='/list' />
         }
         else if (this.state.loading === true) {
@@ -61,10 +55,9 @@ class EditRecord extends Component {
         }
         else {
             return (
-                <>
-                    <strong><p>Edit User</p></strong>
-                    <br />
-                    <form className='addUserForm' onSubmit={this.editRecord} name='addUserForm'>
+                <div className='edit-record'>
+                    <p className='heading'>Edit User</p>
+                    <form className='edit-form' onSubmit={this.editRecord} name='editUserForm'>
                         <div className='field'>
                             <label>Name:</label><br />
                             <input
@@ -90,7 +83,7 @@ class EditRecord extends Component {
                         <button type='submit'>Submit</button>
                         <NavLink to='/list'><button>Cancel</button></NavLink>
                     </form>
-                </>
+                </div>
             );
         }
     }

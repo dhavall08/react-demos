@@ -1,117 +1,138 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+
 import './RecordList.css'
-import axios from 'axios';
-import NewRecord from './NewRecord';
-import EditRecord from './EditRecord';
+import NewRecord from '../NewRecord/NewRecord';
+import EditRecord from '../EditRecord/EditRecord';
+
+import { apiListRecords, apiDeleteRecord } from '../../api/api';
 
 class RecordList extends Component {
     state = {
         loading: true,
-        users: [],
+        users: {},
         currentPage: 1,
         pagechange: false,
-        starting_id:1
+        error: false
     }
     componentDidMount() {
         console.log("componentDidMount");
         this.fetchUrl();
     }
 
-    componentWillReceiveProps() {
-        console.log("componentWillReceiveProps");
-    }
-
-    shouldComponentUpdate() {
-        console.log("shouldComponentUpdate");
-        return true;
-    }
-
-    componentWillUpdate() {
-        console.log("componentWillUpdate");
-    }
-
-    componentDidUpdate() {
-        console.log("componentDidUpdate");
-        //  this.fetchUrl();
-    }
     fetchUrl = () => {
-        let url = 'https://reqres.in/api/users/';
-        axios.get(url, {
-            params: {
-                page: this.state.currentPage
-            }
-        })
+        apiListRecords(this.state.currentPage)
             .then(res => {
-                this.setState({ users: res.data, loading: false, pagechange: false,starting_id:(res.data.page-1)*3+1 }, () => { console.log(res.data);
+                this.setState({ users: res.data, loading: false, pagechange: false, error: false }, () => {
+                    console.log(res.data);
                 });
-            }).catch(function (error) {
+            }).catch((error) => {
                 console.log(error);
+                this.setState({ loading: false, error: true });
             });
     }
-    getPages = () => {
-        let pagearray = [];
-        for (let i = 1; i <= this.state.users.total_pages; i++) {
-            if (parseInt(this.state.currentPage) ===  i) {
-                pagearray.push(<button key={i} id={i} onClick={e => e.preventDefault()} className="page pageselected" disabled>{i}</button>);
-            }
-            else {
-                pagearray.push(<button key={i} id={i} onClick={e => this.paginationClickHandler(e)} className="page otherpages">{i}</button>);
-            }
+    pagesRender = (total_pages) => {
+        let pagearray = Array(5).fill().map((x, i) => i);
+        pagearray.length = total_pages;
+        console.log(pagearray)
+        /*for (let i = 1; i <= total_pages; i++) {
+            let class_names = ['page'];
+            parseInt(this.state.currentPage) === i ? class_names.push('pageselected') : class_names.push('otherpages');
+            pagearray.push(<button key={i} id={i} onClick={(e) => this.paginationClickHandler(e)} className={class_names.join(' ')}>{i}</button>);
         }
-
         return (
             <div className="pagination">{pagearray}</div>
         );
+        
+        */
+
+        return <div className="pagination">
+            {[...pagearray].map((page, i) => {
+                return <button
+                    key={i + 1}
+                    className={this.state.currentPage === i + 1 ? 'page pageselected' : 'page otherpages'}
+                    disabled={this.state.currentPage === i + 1 ? true : false}
+                    onClick={(e) => this.paginationClickHandler(e, i + 1)}>
+                    {i + 1}
+                </button>
+            })}
+        </div>
+
     }
-    paginationClickHandler(e) {
+
+    deleteRecordClickHandler = (e, id) => {
+        let y = window.confirm("Are you sure you want to delete this user?");
+        console.log(y);
+        y && (apiDeleteRecord(id)
+            .then(res => {
+                (res.status === 204 || res.status === 200)
+                    ? alert('Deleted Successfully.') : alert('Something went wrong!');
+                console.log('Delete Occurred: ', res)
+                this.fetchUrl();
+            })
+            .catch(error => {
+                alert('Error Occurred: ' + error);
+                console.log('Error Occurred: ', error)
+            })
+        );
+    }
+
+    paginationClickHandler(e, page) {
         e.preventDefault();
-        (this.setState({ currentPage: e.target.id, pagechange: true }, () => {
+        (this.setState({ currentPage: page, pagechange: true }, () => {
             this.fetchUrl();
             // debugger
         }))
 
     }
-   
+
+    renderList
     render() {
         console.log("render");
+        //if(this.props.delete ? this.props.delete)
         if (this.props.match.params.id === 'new') {
             return <NewRecord />;
         }
         else if (this.props.match.params.id) {
-            return <EditRecord id={this.props.match.params.id}/>;
+            return <EditRecord id={this.props.match.params.id} />;
         }
         else {
-            return (
-                <>
-                    {this.state.loading ? <p>Please wait while we are getting user details...</p> :
-                        <div>
-                            <div className='div-table'>
-                                <div className='div-row'>
-                                    <div className="div-col"><strong>Firstname</strong></div>
-                                    <div className="div-col"><strong>Lastname</strong></div>
-                                    <div className="div-col"><strong>Avatar</strong></div>
-                                    <div className="div-col"><strong>Action</strong></div>
-                                </div>
+            //return this.renderList();
 
-                                {this.state.loading || this.state.users.data.map((user, index) => (
-                                    <div key={index} className='div-row'>
-                                        <div className="div-col">{user.first_name}</div>
-                                        <div className="div-col">{user.last_name}</div>
-                                        <div className="div-col"><img alt="Profile" src={user.avatar} /></div>
-                                        <div className="div-col">
-                                            <NavLink to={"/list/" + (this.state.starting_id+index)}>Edit</NavLink> |
-                                <NavLink to=""> Delete</NavLink>
-                                        </div>
+            return (
+                <div className='recordList'>
+                    {this.state.loading ? <p className='message'>Please wait while we are getting user details...</p> :
+                        (this.state.error ? <p className='message'>Something went wrong!</p> :
+                            <div>
+                                <div className='div-table'>
+                                    <div className='div-row heading-row'>
+                                        <div className="div-col heading-col"><strong>Firstname</strong></div>
+                                        <div className="div-col heading-col"><strong>Lastname</strong></div>
+                                        <div className="div-col heading-col"><strong>Avatar</strong></div>
+                                        <div className="div-col heading-col"><strong>Action</strong></div>
                                     </div>
-                                )) // if { } bracket, then write return
-                                }
+                                    {//condition for empty table
+                                    }
+
+                                    {this.state.loading || this.state.users.data.map((user, index) => (
+                                        <div key={index} className='div-row'>
+                                            <div className="div-col">{user.first_name}</div>
+                                            <div className="div-col">{user.last_name}</div>
+                                            <div className="div-col"><img alt="Profile" src={user.avatar} /></div>
+                                            <div className="div-col">
+                                                <NavLink className='actions' to={"/list/" + (user.id)}>Edit</NavLink><span> | </span>
+                                                <NavLink to='#' onClick={(e) => { this.deleteRecordClickHandler(e, user.id) }} className='actions' delete={(user.id)}>Delete</NavLink>
+                                            </div>
+                                        </div>
+                                    )) // if { } bracket, then write return
+                                        // navlink 
+                                    }
+                                </div>
+                                {this.pagesRender(this.state.users.total_pages)}
+                                {this.state.pagechange && <span className="fetching">Fetching data...</span>}
                             </div>
-                            {this.getPages()}
-                            {this.state.pagechange && <span className="fetching">Fetching details..</span>}
-                        </div>
-                    }
-                </>
+                        )}
+                </div>
             );
         }
     }

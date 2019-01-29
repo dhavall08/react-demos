@@ -1,0 +1,22 @@
+.heading
+{
+    font-size:25px;
+    color:#585858;
+    margin-top: 0px;    
+}
+
+.header-div
+{
+    margin: auto;
+    width: 888px;
+}
+.header-name
+{
+    margin: 10px 0px;
+    text-decoration: none;
+    color: #585858;
+}
+
+.header-names span{
+    color: #585858;
+}
