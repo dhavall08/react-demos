@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import './RecordList.css'
 
@@ -8,9 +8,8 @@ import { deleteSingleRecord, getUserList } from '../../apiCalls/apiCalls';
 class RecordList extends Component {
   state = {
     loading: null,
-    users: { data: [] },
+    users: {},
     currentPage: 1,
-    pagechange: false,
     error: false,
   }
 
@@ -27,27 +26,28 @@ class RecordList extends Component {
           return;
         }
         else {
-          this.setState({ users: res.data, loading: false, pagechange: false, error: false }, () => {
+          this.setState({ users: res.data, loading: false, error: false }, () => {
             console.log('[RecordList][UsersFetchURL]');
           });
         }
       })
   }
   pagesRender = (total_pages) => {
+    console.log(this.state.currentPage);
     return <div className="pagination">
       {Array(total_pages).fill().map((page, i) => {
         return <button
           key={i + 1}
           className={this.state.currentPage === i + 1 ? 'page pageselected' : 'page otherpages'}
           disabled={this.state.currentPage === i + 1 ? true : false}
-          onClick={(e) => {this.paginationClickHandler(i + 1)}}>
+          onClick={(e) => { this.paginationClickHandler(e, i + 1) }}>
           {i + 1}
         </button>
       })}
     </div>
   }
 
-  deleteRecordClickHandler = (e, id) => {
+  deleteRecordClickHandler = (id) => {
     let y = window.confirm("Are you sure you want to delete this user?");
     console.log('[RecordList][Delete Value]', y);
     y && (deleteSingleRecord(id).then(res => {
@@ -61,22 +61,21 @@ class RecordList extends Component {
     }))
   }
 
-  paginationClickHandler(e,page) {
-   // e.preventDefault(); not required because function callee doesn't return in arrow function
-    (this.setState({ currentPage: page, pagechange: true }, () => {
+  paginationClickHandler(e, page) {
+    e.preventDefault();
+    this.setState({ currentPage: page }, () => {
       this.fetchUrl();
-    }))
-
+    })
   }
 
   render() {
-    const { loading, error, users, pagechange } = this.state;
+    const { loading, error, users } = this.state;
     console.log("[RecordList] Render");
     return (
       <div className='recordList'>
         {
-          loading || loading === null
-            ? <p className='message'>Please wait while we are getting user details...</p> :
+          (loading || loading === null)
+            && !users.data ? <p className='message'>Please wait while we are getting user details...</p> :
             (error ? <p className='message'>Something went wrong!</p> :
               <div>
                 <div className='div-table'>
@@ -89,24 +88,23 @@ class RecordList extends Component {
                   {//condition for empty table
                     console.log('[RecordList][Loading value]', loading)
                   }
-
                   {
-                    loading || users.data.map((user, index) => (
+                    users.data && users.data.map((user, index) => (
                       <div key={index} className='div-row'>
                         <div className="div-col">{user.first_name}</div>
                         <div className="div-col">{user.last_name}</div>
                         <div className="div-col"><img alt="Profile" src={user.avatar} /></div>
                         <div className="div-col">
-                          <NavLink className='actions' to={"/list/" + (user.id)}>Edit</NavLink><span> | </span>
-                          <NavLink to='#' onClick={(e) => { this.deleteRecordClickHandler(e, user.id) }} className='actions' delete={(user.id)}>Delete</NavLink>
+                          <Link className='actions' to={"/list/" + (user.id)}>Edit</Link><span> | </span>
+                          <Link to='#' onClick={(e) => { this.deleteRecordClickHandler(e, user.id) }} className='actions'>Delete</Link>
                         </div>
                       </div>
                     ))
-                  
+
                   }
                 </div>
                 {this.pagesRender(users.total_pages)}
-                {pagechange && <span className="fetching">Fetching data...</span>}
+                {loading && <span className="fetching">Fetching data...</span>}
               </div>
             )}
       </div>
