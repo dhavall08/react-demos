@@ -23,7 +23,7 @@ we may have more than one ReactDOM methods.
 
 onClick, onChange, etc event function starts with ()=>{} not directly {} in tag
 
-no state manipulation in render method. (pure function)
+no state manipulation in render method. (pure function : same output for same input. no side effects (side effects:no external modifications)) so in render side effect like setState can not directly applied.
 
 ctrl+del to remove all spaces in any editors.
 
