@@ -24,6 +24,8 @@ class NewRecord extends Component {
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
+      //path are changed so do the props.
+      //console.log('[NewRecord] Different Props',prevProps,this.props)
       this.updateForms();
       this.setState({ firstname: '', job: '', avatar:'' });
     }
