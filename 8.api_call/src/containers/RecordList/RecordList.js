@@ -75,7 +75,7 @@ class RecordList extends Component {
         {
           (loading || loading === null)
             && !users.data ? <p className='message'>Please wait while we are getting user details...</p> :
-            (error ? <p className='message'>Something went wrong!</p> :
+            (error ? <p className='message'>Something went wrong! <br /> Please try after sometime.</p> :
               <div>
                 <div className='div-table'>
                   <div className='div-row heading-row'>

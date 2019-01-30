@@ -42,3 +42,8 @@
 .field img{
     margin-top: 10px;
 }
+
+.add-record .message{
+    margin-top: 30px;
+    color: #585858;
+}

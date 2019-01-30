@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './UpdateRecord.css';
+
 import { setUserRecord, getSingleRecord, updateUserRecord } from '../../apiCalls/apiCalls';
 
 class UpdateRecord extends Component {
@@ -9,15 +10,15 @@ class UpdateRecord extends Component {
       firstname: '',
       avatar: '',
       job: '',
-      isSubmitted: false,
-      loading: true,
+      loading: null,
       error: false,
-      buttonValue: 'Submit',
+      displayButton: 'Submit',
       newUser: props.match.params.id === 'new'
     }
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
     console.log('[UpdateRecord][Didmount]');
     this.updateForms();
   }
@@ -32,11 +33,12 @@ class UpdateRecord extends Component {
   }
 
   updateForms = () => {
-    if (this.props.match.params.id === 'new') { this.setState({ newUser: true }); }
-
+    if (this.props.match.params.id === 'new') {
+      this.setState({ newUser: true, loading: false });
+    }
     else if (!isNaN(this.props.match.params.id)) {
+      this.setState({ newUser: false });
       this.getRecord();
-      this.setState({ newUser: false, loading: false });
     }
     else { this.props.history.push('/invalid'); }
   }
@@ -45,11 +47,12 @@ class UpdateRecord extends Component {
     getSingleRecord(this.props.match.params.id)
       .then(res => {
         if (res.success) {
-          console.log('[UpdateRecord][EditRecord] Single Data Fethced.');
-          this.setState({ firstname: res.data.first_name, job: res.data.last_name, avatar: res.data.avatar });
+          console.log('[UpdateRecord][EditRecord] Single Data Fetched.');
+          this.setState({ firstname: res.data.first_name, job: res.data.last_name, avatar: res.data.avatar, loading: false });
         }
         else {
           console.log('[UpdateRecord][EditRecord]', res.error);
+          this.setState({ error: true, loading: false });
         }
       });
   }
@@ -59,43 +62,44 @@ class UpdateRecord extends Component {
     updateUserRecord(this.state.firstname, this.state.last_name, this.props.match.params.id).then(res => {
       if (res.success) {
         console.log('[UpdateRecord][EditUser] Completed.');
+        this.setState({ error: false, loading: false });
         this.props.history.push('/list');
       }
       else {
         console.log('[UpdateRecord][EditUser] Error.', res.error);
+        this.setState({ error: true, loading: false });
       }
     });
   }
 
   addRecord = (e) => {
     e.preventDefault();
-    this.setState({ buttonValue: 'Please wait...', loading: true });
+    this.setState({ displayButton: 'Please wait...' });
     if (this.state.firstname === '' || this.state.job === '') {
-      this.setState({ buttonValue: 'Submit', loading: true });
-      alert('Empty form.');
+      this.setState({ displayButton: 'Submit', loading: false });
+      console.log('[UpdateRecord] Empty Form')
       return false;
     }
 
     setUserRecord(this.state.firstname, this.state.job).then(res => {
       if (res.success === true) {
-        this.setState({ isSubmitted: true, error: false, loading: false, buttonValue: 'Submit' });
+        this.setState({ error: false, loading: false, displayButton: 'Submit' });
         console.log('[UpdateRecord][NewRecord] Data Submitted.');
-        alert("Data Submitted");
         this.props.history.push('/list');
       }
       else {
-        console.log('[UpdateRecord][NewRecord] Data Submitted.', res.error);
-        this.setState({ error: true, loading: false, buttonValue: 'Error! Try again.' });
+        console.log('[UpdateRecord][NewRecord] Error in data submission.', res.error);
+        this.setState({ error: true, loading: false, displayButton: 'Error! Try again.' });
       }
     })
   }
 
   render() {
-    let { firstname, job, avatar, buttonValue, newUser } = this.state;
+    let { firstname, job, avatar, displayButton, newUser, error, loading } = this.state;
     return (
       <div className='add-record'>
         <p className='heading'>{newUser ? 'Add User' : 'Edit User'}</p>
-        {
+        {loading ? <p className='message'>Please wait...</p> : !newUser && error ? <p className='message'>Error Occurred! <br /> Please try after some time.</p> :
           <form className='addUserForm' onSubmit={(e) => newUser ? this.addRecord(e) : this.editRecord(e)} name='addUserForm'>
             <div className='field'>
               <label>Name:</label><br />
@@ -122,7 +126,7 @@ class UpdateRecord extends Component {
                   alt={firstname} /><br />
               </div>
             }
-            <button name='submit' type='submit'>{buttonValue}</button>
+            <button name='submit' type='submit'>{displayButton}</button>
             <button onClick={() => this.props.history.push('/list')}>Cancel</button>
           </form>
         }
