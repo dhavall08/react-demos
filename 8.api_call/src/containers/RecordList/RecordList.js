@@ -33,7 +33,6 @@ class RecordList extends Component {
       })
   }
   pagesRender = (total_pages) => {
-    console.log(this.state.currentPage);
     return <div className="pagination">
       {Array(total_pages).fill().map((page, i) => {
         return <button
@@ -86,9 +85,6 @@ class RecordList extends Component {
                     <div className="div-col heading-col"><strong>Action</strong></div>
                   </div>
                   {//condition for empty table
-                    console.log('[RecordList][Loading value]', loading)
-                  }
-                  {
                     users.data && users.data.map((user, index) => (
                       <div key={index} className='div-row'>
                         <div className="div-col">{user.first_name}</div>

@@ -49,7 +49,7 @@ class UpdateRecord extends Component {
           this.setState({ firstname: res.data.first_name, job: res.data.last_name, avatar: res.data.avatar });
         }
         else {
-          console.log(res.error);
+          console.log('[UpdateRecord][EditRecord]', res.error);
         }
       });
   }
@@ -95,35 +95,37 @@ class UpdateRecord extends Component {
     return (
       <div className='add-record'>
         <p className='heading'>{newUser ? 'Add User' : 'Edit User'}</p>
-        <form className='addUserForm' onSubmit={(e) => newUser ? this.addRecord(e) : this.editRecord(e)} name='addUserForm'>
-          <div className='field'>
-            <label>Name:</label><br />
-            <input
-              onChange={e => this.setState({ firstname: e.target.value })}
-              value={firstname}
-              type='text'
-              placeholder='Enter First name' /><br />
-          </div>
-          <div>
-            <label>Job:</label><br />
-            <input
-              onChange={e => this.setState({ job: e.target.value })}
-              value={job}
-              type='text'
-              placeholder='Enter Job' /><br />
-          </div>
-          {
-            newUser ||
+        {
+          <form className='addUserForm' onSubmit={(e) => newUser ? this.addRecord(e) : this.editRecord(e)} name='addUserForm'>
             <div className='field'>
-              <label>Avatar:</label><br />
-              <img
-                src={avatar}
-                alt={firstname} /><br />
+              <label>Name:</label><br />
+              <input
+                onChange={e => this.setState({ firstname: e.target.value })}
+                value={firstname}
+                type='text'
+                placeholder='Enter First name' /><br />
             </div>
-          }
-          <button name='submit' type='submit'>{buttonValue}</button>
-          <button onClick={() => this.props.history.push('/list')}>Cancel</button>
-        </form>
+            <div>
+              <label>Job:</label><br />
+              <input
+                onChange={e => this.setState({ job: e.target.value })}
+                value={job}
+                type='text'
+                placeholder='Enter Job' /><br />
+            </div>
+            {
+              newUser ||
+              <div className='field'>
+                <label>Avatar:</label><br />
+                <img
+                  src={avatar}
+                  alt={firstname} /><br />
+              </div>
+            }
+            <button name='submit' type='submit'>{buttonValue}</button>
+            <button onClick={() => this.props.history.push('/list')}>Cancel</button>
+          </form>
+        }
       </div>
     );
   }
