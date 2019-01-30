@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './NewRecord.css';
+import './UpdateRecord.css';
 import { setUserRecord, getSingleRecord, updateUserRecord } from '../../apiCalls/apiCalls';
 
-class NewRecord extends Component {
+class UpdateRecord extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,36 +18,34 @@ class NewRecord extends Component {
   }
 
   componentDidMount() {
-    console.log('Did mount')
+    console.log('[UpdateRecord][Didmount]');
     this.updateForms();
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
       //path are changed so do the props.
-      //console.log('[NewRecord] Different Props',prevProps,this.props)
+      //console.log('[UpdateRecord] Different Props',prevProps,this.props)
       this.updateForms();
-      this.setState({ firstname: '', job: '', avatar:'' });
+      this.setState({ firstname: '', job: '', avatar: '' });
     }
   }
 
   updateForms = () => {
-    if (this.props.match.params.id === 'new')
-      this.setState({ newUser: true });
+    if (this.props.match.params.id === 'new') { this.setState({ newUser: true }); }
 
     else if (!isNaN(this.props.match.params.id)) {
       this.getRecord();
       this.setState({ newUser: false, loading: false });
     }
-    else
-      this.props.history.push('/invalid')
+    else { this.props.history.push('/invalid'); }
   }
 
   getRecord = () => {
     getSingleRecord(this.props.match.params.id)
       .then(res => {
         if (res.success) {
-          console.log('[Edit Record] Single Data Fethced.', res.data)
+          console.log('[UpdateRecord][EditRecord] Single Data Fethced.');
           this.setState({ firstname: res.data.first_name, job: res.data.last_name, avatar: res.data.avatar });
         }
         else {
@@ -60,35 +58,33 @@ class NewRecord extends Component {
     e.preventDefault();
     updateUserRecord(this.state.firstname, this.state.last_name, this.props.match.params.id).then(res => {
       if (res.success) {
-        console.log('[NewRecord][EditUser] Completed.');
+        console.log('[UpdateRecord][EditUser] Completed.');
         this.props.history.push('/list');
       }
       else {
-        console.log('[NewRecord][EditUser] Error.', res.error);
+        console.log('[UpdateRecord][EditUser] Error.', res.error);
       }
-    })
+    });
   }
 
   addRecord = (e) => {
     e.preventDefault();
-
     this.setState({ buttonValue: 'Please wait...', loading: true });
-
     if (this.state.firstname === '' || this.state.job === '') {
       this.setState({ buttonValue: 'Submit', loading: true });
-      alert('Empty form.')
+      alert('Empty form.');
       return false;
     }
 
     setUserRecord(this.state.firstname, this.state.job).then(res => {
       if (res.success === true) {
         this.setState({ isSubmitted: true, error: false, loading: false, buttonValue: 'Submit' });
-        console.log('[New Record - new] Data Submitted.', res.data);
+        console.log('[UpdateRecord][NewRecord] Data Submitted.');
         alert("Data Submitted");
         this.props.history.push('/list');
       }
       else {
-        console.log('[New Record - new- error] Data Submitted.', res.error);
+        console.log('[UpdateRecord][NewRecord] Data Submitted.', res.error);
         this.setState({ error: true, loading: false, buttonValue: 'Error! Try again.' });
       }
     })
@@ -96,11 +92,9 @@ class NewRecord extends Component {
 
   render() {
     let { firstname, job, avatar, buttonValue, newUser } = this.state;
-
     return (
       <div className='add-record'>
         <p className='heading'>{newUser ? 'Add User' : 'Edit User'}</p>
-
         <form className='addUserForm' onSubmit={(e) => newUser ? this.addRecord(e) : this.editRecord(e)} name='addUserForm'>
           <div className='field'>
             <label>Name:</label><br />
@@ -135,4 +129,4 @@ class NewRecord extends Component {
   }
 }
 
-export default NewRecord;
+export default UpdateRecord;

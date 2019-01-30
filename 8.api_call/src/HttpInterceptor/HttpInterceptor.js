@@ -101,7 +101,7 @@ const getSingleRecord = (url) => {
 
 const deleteSingleRecord = (url) => {
   let apiUrl = baseUrl + url;
-  axios.delete(apiUrl).then(response => {
+  return axios.delete(apiUrl).then(response => {
     if (response.status === 204 || response.status === 200) {
       return {
         data: null,
