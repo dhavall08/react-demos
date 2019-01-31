@@ -7,7 +7,7 @@ const getUserList = (page) => {
 
 const setUserRecord = (page, firstname, job) => {
   const url = `users`;
-  return Interceptor.setUserRecord(url);
+  return Interceptor.setUserRecord(url,firstname,job);
 }
 
 const updateUserRecord = (firstname, lastname, id) => {
