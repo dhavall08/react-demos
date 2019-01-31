@@ -58,3 +58,20 @@ Loading
 
 21/1/19
 Project Residence One
+
+22/1/19
+Display,Add etc. using API call
+
+23/1/19
+Same above
+
+24/1/19
+callback functions
+promise
+async await
+
+25/1/19
+ESLint
+
+29/1/19 - OnLeave
+Optimization in pagination,delete on same component, 
