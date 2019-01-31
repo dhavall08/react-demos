@@ -20,7 +20,7 @@ class Header extends Component {
             activeClassName="active">
             Record List
           </NavLink>
-          <span>|</span>
+          <span> | </span>
           <NavLink
             to='/list/new'
             className='header-name'

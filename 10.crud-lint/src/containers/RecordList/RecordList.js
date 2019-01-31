@@ -173,7 +173,7 @@ class RecordList extends Component {
 
                   }
                 </div>
-                {this.pagesRender(users.totalPages)}
+                {this.pagesRender(users.total_pages)}
                 {loading && <span className="fetching">Fetching data...</span>}
               </div>
             )}
