@@ -1,0 +1,44 @@
+Representational State Transfer(REST)-2000 Roy Fielding.
+
+
+
+Architectural style for distributed hypermedia systems
+-Hypermedia is an extension of hypertext & nonlinear medium(ex. harddrive,phonebook, ie. accessed or written in nonlinear) of information, multimedia presentation of non-linear forms
+
+like in dotnet,php, the view is rendered or compiled at server-side, but with REST API, the data is sent by server and using that the client script render the view.
+
+Guiding Principles:
+Client-Server:
+for no dependency on each other
+
+Stateless:
+Server won't store any client request. So treat each request as new. No session,no history. Client manages state.
+
+Cacheable
+caching response
+client cache is given right to reuse that
+
+Uniform interface
+To define such an interface (contract between the client and the service), you have to use standards. like identification of resources(URI), manipulation, self-descriptive messages, hypermedia as the engine of application state.
+Interface between components must be the same. Ie. between client and server and any intermediaries, all of which are components.
+
+Layered system
+Deployed on server A, data stored on B, auth in C.
+
+Code on demand
+executable software code from a server computer to a client computer on demand to download and execute as a script.
+
+-------
+Resource methods:
+GET,PUT,POST,DELETE
+
+-------
+
+
+
+
+References:
+https://restfulapi.net/
+https://restfulapi.net/rest-architectural-constraints/
+https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm
+									
