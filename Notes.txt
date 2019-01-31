@@ -108,7 +108,7 @@ use try,catch in async function to handle error
 
 window.confirm(not only confirm)
 
-
+Task to done:
 naming convention
 loading and fetch...one variable
 grid different table
@@ -127,5 +127,5 @@ propTypes package
 callback
 interceptor
 
-e.preventDefault stops default behaviour.
+e.preventDefault stops default behaviour. If forms are done inside form tag than to prevent default behaviour of we need to use preventDefault.
 
