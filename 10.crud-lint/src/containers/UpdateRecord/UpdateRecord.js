@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './UpdateRecord.css';
-
 import {
   setUserRecord,
   getSingleRecord,
   updateUserRecord,
-} from '../../apiCalls/apiCalls';
+} from '../../apiCalls/ApiCalls';
+
+import './UpdateRecord.css';
 
 class UpdateRecord extends Component {
 
