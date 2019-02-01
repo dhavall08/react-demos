@@ -129,5 +129,11 @@ interceptor
 
 e.preventDefault stops default behaviour. If forms are done inside form tag than to prevent default behaviour of we need to use preventDefault.
 
-
-
+flexbox css:
+display :flex;
+flex-direction: column, row, row-reverse, column-reverse
+flex-wrap: wrap, nowrap, wrap-reverse
+flex-flow: row wrap (direction+wrap)
+justify-content:flex-start, center, flex-end, space-around, space-between
+align-items: flex-start,center,flex-end, strentch,baseline
+align-content: space-between, space-around, stretch, center,flex-start, flex-end
