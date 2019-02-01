@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './UpdateRecord.css';
 import PropTypes from 'prop-types';
+
+import './UpdateRecord.css';
 
 import {
   setUserRecord,
@@ -19,7 +20,7 @@ class UpdateRecord extends Component {
       job: '',
       loading: null,
       error: false,
-      displayButton: 'Submit',
+      displayButton: true,
       newUser: props.match.params.id === 'new',
     };
 
@@ -97,6 +98,13 @@ class UpdateRecord extends Component {
   editRecord = (e) => {
 
     e.preventDefault();
+    if (this.state.firstname === '' || this.state.job === '') {
+
+      this.setState({ loading: false });
+      console.log('[UpdateRecord][EditRecord] Empty Form');
+      return false;
+
+    }
     updateUserRecord(
       this.state.firstname,
       this.state.last_name,
@@ -105,30 +113,30 @@ class UpdateRecord extends Component {
 
         if (res.success) {
 
-          console.log('[UpdateRecord][EditUser] Completed.');
+          console.log('[UpdateRecord][EditRecord] Completed.');
           this.setState({ error: false, loading: false });
           this.props.history.push('/list');
+          return true;
 
         }
-        else {
-
-          console.log('[UpdateRecord][EditUser] Error.', res.error);
-          this.setState({ error: true, loading: false });
-
-        }
+        console.log('[UpdateRecord][EditRecord] Error.', res.error);
+        this.setState({ error: true, loading: false });
+        return false;
 
       });
+    return false;
 
   }
 
   addRecord = (e) => {
 
     e.preventDefault();
-    this.setState({ displayButton: 'Please wait...' });
+    this.setState({ displayButton: false });
     if (this.state.firstname === '' || this.state.job === '') {
 
-      this.setState({ displayButton: 'Submit', loading: false });
+      this.setState({ displayButton: true, loading: false });
       console.log('[UpdateRecord] Empty Form');
+      return false;
 
     }
 
@@ -140,26 +148,26 @@ class UpdateRecord extends Component {
           {
             error: false,
             loading: false,
-            displayButton: 'Submit',
+            displayButton: true,
           });
         console.log('[UpdateRecord][NewRecord] Data Submitted.');
         this.props.history.push('/list');
+        return true;
 
       }
-      else {
 
-        console.log('[UpdateRecord][NewRecord] Error in data submission.',
-          res.error);
-        this.setState(
-          {
-            error: true,
-            loading: false,
-            displayButton: 'Error! Try again.',
-          });
-
-      }
+      console.log('[UpdateRecord][NewRecord] Error in data submission.',
+        res.error);
+      this.setState(
+        {
+          error: true,
+          loading: false,
+          displayButton: true,
+        });
+      return false;
 
     });
+    return false;
 
   }
 
@@ -214,7 +222,9 @@ class UpdateRecord extends Component {
                     alt={firstname} /><br />
                 </div>
               }
-              <button name='submit' type='submit'>{displayButton}</button>
+              <button name='submit' type='submit'>
+                {displayButton ? 'Submit' : 'Please wait...'}
+              </button>
               <button onClick={
                 () => this.props.history.push('/list')
               }>Cancel</button>
