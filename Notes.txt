@@ -137,3 +137,25 @@ flex-flow: row wrap (direction+wrap)
 justify-content:flex-start, center, flex-end, space-around, space-between
 align-items: flex-start,center,flex-end, strentch,baseline
 align-content: space-between, space-around, stretch, center,flex-start, flex-end
+
+componentDidUpdate is called after rendering so chaging state will render view again. (asynchronously)
+componentWillReceiveProps is called before rendering. (synchronously)
+setState in react is async
+
+componentWillMount: async
+componentWillReceiveProps : synchronous
+componentDidMount : async
+getDerivedStateFromProps: async
+
+
+ref creates reference to the component. good for focus, select text.
+in constructor, this.nameVariable=React.createRef();
+in return, <input ref={this.nameVariable}
+
+context api
+const MyContext = React.createContext(defaultValue);
+Context Provided: <MyContext.Provider value={/* some value */}>
+Context Consumer: 
+<MyContext.Consumer>
+  {value => /* render something based on the context value */}
+</MyContext.Consumer>
