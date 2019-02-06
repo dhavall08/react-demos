@@ -28,11 +28,11 @@ class InputElement extends Component {
     }
     if (regx.test(field.value)) {
       this.setState({ error: false });
-      this.props.changeEvent([field.value,true]);
+      this.props.changeEvent([field.value, true]);
     }
     else {
       this.setState({ error: true });
-      this.props.changeEvent([field.value,false]);
+      this.props.changeEvent([field.value, false]);
     }
 
   }
@@ -52,31 +52,29 @@ class InputElement extends Component {
   }
 
   render() {
-    let { name, type, description } = this.props;
+    let { name, type, description, placeholder } = this.props;
     let error = this.state.error;
-    let valid = error === null ? {} : (error ? { invalid: 'true' } : { valid: 'true' });
     return (
       <FormGroup>
         <Label for={name}>{description}</Label>
         <Input
           name={name}
           type={type}
-          {...valid}
+          value={this.props.value}
+          className={error !== null ? (error ? 'is-invalid' : 'is-valid') : null}
+          placeholder={placeholder}
           onChange={(e) => this.changeHandler(e)}
         />
         {
           error ?
-            <FormFeedback
-              {...valid}>
-              Please enter valid {name}.</FormFeedback>
-            : error === 'false'
-              ?
-              <FormFeedback
-                {...valid}>
-                Entered {name} is valid.</FormFeedback>
-              : null
+            <React.Fragment>
+              <FormFeedback className='is-invalid'>
+                Please enter valid {name}.
+            </FormFeedback>
+              {this.displayDescription()}
+            </React.Fragment>
+            : null
         }
-        {this.displayDescription()}
       </FormGroup>
     );
   }
