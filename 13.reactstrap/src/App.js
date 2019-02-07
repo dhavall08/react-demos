@@ -10,10 +10,10 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Switch>
-          <Route component={Register} exact path='/' />
-          <Route component={PageNotFound} />
-        </Switch>
+          <Switch>
+            <Route component={Register} exact path='/' />
+            <Route component={PageNotFound} />
+          </Switch>
       </BrowserRouter>
     );
   }

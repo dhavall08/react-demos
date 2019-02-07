@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, CustomInput, Form, Col, Row, FormGroup, Label, Input, Container } from 'reactstrap';
+
 import InputElement from '../../components/InputElement/InputElement';
 import './Register.css';
 
@@ -8,6 +9,7 @@ class Register extends Component {
     username: '',
     email: '',
     password: '',
+    confirm: '',
     mobileno: '',
     address: '',
     gender: 'male',
@@ -17,23 +19,30 @@ class Register extends Component {
       Surat: false,
     },
     valid: {
-      username: false,
-      email: false,
-      password: false,
-      mobileno: false,
+      username: null,
+      email: null,
+      password: null,
+      confirm: null,
+      mobileno: null,
     },
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     let currState = this.state;
+    let failed;
+
+    this.validationHander('confirm', currState.password !== '' && currState.password === currState.confirm ? true : false);
     for (let val in currState.valid) {
-      if (!currState[val]) {
-        console.log('Failed', currState);
-        return;
+      if (!currState.valid[val]) {
+        failed = true;
+        this.validationHander(val, false);
       }
     }
-    console.log('Success', currState);
+    if (failed)
+      console.log('Failed', currState);
+    else
+      console.log('Success', currState);
   }
 
   handleRadioChange = e => {
@@ -41,6 +50,7 @@ class Register extends Component {
       gender: e.target.id
     });
   }
+
   handleCheckbox = e => {
     let obj = this.state.city;
     obj[e.target.id] = e.target.checked;
@@ -48,15 +58,17 @@ class Register extends Component {
       { city: obj }
     );
   }
-  changeHandler = (key, value) => {
-    let valid = this.state.valid;
-    valid[key] = value[1];
-    this.setState({ [key]: value[0], valid: valid });
-    // this.setState(state=>{state[key]= value[0]
-    //   state.valid[key]=value[1]
-    // })
 
+  validationHander = (key, value) => {
+    let valid = this.state.valid;
+    valid[key] = value;
+    this.setState({ valid: valid });
   }
+
+  changeHandler = (key, value) => {
+    this.setState({ [key]: value });
+  }
+
   render() {
     return (
       <Container>
@@ -67,34 +79,56 @@ class Register extends Component {
               <InputElement
                 type="text"
                 name="username"
-                placeholder="John_123"
+                placeholder="Username"
                 value={this.state.username}
+                valid={this.state.valid['username']}
                 description="Enter Username"
+                validationEvent={(value) => { this.validationHander('username', value); }}
                 changeEvent={(value) => { this.changeHandler('username', value); }} />
 
               <InputElement
                 type="email"
                 name="email"
                 placeholder="john@bacancy.com"
+                valid={this.state.valid['email']}
                 value={this.state.email}
                 description="Enter Email"
+                validationEvent={(value) => { this.validationHander('email', value) }}
                 changeEvent={(value) => { this.changeHandler('email', value); }} />
 
-
-              <InputElement
-                type="password"
-                name="password"
-                placeholder="*******"
-                value={this.state.password}
-                description="Enter Password"
-                changeEvent={(value) => { this.changeHandler('password', value); }} />
+              <Row>
+                <Col md={{ size: 6 }}>
+                  <InputElement
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    valid={this.state.valid['password']}
+                    value={this.state.password}
+                    description="Enter Password"
+                    validationEvent={(value) => { this.validationHander('password', value) }}
+                    changeEvent={(value) => { this.changeHandler('password', value); }} />
+                </Col>
+                <Col md={{ size: 6 }}>
+                  <InputElement
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm"
+                    valid={this.state.valid['confirm']}
+                    value={this.state.confirm}
+                    enteredPass={this.state.password}
+                    description="Confirm Password"
+                    changeEvent={(value) => { this.changeHandler('confirm', value); }} />
+                </Col>
+              </Row>
 
               <InputElement
                 type="text"
                 name="mobile"
-                placeholder="9829897397"
+                placeholder="ex. 999..."
+                valid={this.state.valid['mobileno']}
                 value={this.state.mobileno}
                 description="Enter Mobile No."
+                validationEvent={(value) => { this.validationHander('mobileno', value) }}
                 changeEvent={(value) => { this.changeHandler('mobileno', value); }} />
 
               <FormGroup>
