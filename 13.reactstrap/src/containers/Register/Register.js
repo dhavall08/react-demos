@@ -1,30 +1,42 @@
 import React, { Component } from 'react';
 import { Button, CustomInput, Form, Col, Row, FormGroup, Label, Input, Container } from 'reactstrap';
+import { cloneDeep } from 'lodash';
 
 import InputElement from '../../components/InputElement/InputElement';
 import './Register.css';
 
 class Register extends Component {
-  state = {
-    username: '',
-    email: '',
-    password: '',
-    confirm: '',
-    mobileno: '',
-    address: '',
-    gender: 'male',
-    city: {
-      Rajkot: false,
-      Ahmedabad: false,
-      Surat: false,
-    },
-    valid: {
-      username: null,
-      email: null,
-      password: null,
-      confirm: null,
-      mobileno: null,
-    },
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      email: '',
+      password: '',
+      confirm: '',
+      mobileno: '',
+      address: '',
+      gender: 'male',
+      city: {
+        Rajkot: false,
+        Ahmedabad: false,
+        Surat: false,
+      },
+      valid: {
+        username: null,
+        email: null,
+        password: null,
+        confirm: null,
+        mobileno: null,
+      },
+    }
+
+    this.baseState = cloneDeep(this.state);
+  }
+
+  handleEditBtn = () => {
+    !this.state.registered
+      ? console.log('First register user and then try edit button.')
+      : this.setState({ ...this.state.registered });
   }
 
   handleSubmit = (e) => {
@@ -39,12 +51,15 @@ class Register extends Component {
         this.validationHander(val, false);
       }
     }
-    if (failed)
+    if (failed) {
       console.log('Failed', currState);
-    else
+    }
+    else {
       console.log('Success', currState);
+      let tempCopyState = cloneDeep(this.state);
+      this.setState({ ...this.baseState, registered: tempCopyState }); //reset form
+    }
   }
-
   handleRadioChange = e => {
     this.setState({
       gender: e.target.id
@@ -160,21 +175,21 @@ class Register extends Component {
                     id="Ahmedabad"
                     label="Ahmedabad"
                     inline
-                    checked={this.state.city[0]}
+                    checked={this.state.city['Ahmedabad']}
                     onChange={this.handleCheckbox} />
                   <CustomInput
                     type="checkbox"
                     id="Surat"
                     label="Surat"
                     inline
-                    checked={this.state.city[1]}
+                    checked={this.state.city['Surat']}
                     onChange={this.handleCheckbox} />
                   <CustomInput
                     type="checkbox"
                     id="Rajkot"
                     label="Rajkot"
                     inline
-                    checked={this.state.city[2]}
+                    checked={this.state.city['Rajkot']}
                     onChange={this.handleCheckbox} />
                 </div>
               </FormGroup>
@@ -189,13 +204,23 @@ class Register extends Component {
                   onChange={(e) => this.setState({ address: e.target.value })} />
               </FormGroup>
 
-              <Button
-                color='primary'
-                onClick={this.handleSubmit}
-                block>
-                Submit
-              </Button>
-
+              <Row>
+                <Col md='6'>
+                  <Button
+                    onClick={this.handleEditBtn}
+                    block>
+                    Edit
+                  </Button>
+                </Col>
+                <Col md='6'>
+                  <Button
+                    color='primary'
+                    onClick={this.handleSubmit}
+                    block>
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </Col>
         </Row>
