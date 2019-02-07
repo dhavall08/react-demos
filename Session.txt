@@ -75,3 +75,6 @@ ESLint
 
 29/1/19 - OnLeave
 Optimization in pagination,delete on same component, 
+
+30-31-1- none
+4/2/19- webpack
