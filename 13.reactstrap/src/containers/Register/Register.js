@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Button, CustomInput, Form, Col, Row, FormGroup, Label, Input, Container } from 'reactstrap';
+import { Button, Form, Col, Row, FormGroup, Label, Input, Container } from 'reactstrap';
 import { cloneDeep } from 'lodash';
 
 import InputElement from '../../components/InputElement/InputElement';
 import Password from '../../components/Password/Password';
 import './Register.css';
+import Checkbox from '../../components/Checkbox/Checkbox';
+import RadioButton from '../../components/RadioButton/RadioButton';
 
 class Register extends Component {
   constructor() {
@@ -27,42 +29,43 @@ class Register extends Component {
         address: null,
       },
     }
+
     this.cityNames = ['Ahmedabad', 'Rajkot', 'Surat'];
+    this.hobbies = [{name:'Swimming',value:'0'},{name:'Reading',value:'1'}]
     this.radioFields = ['Male', 'Female'];
     this.baseState = cloneDeep(this.state);
   }
 
-  formReset = () => {
-    let tempCopyState = cloneDeep(this.state);
-    this.setState({ ...this.baseState, registered: tempCopyState, reset: true }); //reset form
-  }
-
-  handleEditBtn = () => {
+  editClickHandler = () => {
     !this.state.registered
       ? console.log('First register user and then try edit button.')
       : this.setState({ ...this.state.registered });
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let currState = this.state;
+  handleSubmit = (currState) => {
     let failed;
-
     for (let val in currState.valid) {
       if (!currState.valid[val]) {
         failed = true;
-        this.validationHandler(val, false);
+        this.validationHandler(val, false);//remove
       }
     }
-    //new method 
     if (failed) {
-      console.log('Failed', currState);
+      return false;
     }
     else {
-      console.log('Success', currState);
-      this.formReset();
+      return cloneDeep(currState);
     }
   }
+
+  submitClickHandler = (e) => {
+    e.preventDefault();
+    let obj = this.handleSubmit(this.state);
+    obj
+      ? this.setState({ ...this.baseState, registered: obj, reset: true })
+      : console.log('Failed'); //reset form
+  }
+
   handleRadioChange = e => {
     this.setState({
       gender: e.target.id
@@ -105,106 +108,69 @@ class Register extends Component {
                 type="text"
                 name="username"
                 placeholder="Username"
+                info="Username should starts with letter. ex. John_123"
+                errMsg="Please enter valid username."
+                regularEx="^([a-zA-Z]+[a-zA-Z0-9_]*)$"
+                validSymbol={true}
                 value={this.state.username}
                 valid={this.state.valid['username']}
-                description="Enter Username"
                 validationFunc={(value) => { this.validationHandler('username', value); }}
                 changeFunc={(value) => { this.changeHandler('username', value); }} />
 
               <InputElement
                 type="email"
                 name="email"
-                placeholder="john@bacancy.com"
-                valid={this.state.valid['email']}
+                placeholder="Email Address"
+                info="ex. john@business.com"
+                errMsg="Please enter valid email id."
                 value={this.state.email}
-                description="Enter Email"
+                valid={this.state.valid['email']}
                 validationFunc={(value) => { this.validationHandler('email', value) }}
                 changeFunc={(value) => { this.changeHandler('email', value); }} />
 
-
-
               <Password
+                info="Password should contain digit, letter and special character. Length should be between 6 to 16."
                 value={this.state['password']}
                 validVal={this.state.valid['password']}
                 reset={this.state.reset}
                 validationFunc={(value) => { this.validationHandler('password', value) }}
-                changeFunc={(value) => { this.changeHandler('password', value); }}
-              />
-
-              {/* <InputElement
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    valid={this.state.valid['password']}
-                    value={this.state.password}
-                    description="Enter Password"
-                    validationFunc={(value) => { this.validationHandler('password', value) }}
-                    changeFunc={(value) => { this.changeHandler('password', value); }} />
-                </Col>
-                <Col md={{ size: 6 }}>
-                  <InputElement
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm"
-                    valid={this.state.valid['confirm']}
-                    value={this.state.confirm}
-                    enteredPass={this.state.password}
-                    description="Confirm Password"
-                    changeFunc={(value) => { this.changeHandler('confirm', value); }} />
-                */ }
+                changeFunc={(value) => { this.changeHandler('password', value); }} />
 
               <InputElement
                 type="text"
                 name="mobile"
-                placeholder="ex. 999..."
+                placeholder="Mobile Number"
+                info="Enter 10 digits mobile number."
+                errMsg="Please enter valid mobile no."
                 maxLength={10}
-                valid={this.state.valid['mobileno']}
                 value={this.state.mobileno}
-                description="Enter Mobile No."
+                valid={this.state.valid['mobileno']}
                 validationFunc={(value) => { this.validationHandler('mobileno', value) }}
                 changeFunc={(value) => { this.changeHandler('mobileno', value); }} />
 
-              <FormGroup>
-                <Label for="gender">Gender</Label>
-                <div>
-                  {
-                    this.radioFields.map((value, index) => {
-                      return (
-                        <CustomInput
-                          id={value}
-                          key={index}
-                          type="radio"
-                          invalid={!this.state.valid['gender'] && this.state.valid['gender'] !== null}
-                          label={value}
-                          checked={this.state.gender === value}
-                          inline
-                          onChange={this.handleRadioChange} />
-                      )
-                    })
-                  }
-                </div>
-              </FormGroup>
+              <Checkbox
+                type='checkbox'
+                label='Select your city'
+                dataSource={this.cityNames}
+                dataValue='value'
+                dataName='name'
+                simpleArray={true}
+                valid={this.state.valid['checkbox']}
+                checked={this.state.city}
+                inline={true}
+                changeListener={this.handleCheckbox} />
 
-              <FormGroup>
-                <Label for="city">Select your city</Label>
-                <div>
-                  {//new checkbox component with label
-                    this.cityNames.map((value, index) => {
-                      return (
-                        <CustomInput
-                          id={value}
-                          key={index}
-                          label={value}
-                          type="checkbox"
-                          invalid={!this.state.valid['checkbox'] && this.state.valid['checkbox'] !== null}
-                          checked={this.state.city.includes(value)}
-                          inline
-                          onChange={this.handleCheckbox} />
-                      )
-                    })
-                  }
-                </div>
-              </FormGroup>
+              <RadioButton
+                type='radio'
+                label='Gender'
+                dataSource={this.radioFields}
+                dataValue='value'
+                dataName='name'
+                simpleArray={true}
+                valid={this.state.valid['gender']}
+                checked={this.state.gender}
+                inline={true}
+                changeListener={this.handleRadioChange} />
 
               <FormGroup>
                 <Label for='address'>Enter your Address</Label>
@@ -214,13 +180,13 @@ class Register extends Component {
                   className={this.state.valid.address !== null ? (!this.state.valid.address ? 'is-invalid' : 'is-valid') : null}
                   rows='3'
                   placeholder="1207, Times Square, Thaltej, Ahmedabad."
-                  onChange={(e) => { this.setState({ address: e.target.value }); this.validationHandler('address', this.state.address !== '' ? true : false) }} />
+                  onChange={(e) => { this.setState({ address: e.target.value }, () => { this.validationHandler('address', this.state.address !== '' ? true : false) }); }} />
               </FormGroup>
 
               <Row>
                 <Col md='6'>
                   <Button
-                    onClick={this.handleEditBtn}
+                    onClick={this.editClickHandler}
                     block>
                     Edit
                   </Button>
@@ -228,7 +194,7 @@ class Register extends Component {
                 <Col md='6'>
                   <Button
                     color='primary'
-                    onClick={this.handleSubmit}
+                    onClick={this.submitClickHandler}
                     block>
                     Submit
                   </Button>

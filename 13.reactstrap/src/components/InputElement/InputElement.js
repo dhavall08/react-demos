@@ -1,9 +1,10 @@
 import React from 'react';
-import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
 import PropTypes from 'prop-types';
+import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
+import './InputElement.css'
 
 const InputElement = (props) => {
-
+  //close button
   function validationHandler(e) {
     e.preventDefault();
     if (!props.validationFunc)
@@ -31,7 +32,7 @@ const InputElement = (props) => {
       }
     }
     else {
-      regx = props.regularEx;
+      regx = new RegExp(props.regularEx);
     }
     regx && (regx.test(field.value)
       ? props.validationFunc(true)
@@ -43,50 +44,39 @@ const InputElement = (props) => {
       return;
     props.changeFunc(e.target.value)
   }
-  function displayDescription() {
-    switch (props.name) {
-      case 'username':
-        return <FormText>Username should starts with letter. ex. John_123</FormText>
-      case 'email':
-        return <FormText>ex. john@business.com</FormText>
-      case 'password':
-        return <FormText>Password should contain digit, letter and special character. <br /> Length should be between 6 to 16.</FormText>
-      case 'mobile':
-        return <FormText>Enter 10 digits mobile number.</FormText>
-      default: return
-    }
-  }
 
-  let { name, type, description, placeholder, valid, maxLength } = props;
+  let { name, type, heading, placeholder, valid, maxLength, errMsg, validSymbol } = props;
   return (
     <FormGroup>
-      <Label for={name}>{description}</Label>
+      {heading && <Label for={name}>{heading}</Label>}
       <Input
         name={name}
         type={type}
         value={props.value}
-        className={valid !== null ? (!valid ? 'is-invalid' : 'is-valid') : null}
+        className={valid !== null ? ((!valid ? 'is-invalid ' : 'is-valid ') + (!validSymbol ? 'no-symbol' : '')) : null}
         placeholder={placeholder}
         maxLength={maxLength}
         onBlur={(e) => validationHandler(e)}
         onChange={(e) => changeHandler(e)}
       />
-      {
+      { // error message pass in props
         !valid ?
           <React.Fragment>
             <FormFeedback className='is-invalid'>
-              {name !== 'confirmPassword' ? <>Please enter valid {name}.</> : <>Password does not match or invalid.</>}
+              {name !== 'confirmPassword' ? (errMsg || 'Please enter valid ' + name) : <>Password does not match or invalid.</>}
             </FormFeedback>
-            {displayDescription()}
+
           </React.Fragment>
           : null
-      }
+        }
+        {props.info && <FormText>{props.info}</FormText>}
     </FormGroup>
   );
 
 }
 
 InputElement.defaultProps = {
+  validSymbol: true,
   type: 'text',
   placeholder: 'Enter text',
   changeFunc: null,
@@ -97,13 +87,17 @@ InputElement.defaultProps = {
 }
 
 InputElement.propTypes = {
+  valid: PropTypes.bool,
+  validSymbol :PropTypes.bool,
+  maxLength: PropTypes.number,
+  errMsg: PropTypes.string,
   type: PropTypes.string,
+  info: PropTypes.string,
   placeholder: PropTypes.string,
+  value: PropTypes.string,
+  regularEx: PropTypes.string,
   changeFunc: PropTypes.func,
-  validationFunc : PropTypes.func,
-  valid : PropTypes.bool,
-  maxLength : PropTypes.number,
-  regularEx : PropTypes.string,
+  validationFunc: PropTypes.func,
 }
 
 export default InputElement;
