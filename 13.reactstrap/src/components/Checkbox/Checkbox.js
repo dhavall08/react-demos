@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, Label, CustomInput } from 'reactstrap';
+
 import './Checkbox.css';
 
 const Checkbox = (props) => {
-  const { valid, dataSource, checked, inline, changeListener, label, type, dataValue, dataName, simpleArray } = props;
+  const { valid, dataSource, checked, inline, changeListener, label, dataValue, dataName, simpleArray } = props;
   return (
     <FormGroup>
       {label && <Label for="city">{label}</Label>}
@@ -17,7 +18,7 @@ const Checkbox = (props) => {
                 id={!simpleArray ? data[dataValue] : data}
                 key={index}
                 label={!simpleArray ? data[dataName] : data}
-                type={type}
+                type='checkbox'
                 invalid={!valid && valid !== null}
                 checked={checked && checked.includes(!simpleArray ? data[dataValue]: data)}
                 inline={inline}
@@ -44,7 +45,6 @@ Checkbox.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.any).isRequired,
   dataValue:PropTypes.string,
   dataName:PropTypes.string,
-  type: PropTypes.oneOf(['radio', 'checkbox']),
   label: PropTypes.string,
   valid: PropTypes.bool,
   checked: PropTypes.any,

@@ -4,10 +4,10 @@ import { cloneDeep } from 'lodash';
 
 import InputElement from '../../components/InputElement/InputElement';
 import Password from '../../components/Password/Password';
-import './Register.css';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import RadioButton from '../../components/RadioButton/RadioButton';
-import { getClone } from '../../Utilities/Utilities';
+import { getClone } from '../../utilities/Utilities';
+import './Register.css';
 
 class Register extends Component {
   constructor() {
@@ -68,8 +68,8 @@ class Register extends Component {
   }
 
   handleCheckbox = e => {
-    let tempcity = this.state.currentForm.city;
     let validate;
+    let tempcity = this.state.currentForm.city;
     tempcity.includes(e.target.id) ? tempcity.splice(tempcity.indexOf(e.target.id), 1) : tempcity.push(e.target.id);
     this.setState({
       currentForm: {
@@ -157,7 +157,6 @@ class Register extends Component {
                 changeFunc={(value) => { this.changeHandler('mobileno', value); }} />
 
               <Checkbox
-                type='checkbox'
                 label='Select your city'
                 dataSource={this.cityNamesNew}
                 dataValue='value'
@@ -169,7 +168,6 @@ class Register extends Component {
                 changeListener={this.handleCheckbox} />
 
               <RadioButton
-                type='radio'
                 label='Gender'
                 dataSource={this.radioFieldsNew}
                 dataValue='genderId'

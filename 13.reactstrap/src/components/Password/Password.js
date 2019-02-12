@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Col, Row } from 'reactstrap';
-import InputElement from '../../components/InputElement/InputElement';
 import PropTypes from 'prop-types';
+
+import InputElement from '../../components/InputElement/InputElement';
 
 class Password extends Component {
   state = {

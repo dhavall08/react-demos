@@ -16,7 +16,7 @@ const RadioButton = (props) => {
                 id={!simpleArray ? data[dataValue] : data}
                 key={index}
                 label={!simpleArray ? data[dataName] : data}
-                type={type}
+                type='radio'
                 invalid={!valid && valid !== null}
                 checked={!simpleArray ? checked === data[dataValue] : checked === data}
                 inline={inline}
@@ -41,14 +41,13 @@ RadioButton.defaultProps = {
 
 RadioButton.propTypes = {
   simpleArray: PropTypes.bool,
-  dataSource: PropTypes.arrayOf(PropTypes.any).isRequired,
+  valid: PropTypes.bool,
+  inline: PropTypes.bool,
   dataValue:PropTypes.string,
   dataName:PropTypes.string,
-  type: PropTypes.oneOf(['radio', 'checkbox']),
   label: PropTypes.string,
-  valid: PropTypes.bool,
   checked: PropTypes.any,
-  inline: PropTypes.bool,
+  dataSource: PropTypes.arrayOf(PropTypes.any).isRequired,
   changeListener: PropTypes.func,
 }
 
