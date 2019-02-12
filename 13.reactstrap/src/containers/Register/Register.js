@@ -105,7 +105,7 @@ class Register extends Component {
     this.state.reset && this.setState({ reset: false });
   }
   render() {
-    const { username, email, password, mobileno, gender, address, valid, reset, city } = this.state.currentForm;
+    const { username, email, password, mobileno, gender, address, valid, city } = this.state.currentForm;
     return (
       <Container>
         <Row>
@@ -140,7 +140,7 @@ class Register extends Component {
                 info="Password should contain digit, letter and special character. Length should be between 6 to 16."
                 value={password}
                 validVal={valid.password}
-                reset={reset}
+                reset={this.state.reset}
                 validationFunc={(value) => { this.validationHandler('password', value) }}
                 changeFunc={(value) => { this.changeHandler('password', value); }} />
 
