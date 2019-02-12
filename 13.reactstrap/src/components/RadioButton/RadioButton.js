@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormGroup, Label, CustomInput } from 'reactstrap';
 
 const RadioButton = (props) => {
-  const { valid, dataSource, checked, inline, changeListener, label, type, dataValue, dataName, simpleArray } = props;  
+  const { valid, dataSource, checked, inline, changeListener, label, type, dataValue, dataName, simpleArray } = props;
   return (
     <FormGroup>
       {label && <Label for="city">{label}</Label>}
@@ -18,7 +18,7 @@ const RadioButton = (props) => {
                 label={!simpleArray ? data[dataName] : data}
                 type={type}
                 invalid={!valid && valid !== null}
-                checked={!simpleArray ? checked === data[dataValue]: checked === data}
+                checked={!simpleArray ? checked === data[dataValue] : checked === data}
                 inline={inline}
                 onChange={changeListener} />
             )
@@ -34,10 +34,16 @@ RadioButton.defaultProps = {
   checked: null,
   inline: true,
   changeListener: null,
+  simpleArray: false,
+  dataValue: 'value',
+  dataName: 'name',
 }
 
 RadioButton.propTypes = {
+  simpleArray: PropTypes.bool,
   dataSource: PropTypes.arrayOf(PropTypes.any).isRequired,
+  dataValue:PropTypes.string,
+  dataName:PropTypes.string,
   type: PropTypes.oneOf(['radio', 'checkbox']),
   label: PropTypes.string,
   valid: PropTypes.bool,

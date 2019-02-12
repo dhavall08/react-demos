@@ -7,97 +7,105 @@ import Password from '../../components/Password/Password';
 import './Register.css';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import RadioButton from '../../components/RadioButton/RadioButton';
+import { getClone } from '../../Utilities/Utilities';
 
 class Register extends Component {
   constructor() {
     super();
     this.state = {
-      username: '',
-      email: '',
-      password: '',
-      mobileno: '',
-      address: '',
-      gender: '',
-      city: [],
-      valid: {
-        username: null,
-        email: null,
-        password: null,
-        mobileno: null,
-        gender: null,
-        checkbox: null,
-        address: null,
+      currentForm: {
+        username: '',
+        email: '',
+        password: '',
+        mobileno: '',
+        address: '',
+        gender: '',
+        city: [],
+        valid: {
+          username: null,
+          email: null,
+          password: null,
+          mobileno: null,
+          gender: null,
+          checkbox: null,
+          address: null,
+        }
       },
     }
 
     this.cityNames = ['Ahmedabad', 'Rajkot', 'Surat'];
-    this.hobbies = [{name:'Swimming',value:'0'},{name:'Reading',value:'1'}]
+    this.cityNamesNew = [{ value: '0', name: 'Ahmedabad' }, { value: '1', name: 'Rajkot' }, { value: '2', name: 'Surat' }]
     this.radioFields = ['Male', 'Female'];
-    this.baseState = cloneDeep(this.state);
+    this.radioFieldsNew = [{ genderId: '100', gender: 'Male' }, { genderId: '101', gender: 'Female' }, { genderId: '102', gender: 'Other' }];
+    this.baseState = cloneDeep(this.state.currentForm);
   }
 
   editClickHandler = () => {
     !this.state.registered
       ? console.log('First register user and then try edit button.')
-      : this.setState({ ...this.state.registered });
-  }
-
-  handleSubmit = (currState) => {
-    let failed;
-    for (let val in currState.valid) {
-      if (!currState.valid[val]) {
-        failed = true;
-        this.validationHandler(val, false);//remove
-      }
-    }
-    if (failed) {
-      return false;
-    }
-    else {
-      return cloneDeep(currState);
-    }
+      : this.setState({ currentForm: this.state.registered });
   }
 
   submitClickHandler = (e) => {
     e.preventDefault();
-    let obj = this.handleSubmit(this.state);
+    let obj = getClone(this.state.currentForm, this.validationHandler);
     obj
-      ? this.setState({ ...this.baseState, registered: obj, reset: true })
-      : console.log('Failed'); //reset form
+      ? this.setState({ currentForm: this.baseState, registered: obj, reset: true })
+      : console.log('Failed');
   }
 
   handleRadioChange = e => {
     this.setState({
-      gender: e.target.id
+      currentForm: {
+        ...this.state.currentForm,
+        gender: e.target.id,
+        valid: {
+          ...this.state.currentForm.valid,
+          gender: true,
+        }
+      }
     });
-    this.validationHandler('gender', true);
   }
 
   handleCheckbox = e => {
-    let tempcity = this.state.city;
+    let tempcity = this.state.currentForm.city;
     let validate;
     tempcity.includes(e.target.id) ? tempcity.splice(tempcity.indexOf(e.target.id), 1) : tempcity.push(e.target.id);
-    this.setState(
-      { city: tempcity }
-    );
-    this.state.city.length > 0 ? validate = true : validate = false;
+    this.setState({
+      currentForm: {
+        ...this.state.currentForm,
+        city: tempcity
+      }
+    });
+    tempcity.length > 0 ? validate = true : validate = false;
     this.validationHandler('checkbox', validate)
   }
 
   validationHandler = (key, value) => {
-    let valid = this.state.valid;
+    let valid = this.state.currentForm.valid;
     valid[key] = value;
-    this.setState({ valid: valid });
+    this.setState({
+      currentForm: {
+        ...this.state.currentForm,
+        valid: valid
+      }
+    });
   }
 
   changeHandler = (key, value) => {
-    this.setState({ [key]: value });
+    this.setState({
+      currentForm: {
+        ...this.state.currentForm,
+        [key]: value
+      }
+    });
   }
 
   componentDidUpdate(prevPros) {
     this.state.reset && this.setState({ reset: false });
   }
   render() {
+    const { username, email, password, mobileno, gender, address, valid, reset, city } = this.state.currentForm;
     return (
       <Container>
         <Row>
@@ -112,8 +120,8 @@ class Register extends Component {
                 errMsg="Please enter valid username."
                 regularEx="^([a-zA-Z]+[a-zA-Z0-9_]*)$"
                 validSymbol={true}
-                value={this.state.username}
-                valid={this.state.valid['username']}
+                value={username}
+                valid={valid.username}
                 validationFunc={(value) => { this.validationHandler('username', value); }}
                 changeFunc={(value) => { this.changeHandler('username', value); }} />
 
@@ -123,16 +131,16 @@ class Register extends Component {
                 placeholder="Email Address"
                 info="ex. john@business.com"
                 errMsg="Please enter valid email id."
-                value={this.state.email}
-                valid={this.state.valid['email']}
+                value={email}
+                valid={valid.email}
                 validationFunc={(value) => { this.validationHandler('email', value) }}
                 changeFunc={(value) => { this.changeHandler('email', value); }} />
 
               <Password
                 info="Password should contain digit, letter and special character. Length should be between 6 to 16."
-                value={this.state['password']}
-                validVal={this.state.valid['password']}
-                reset={this.state.reset}
+                value={password}
+                validVal={valid.password}
+                reset={reset}
                 validationFunc={(value) => { this.validationHandler('password', value) }}
                 changeFunc={(value) => { this.changeHandler('password', value); }} />
 
@@ -143,32 +151,32 @@ class Register extends Component {
                 info="Enter 10 digits mobile number."
                 errMsg="Please enter valid mobile no."
                 maxLength={10}
-                value={this.state.mobileno}
-                valid={this.state.valid['mobileno']}
+                value={mobileno}
+                valid={valid.mobileno}
                 validationFunc={(value) => { this.validationHandler('mobileno', value) }}
                 changeFunc={(value) => { this.changeHandler('mobileno', value); }} />
 
               <Checkbox
                 type='checkbox'
                 label='Select your city'
-                dataSource={this.cityNames}
+                dataSource={this.cityNamesNew}
                 dataValue='value'
                 dataName='name'
-                simpleArray={true}
-                valid={this.state.valid['checkbox']}
-                checked={this.state.city}
+                simpleArray={false}
+                valid={valid.checkbox}
+                checked={city}
                 inline={true}
                 changeListener={this.handleCheckbox} />
 
               <RadioButton
                 type='radio'
                 label='Gender'
-                dataSource={this.radioFields}
-                dataValue='value'
-                dataName='name'
-                simpleArray={true}
-                valid={this.state.valid['gender']}
-                checked={this.state.gender}
+                dataSource={this.radioFieldsNew}
+                dataValue='genderId'
+                dataName='gender'
+                simpleArray={false}
+                valid={this.state.currentForm.valid.gender}
+                checked={gender}
                 inline={true}
                 changeListener={this.handleRadioChange} />
 
@@ -176,11 +184,18 @@ class Register extends Component {
                 <Label for='address'>Enter your Address</Label>
                 <Input type="textarea"
                   name="address"
-                  value={this.state.address}
-                  className={this.state.valid.address !== null ? (!this.state.valid.address ? 'is-invalid' : 'is-valid') : null}
+                  value={address}
+                  className={valid.address !== null ? (!valid.address ? 'is-invalid' : 'is-valid') : null}
                   rows='3'
                   placeholder="1207, Times Square, Thaltej, Ahmedabad."
-                  onChange={(e) => { this.setState({ address: e.target.value }, () => { this.validationHandler('address', this.state.address !== '' ? true : false) }); }} />
+                  onChange={(e) => {
+                    this.setState({
+                      currentForm: {
+                        ...this.state.currentForm,
+                        address: e.target.value
+                      }
+                    }, () => { this.validationHandler('address', address !== '' ? true : false) });
+                  }} />
               </FormGroup>
 
               <Row>

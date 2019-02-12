@@ -35,14 +35,20 @@ Checkbox.defaultProps = {
   checked: null,
   inline: true,
   changeListener: null,
+  simpleArray: false,
+  dataValue: 'value',
+  dataName: 'name'
 }
 
 Checkbox.propTypes = {
   dataSource: PropTypes.arrayOf(PropTypes.any).isRequired,
+  dataValue:PropTypes.string,
+  dataName:PropTypes.string,
   type: PropTypes.oneOf(['radio', 'checkbox']),
   label: PropTypes.string,
   valid: PropTypes.bool,
   checked: PropTypes.any,
+  simpleArray: PropTypes.bool,
   inline: PropTypes.bool,
   changeListener: PropTypes.func,
 }
