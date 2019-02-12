@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormGroup, Label, CustomInput } from 'reactstrap';
 
 const RadioButton = (props) => {
-  const { valid, dataSource, checked, inline, changeListener, label, type, dataValue, dataName, simpleArray } = props;
+  const { valid, dataSource, checked, inline, changeListener, label, dataValue, dataName, simpleArray } = props;
   return (
     <FormGroup>
       {label && <Label for="city">{label}</Label>}

@@ -173,7 +173,7 @@ class Register extends Component {
                 dataValue='genderId'
                 dataName='gender'
                 simpleArray={false}
-                valid={this.state.currentForm.valid.gender}
+                valid={valid.gender}
                 checked={gender}
                 inline={true}
                 changeListener={this.handleRadioChange} />
