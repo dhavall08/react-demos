@@ -7,6 +7,7 @@ import Password from '../../components/Password/Password';
 import Checkbox from '../../components/Checkbox/Checkbox';
 import RadioButton from '../../components/RadioButton/RadioButton';
 import { getClone } from '../../utilities/Utilities';
+import ModalView from '../../utilities/ModalView';
 import './Register.css';
 
 class Register extends Component {
@@ -51,9 +52,11 @@ class Register extends Component {
   submitClickHandler = (e) => {
     e.preventDefault();
     let obj = getClone(this.state.currentForm, this.validationHandler);
-    obj
-      ? this.setState({ currentForm: this.baseState, registered: obj, reset: true })
-      : console.log('Failed');
+    if (obj) {
+      this.setState({ currentForm: this.baseState, registered: obj, reset: true });
+    } else {
+      console.log('Failed');
+    }
   }
 
   radioHandler = id => {
