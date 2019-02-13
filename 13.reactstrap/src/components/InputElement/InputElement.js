@@ -7,8 +7,6 @@ const InputElement = (props) => {
   //close button
   function validationHandler(e) {
     e.preventDefault();
-    if (!props.validationFunc)
-      return;
     let regx = null, field = e.target;
     if (!props.regularEx) {
       switch (field.name) {
@@ -40,36 +38,37 @@ const InputElement = (props) => {
   }
 
   function changeHandler(e) {
-    if (!props.changeFunc)
-      return;
     props.changeFunc(e.target.value)
   }
 
-  let { name, type, heading, placeholder, valid, maxLength, errMsg, validSymbol } = props;
+  let { inputProps, heading, valid, maxLength, errMsg, validSymbol } = props;
   return (
     <FormGroup>
-      {heading && <Label for={name}>{heading}</Label>}
+      {heading && <Label for={inputProps.name}>{heading}</Label>}
       <Input
-        name={name}
-        type={type}
-        value={props.value}
-        className={valid !== null ? ((!valid ? 'is-invalid ' : 'is-valid ') + (!validSymbol ? 'no-symbol' : '')) : null}
-        placeholder={placeholder}
+        {...inputProps}
+        className={
+          valid !== null 
+          ? ((!valid ? 'is-invalid ' : 'is-valid ') + (!validSymbol ? 'no-symbol ' 
+          : '')) 
+          + inputProps.className : null
+        }
         maxLength={maxLength}
         onBlur={(e) => validationHandler(e)}
         onChange={(e) => changeHandler(e)}
       />
-      { // error message pass in props
+      {
         !valid ?
           <React.Fragment>
             <FormFeedback className='is-invalid'>
-              {name !== 'confirmPassword' ? (errMsg || 'Please enter valid ' + name) : <>Password does not match or invalid.</>}
+              {inputProps.name !== 'confirmPassword' 
+              ? (errMsg || 'Please enter valid ' + inputProps.name)
+              : <>Password does not match or invalid.</>}
             </FormFeedback>
-
           </React.Fragment>
           : null
-        }
-        {props.info && <FormText>{props.info}</FormText>}
+      }
+      {props.info && <FormText>{props.info}</FormText>}
     </FormGroup>
   );
 
@@ -79,24 +78,28 @@ InputElement.defaultProps = {
   validSymbol: true,
   type: 'text',
   placeholder: 'Enter text',
-  changeFunc: null,
-  validationFunc: null,
   valid: null,
   maxLength: null,
   regularEx: null,
+  changeFunc: () => { },
+  validationFunc: () => { },
 }
 
 InputElement.propTypes = {
+  inputProps: PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    placeholder: PropTypes.string,
+    value: PropTypes.string,
+    className: PropTypes.string
+  }),
   valid: PropTypes.bool,
-  validSymbol :PropTypes.bool,
+  validSymbol: PropTypes.bool,
   maxLength: PropTypes.number,
   errMsg: PropTypes.string,
-  type: PropTypes.string,
   info: PropTypes.string,
-  placeholder: PropTypes.string,
-  value: PropTypes.string,
   regularEx: PropTypes.string,
-  changeFunc: PropTypes.func,
+  changeFunc: PropTypes.func.isRequired,
   validationFunc: PropTypes.func,
 }
 

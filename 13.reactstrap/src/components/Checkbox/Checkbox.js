@@ -9,7 +9,7 @@ const Checkbox = (props) => {
   return (
     <FormGroup>
       {label && <Label for="city">{label}</Label>}
-      {valid === false && <p className='invalid-msg'> *selection required</p>}
+      {valid === false && <p className='invalid-msg'> *required</p>}
       <div>
         {
           dataSource.map((data, index) => {

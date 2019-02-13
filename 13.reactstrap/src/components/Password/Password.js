@@ -16,7 +16,7 @@ class Password extends Component {
 
   componentDidUpdate(prevProps) {
     const { confirm, valid } = this.state;
-    if (prevProps !== this.props) {
+    if ((prevProps.validVal !== this.props.validVal)) {
       this.setState({ password: this.props.value });
       if (valid.password === null && valid.confirm === null) {
         let compare = this.props.value === confirm;
@@ -42,11 +42,7 @@ class Password extends Component {
   }
 
   changeHandler = (key, value) => {
-    const { confirm, valid } = this.state;
     this.setState({ [key]: value });
-    key === 'password' && confirm !== '' && (this.setState({ valid: { ...valid, confirm: value !== confirm ? false : true } }));
-    if (!this.props.validationFunc)
-      return;
     key === 'password' && (this.props.changeFunc(value))
   }
 
@@ -75,26 +71,30 @@ class Password extends Component {
       <Row>
         <Col md={{ size: 6 }}>
           <InputElement
-            type="password"
-            name="password"
+            inputProps={{
+              type: "password",
+              name: "password",
+              placeholder: "Password",
+              value: value,
+            }}
             heading={heading ? "Enter Password" : undefined}
-            placeholder="Password"
             info={info}
             errMsg="Please enter valid password."
             regularEx={regularEx}
-            value={value}
             valid={valid['password']}
             validationFunc={(value) => this.validationHandler(value)}
             changeFunc={(value) => this.changeHandler('password', value)} />
         </Col>
         <Col md={{ size: 6 }}>
           <InputElement
-            type="password"
-            name="confirmPassword"
+            inputProps={{
+              type: "password",
+              name: "confirmPassword",
+              placeholder: "Confirm",
+              value: confirm
+            }}
             heading={heading ? "Confirm Password" : undefined}
-            placeholder="Confirm"
             errMsg="Password does not match or invalid."
-            value={confirm}
             valid={valid['confirm']}
             validationFunc={this.confirmPassword}
             changeFunc={(value) => this.changeHandler('confirm', value)} />
@@ -109,8 +109,8 @@ Password.defaultProps = {
   heading: false,
   validVal: null,
   reset: false,
-  validationFunc: null,
-  changeFunc: null,
+  validationFunc: () => { },
+  changeFunc: () => { },
 }
 
 Password.propTypes = {

@@ -32,18 +32,21 @@ class Register extends Component {
         }
       },
     }
-
     this.cityNames = ['Ahmedabad', 'Rajkot', 'Surat'];
     this.cityNamesNew = [{ value: '0', name: 'Ahmedabad' }, { value: '1', name: 'Rajkot' }, { value: '2', name: 'Surat' }]
     this.radioFields = ['Male', 'Female'];
     this.radioFieldsNew = [{ genderId: '100', gender: 'Male' }, { genderId: '101', gender: 'Female' }, { genderId: '102', gender: 'Other' }];
     this.baseState = cloneDeep(this.state.currentForm);
+
+    this.editClickHandler = this.editClickHandler.bind(this);
+    this.submitClickHandler = this.submitClickHandler.bind(this);
   }
 
   editClickHandler = () => {
     !this.state.registered
-      ? console.log('First register user and then try edit button.')
-      : this.setState({ currentForm: this.state.registered });
+      ? console.log('Please register before edit.')
+      : this.setState((state) => ({ currentForm: { ...state.registered, password: '', valid: { ...state.registered.valid, password: null } } }));
+    // this.setState({ currentForm: { ...this.state.registered, password: '', } });
   }
 
   submitClickHandler = (e) => {
@@ -67,6 +70,14 @@ class Register extends Component {
     });
   }
 
+  addressChangeHandler = e => {
+    this.setState({
+      currentForm: {
+        ...this.state.currentForm,
+        address: e.target.value
+      }
+    })
+  }
   handleCheckbox = e => {
     let validate;
     let tempcity = this.state.currentForm.city;
@@ -101,7 +112,7 @@ class Register extends Component {
     });
   }
 
-  componentDidUpdate(prevPros) {
+  componentDidUpdate() {
     this.state.reset && this.setState({ reset: false });
   }
   render() {
@@ -113,25 +124,28 @@ class Register extends Component {
             <Form className='form'>
               <p className="heading">Registration Form</p>
               <InputElement
-                type="text"
-                name="username"
-                placeholder="Username"
+                inputProps={{
+                  name: "username",
+                  placeholder: "Username",
+                  value: username,
+                }}
                 info="Username should starts with letter. ex. John_123"
                 errMsg="Please enter valid username."
                 regularEx="^([a-zA-Z]+[a-zA-Z0-9_]*)$"
                 validSymbol={true}
-                value={username}
                 valid={valid.username}
                 validationFunc={(value) => { this.validationHandler('username', value); }}
                 changeFunc={(value) => { this.changeHandler('username', value); }} />
 
               <InputElement
-                type="email"
-                name="email"
-                placeholder="Email Address"
+                inputProps={{
+                  type: "email",
+                  name: "email",
+                  placeholder: "Email Address",
+                  value: email,
+                }}
                 info="ex. john@business.com"
                 errMsg="Please enter valid email id."
-                value={email}
                 valid={valid.email}
                 validationFunc={(value) => { this.validationHandler('email', value) }}
                 changeFunc={(value) => { this.changeHandler('email', value); }} />
@@ -145,13 +159,14 @@ class Register extends Component {
                 changeFunc={(value) => { this.changeHandler('password', value); }} />
 
               <InputElement
-                type="text"
-                name="mobile"
-                placeholder="Mobile Number"
+                inputProps={{
+                  name: "mobile",
+                  placeholder: "Mobile Number",
+                  value: mobileno,
+                }}
                 info="Enter 10 digits mobile number."
                 errMsg="Please enter valid mobile no."
                 maxLength={10}
-                value={mobileno}
                 valid={valid.mobileno}
                 validationFunc={(value) => { this.validationHandler('mobileno', value) }}
                 changeFunc={(value) => { this.changeHandler('mobileno', value); }} />
@@ -186,14 +201,8 @@ class Register extends Component {
                   className={valid.address !== null ? (!valid.address ? 'is-invalid' : 'is-valid') : null}
                   rows='3'
                   placeholder="1207, Times Square, Thaltej, Ahmedabad."
-                  onChange={(e) => {
-                    this.setState({
-                      currentForm: {
-                        ...this.state.currentForm,
-                        address: e.target.value
-                      }
-                    }, () => { this.validationHandler('address', address !== '' ? true : false) });
-                  }} />
+                  onChange={this.addressChangeHandler}
+                  onBlur={() => this.validationHandler('address', address !== '' ? true : false)} />
               </FormGroup>
 
               <Row>
