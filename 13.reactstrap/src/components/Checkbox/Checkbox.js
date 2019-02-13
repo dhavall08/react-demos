@@ -5,7 +5,7 @@ import { FormGroup, Label, CustomInput } from 'reactstrap';
 import './Checkbox.css';
 
 const Checkbox = (props) => {
-  const { valid, dataSource, checked, inline, changeListener, label, dataValue, dataName, simpleArray } = props;
+  const { id,valid, dataSource, checked, inline, changeListener, label, dataValue, dataName, simpleArray } = props;
   return (
     <FormGroup>
       {label && <Label for="city">{label}</Label>}
@@ -15,14 +15,14 @@ const Checkbox = (props) => {
           dataSource.map((data, index) => {
             return (
               <CustomInput
-                id={!simpleArray ? data[dataValue] : data}
+                id={!simpleArray ? `${id}_${data[dataValue]}` : data}
                 key={index}
                 label={!simpleArray ? data[dataName] : data}
                 type='checkbox'
                 invalid={!valid && valid !== null}
-                checked={checked && checked.includes(!simpleArray ? data[dataValue]: data)}
+                checked={checked && checked.includes(!simpleArray ? data[dataValue] : data)}
                 inline={inline}
-                onChange={changeListener} />
+                onChange={()=>changeListener(data[dataValue])} />
             )
           })
         }

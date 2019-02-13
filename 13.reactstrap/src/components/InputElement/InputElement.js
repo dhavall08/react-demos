@@ -4,7 +4,7 @@ import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
 import './InputElement.css'
 
 const InputElement = (props) => {
-  //close button
+  
   function validationHandler(e) {
     e.preventDefault();
     let regx = null, field = e.target;
@@ -48,10 +48,10 @@ const InputElement = (props) => {
       <Input
         {...inputProps}
         className={
-          valid !== null 
-          ? ((!valid ? 'is-invalid ' : 'is-valid ') + (!validSymbol ? 'no-symbol ' 
-          : '')) 
-          + inputProps.className : null
+          valid !== null
+            ? ((!valid ? 'is-invalid ' : 'is-valid ') + (!validSymbol ? 'no-symbol '
+              : ''))
+            + inputProps.className : null
         }
         maxLength={maxLength}
         onBlur={(e) => validationHandler(e)}
@@ -61,9 +61,9 @@ const InputElement = (props) => {
         !valid ?
           <React.Fragment>
             <FormFeedback className='is-invalid'>
-              {inputProps.name !== 'confirmPassword' 
-              ? (errMsg || 'Please enter valid ' + inputProps.name)
-              : <>Password does not match or invalid.</>}
+              {inputProps.name !== 'confirmPassword'
+                ? (errMsg || 'Please enter valid ' + inputProps.name)
+                : <>Password does not match or invalid.</>}
             </FormFeedback>
           </React.Fragment>
           : null

@@ -33,9 +33,9 @@ class Register extends Component {
       },
     }
     this.cityNames = ['Ahmedabad', 'Rajkot', 'Surat'];
-    this.cityNamesNew = [{ value: '0', name: 'Ahmedabad' }, { value: '1', name: 'Rajkot' }, { value: '2', name: 'Surat' }]
     this.radioFields = ['Male', 'Female'];
-    this.radioFieldsNew = [{ genderId: '100', gender: 'Male' }, { genderId: '101', gender: 'Female' }, { genderId: '102', gender: 'Other' }];
+    this.cityNamesNew = [{ value: '0', name: 'Ahmedabad' }, { value: '1', name: 'Rajkot' }, { value: '2', name: 'Surat' }]
+    this.radioFieldsNew = [{ genderId: '0', gender: 'Male' }, { genderId: '1', gender: 'Female' }, { genderId: '2', gender: 'Other' }];
     this.baseState = cloneDeep(this.state.currentForm);
 
     this.editClickHandler = this.editClickHandler.bind(this);
@@ -46,7 +46,6 @@ class Register extends Component {
     !this.state.registered
       ? console.log('Please register before edit.')
       : this.setState((state) => ({ currentForm: { ...state.registered, password: '', valid: { ...state.registered.valid, password: null } } }));
-    // this.setState({ currentForm: { ...this.state.registered, password: '', } });
   }
 
   submitClickHandler = (e) => {
@@ -57,11 +56,11 @@ class Register extends Component {
       : console.log('Failed');
   }
 
-  handleRadioChange = e => {
+  radioHandler = id => {
     this.setState({
       currentForm: {
         ...this.state.currentForm,
-        gender: e.target.id,
+        gender: id,
         valid: {
           ...this.state.currentForm.valid,
           gender: true,
@@ -78,10 +77,10 @@ class Register extends Component {
       }
     })
   }
-  handleCheckbox = e => {
+  checkboxHandler = id => {
     let validate;
     let tempcity = this.state.currentForm.city;
-    tempcity.includes(e.target.id) ? tempcity.splice(tempcity.indexOf(e.target.id), 1) : tempcity.push(e.target.id);
+    tempcity.includes(id) ? tempcity.splice(tempcity.indexOf(id), 1) : tempcity.push(id);
     this.setState({
       currentForm: {
         ...this.state.currentForm,
@@ -172,6 +171,7 @@ class Register extends Component {
                 changeFunc={(value) => { this.changeHandler('mobileno', value); }} />
 
               <Checkbox
+                id='city'
                 label='Select your city'
                 dataSource={this.cityNamesNew}
                 dataValue='value'
@@ -180,9 +180,10 @@ class Register extends Component {
                 valid={valid.checkbox}
                 checked={city}
                 inline={true}
-                changeListener={this.handleCheckbox} />
+                changeListener={this.checkboxHandler} />
 
               <RadioButton
+                id='gender'
                 label='Gender'
                 dataSource={this.radioFieldsNew}
                 dataValue='genderId'
@@ -191,7 +192,7 @@ class Register extends Component {
                 valid={valid.gender}
                 checked={gender}
                 inline={true}
-                changeListener={this.handleRadioChange} />
+                changeListener={this.radioHandler} />
 
               <FormGroup>
                 <Label for='address'>Enter your Address</Label>
@@ -201,7 +202,7 @@ class Register extends Component {
                   className={valid.address !== null ? (!valid.address ? 'is-invalid' : 'is-valid') : null}
                   rows='3'
                   placeholder="1207, Times Square, Thaltej, Ahmedabad."
-                  onChange={this.addressChangeHandler}
+                  onChange={id => this.addressChangeHandler(id)}
                   onBlur={() => this.validationHandler('address', address !== '' ? true : false)} />
               </FormGroup>
 

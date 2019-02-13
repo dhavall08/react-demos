@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormGroup, Label, CustomInput } from 'reactstrap';
 
 const RadioButton = (props) => {
-  const { valid, dataSource, checked, inline, changeListener, label, dataValue, dataName, simpleArray } = props;
+  const { id, valid, dataSource, checked, inline, changeListener, label, dataValue, dataName, simpleArray } = props;
   return (
     <FormGroup>
       {label && <Label for="city">{label}</Label>}
@@ -13,14 +13,15 @@ const RadioButton = (props) => {
           dataSource.map((data, index) => {
             return (
               <CustomInput
-                id={!simpleArray ? data[dataValue] : data}
+                id={!simpleArray ? `${id}_${data[dataValue]}` : data}
+                name={data[dataValue]}
                 key={index}
                 label={!simpleArray ? data[dataName] : data}
                 type='radio'
                 invalid={!valid && valid !== null}
                 checked={!simpleArray ? checked === data[dataValue] : checked === data}
                 inline={inline}
-                onChange={changeListener} />
+                onChange={() => changeListener(data[dataValue])} />
             )
           })
         }
@@ -40,11 +41,12 @@ RadioButton.defaultProps = {
 }
 
 RadioButton.propTypes = {
+  id: PropTypes.string.isRequired,
   simpleArray: PropTypes.bool,
   valid: PropTypes.bool,
   inline: PropTypes.bool,
-  dataValue:PropTypes.string,
-  dataName:PropTypes.string,
+  dataValue: PropTypes.string,
+  dataName: PropTypes.string,
   label: PropTypes.string,
   checked: PropTypes.any,
   dataSource: PropTypes.arrayOf(PropTypes.any).isRequired,

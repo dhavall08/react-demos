@@ -17,8 +17,10 @@ class Password extends Component {
   componentDidUpdate(prevProps) {
     const { confirm, valid } = this.state;
     if ((prevProps.validVal !== this.props.validVal)) {
-      this.setState({ password: this.props.value });
+        console.log('didinside');
+        //this.setState({ password: this.props.value });
       if (valid.password === null && valid.confirm === null) {
+        console.log('did---');
         let compare = this.props.value === confirm;
         this.setState({
           valid: {
