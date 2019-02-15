@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Select, { components } from 'react-select';
 import PropTypes from 'prop-types';
-import './c.css';
 
 const Option = (props) => {
   return (
