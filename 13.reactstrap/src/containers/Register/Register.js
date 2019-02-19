@@ -29,7 +29,7 @@ class Register extends Component {
           gender: null,
           checkbox: null,
           address: null,
-        }
+        } //add validation message instead of true false in valid
       },
     }
     this.cityNames = ['Ahmedabad', 'Rajkot', 'Surat'];

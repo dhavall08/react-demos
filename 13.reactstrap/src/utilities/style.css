@@ -1,0 +1,10 @@
+.flex-grid {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 20px 0;
+}
+.col {
+  flex: 1;
+  background-color: yellow;
+}
+

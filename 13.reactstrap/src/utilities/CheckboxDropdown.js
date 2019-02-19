@@ -72,8 +72,6 @@ const CheckboxDropdown = (props) => {
 }
 
 CheckboxDropdown.defaultProps = {
-  getOptionLabel: (option) => option('label'),
-  getOptionValue: (option) => option('value'),
   inputProps: {
     placeholder: 'Services',
     hideSelectedOptions: false,
@@ -81,10 +79,13 @@ CheckboxDropdown.defaultProps = {
     backspaceRemovesValue: false,
     controlShouldRenderValue: false,
     isSearchable: false,
-  }
+  },
+  dataValue: 'value',
+  dataName: 'label',
+  selectAllName: 'Select All'
 }
 CheckboxDropdown.propTypes = {
-  inputProps:PropTypes.shape ({
+  inputProps: PropTypes.shape({
     placeholder: PropTypes.string,
     hideSelectedOptions: PropTypes.bool,
     closeMenuOnSelect: PropTypes.bool,
@@ -92,8 +93,12 @@ CheckboxDropdown.propTypes = {
     controlShouldRenderValue: PropTypes.bool,
     isSearchable: PropTypes.bool,
   }),
-  getOptionLabel: PropTypes.func,
-  getOptionValue: PropTypes.func
+  selectionListener:PropTypes.func.isRequired,
+  dataValue: PropTypes.string,
+  dataName: PropTypes.string,
+  dataSource: PropTypes.arrayOf(PropTypes.any).isRequired,
+  selected:PropTypes.arrayOf(PropTypes.any).isRequired,
+  selectAllName: PropTypes.string
 }
 
 export default CheckboxDropdown;
