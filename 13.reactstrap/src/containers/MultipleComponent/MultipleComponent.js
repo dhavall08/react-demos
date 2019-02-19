@@ -57,9 +57,12 @@ class MultipleComponent extends Component {
 
         {/* <GridView /> */}
         <AsyncFetch
+          inputProps={{}}
           url='https://demo.dataverse.org/api/search?q='
           value={this.state.inputValue}
-          debounceWait={`${500}`}
+          debounceWait={500}
+          dataLabel='name'
+          dataValue='identifier'
           changeHandler={this.asyncChangeHandler} />
       </>
     );
