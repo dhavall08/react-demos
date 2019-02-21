@@ -64,7 +64,7 @@ Life cycle methods are called only when the state variable is changed. Not the v
 
 callback should be function in setState. Not expression/ statement
 
-function inside setState won't rerender if nested object is changed.
+function inside setState won't rerender if nested object is changed. because shouldComponentUpdate doesn't see change in state. forceUpdate() to forcefully update.
 
 function should be outside render as it is always created in each render if put in render.
 
@@ -76,6 +76,7 @@ use of render attribute in Route tag to get props in its arrow function.
 
 component in route can be function or object(extends React.Component)?
 
+browserrotuer uses HTML5 history API to keep your UI in sync with the URL. props.history.push.(?)
 not two browserouter in same class
 
 'npm install eject' will add package in package.json which is added in nodemudules.
@@ -159,3 +160,8 @@ Context Consumer:
 <MyContext.Consumer>
   {value => /* render something based on the context value */}
 </MyContext.Consumer>
+
+
+use ()=>{} in defaultProps for function
+
+React.memo for stateless is same as shouldcomponentupdate for stateful

@@ -101,7 +101,7 @@ const updateUserRecord = (url, firstname, lastname) => {
 
 const getSingleRecord = (url) => {
 
-  let apiUrl = baseUrl + url;
+  let apiUrl = `${baseUrl}${url}`;
   return axios.get(apiUrl).then(response => {
 
     if (response.status === 200) {
@@ -134,7 +134,7 @@ const getSingleRecord = (url) => {
 
 const deleteSingleRecord = (url) => {
 
-  let apiUrl = baseUrl + url;
+  let apiUrl = `${baseUrl}${url}`;
   return axios.delete(apiUrl).then(response => {
 
     if (response.status === 204 || response.status === 200) {

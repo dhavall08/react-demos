@@ -18,13 +18,13 @@ class Form2 extends Component {
     componentWillReceiveProps(props) {
         console.log('Form2 willreceiveprops',props.value['name'])
         if (this.props !== props) { // change only if props changes
-            // this.setState({
-            //     name: props.value['name'],
-            //     gender: props.value['gender'],
-            //     Ahmedabad: props.value['Ahmedabad'],
-            //     NewYork: props.value['NewYork'],
-            //     London: props.value['London']
-            // }, () => { console.log(this.state) }); // callback should be function, not statement/expr.
+             this.setState({
+                 name: props.value['name'],
+                 gender: props.value['gender'],
+                 Ahmedabad: props.value['Ahmedabad'],
+                 NewYork: props.value['NewYork'],
+                 London: props.value['London']
+             }, () => { console.log(this.state) }); // callback should be function, not statement/expr.
         }
     }
     componentWillMount() {

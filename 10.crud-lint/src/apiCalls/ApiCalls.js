@@ -1,4 +1,4 @@
-import * as Interceptor from '../HttpInterceptor/HttpInterceptor';
+import * as Interceptor from '../httpInterceptor/HttpInterceptor';
 
 const getUserList = (page) => {
 

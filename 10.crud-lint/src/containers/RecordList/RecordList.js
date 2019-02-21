@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-import './RecordList.css';
+import {
+  deleteSingleRecord,
+  getUserList,
+} from '../../apiCalls/ApiCalls';
 
-import { deleteSingleRecord, getUserList } from '../../apiCalls/apiCalls';
+import './RecordList.css';
 
 class RecordList extends Component {
 

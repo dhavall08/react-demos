@@ -1,0 +1,6 @@
+.invalid-msg{
+  display: inline;
+  color: #dc3545;
+  font-size: 80%;
+  margin-left: 2%;
+}
