@@ -60,7 +60,6 @@ const AsyncFetch = (props) => {
 }
 
 AsyncFetch.defaultProps = {
-  url: '',
   debounceWait: 500,
   dataLabel: 'label',
   dataValue: 'value',
