@@ -1,0 +1,167 @@
+Javascript Arrow Function:https://flaviocopes.com/javascript-arrow-functions/
+
+In javascript every function is an object. An object is a collection of key:value pairs. If a value is a primitive (integer, string, boolean), or another object, the value is considered a property. If a value is a function, it is called a 'method'.
+
+Don't define function using "function" keyword in function definition in react.
+
+React JS uses JSX. (syntax extension to JavaScript)
+React doesn’t require using JSX, but most people find it helpful as a visual aid.
+
+example:
+const name = 'Josh Perez';
+const element = <h1>Hello, {name}</h1>;
+
+Babel converts JSX to Javascript.
+
+We split JSX over multiple lines for readability. While it isn’t required, when doing this, we also recommend wrapping it in parentheses to avoid the pitfalls of automatic semicolon insertion.
+(https://reactjs.org/docs/introducing-jsx.html)
+
+JSX Prevents Injection Attacks.
+
+Props can be any name in stateless component(not in stateful-class based).state isnot available in stateless.
+we may have more than one ReactDOM methods.
+
+onClick, onChange, etc event function starts with ()=>{} not directly {} in tag
+
+no state manipulation in render method. (pure function : same output for same input. no side effects (side effects:no external modifications)) so in render side effect like setState can not directly applied.
+
+ctrl+del to remove all spaces in any editors.
+
+Binding:
+https://codeburst.io/binding-functions-in-react-b168d2d006cb
+
+Don't log after setState. it's async so run in background.
+
+Don't user this.state.anyname inside setState, instead, pass the function in setState. ex. this.setState((state,props)=>{})
+
+if function is arrow function in argument then binding is not required.
+
+not getElementById, instead use JSX in tag property
+
+binding methods:http://stackinsight.blogspot.com/2019/01/handle-events-react.html
+
+installed babel/sublime extension and esLint (for error checking)
+
+props passing in constructor is used to use of props in state in constructor. without it props can be undefined.
+
+JSX is converted to React.createElement('div',{class},React.getElementById...) So importing React is must.
+
+Component name should be start with capital character.
+
+Don't directly assign current to obj because it create reference which changes both when we change a single
+
+Functional Components (also called presentational, dumb, stateless) (Class based components may also be stateless)
+Class based Components (also called containers, smart, stateful)
+user Functional Components as many as possible.
+
+onClick={this.funName} ...dont do '()' after function name because it would execute method when render() is called.
+we only pass the reference.
+another way is to use like onClick={() => this.funName(arg)} when we want to pass arguments. (inefficient)
+
+CSS Style auto add styles for all browsers. (lik webkit,..etc)
+
+Life cycle methods are called only when the state variable is changed. Not the variable of nested object of state.
+
+callback should be function in setState. Not expression/ statement
+
+function inside setState won't rerender if nested object is changed. because shouldComponentUpdate doesn't see change in state. forceUpdate() to forcefully update.
+
+function should be outside render as it is always created in each render if put in render.
+
+div vs Fragment when wrapping whole in jsx. <Fragment> or <React.Fragment> is fast. can also write as <>.
+
+<Component {...props}> pass copy of props to element.
+
+use of render attribute in Route tag to get props in its arrow function.
+
+component in route can be function or object(extends React.Component)?
+
+browserrotuer uses HTML5 history API to keep your UI in sync with the URL. props.history.push.(?)
+not two browserouter in same class
+
+'npm install eject' will add package in package.json which is added in nodemudules.
+
+for pseudo selector and media queries : Radium library
+
+javascript fetch() vs Ajavx call. fetch "by default" dont send cookies.
+
+fetch method in componentwillmount or componentdidmount
+
+axios vs fetch:
+https://medium.com/@thejasonfile/fetch-vs-axios-js-for-making-http-requests-2b261cdd3af5
+-need to call json() method from response to get actual data in fetch
+-catch error
+
+Pure Component do shallow checking. Render only if nextprop and current are not same. (shouldComponentUpdate isnot required in PureComponent)
+
+in REST , data and functionality are considered resources and are accessed using Uniform Resource Identifiers (URIs)
+Action | SQL | Http
+--------------------
+Create-Insert-PUT/Post
+Read-Select-GET
+Update-Update-POST/Put (in oracle, post)
+Delete-Delete-DELETE
+
+Callback functions in callback hell
+Promise (can also be created with custom)
+Async await- await can be written inside async function, before promise.
+use try,catch in async function to handle error
+
+window.confirm(not only confirm)
+
+Task to done:
+naming convention
+loading and fetch...one variable
+grid different table
+check response before state update
+redirect using push method
+e.preventDefault()	
+make httpintercepter
+
+es lint
+add '.eslintrc.json' and package.json with dependencies
+run command 'npm i -D babel-eslint ......(or add babel-eslint in devdependency)
+(husky prevents bad commit or push)
+
+propTypes package
+
+callback
+interceptor
+
+e.preventDefault stops default behaviour. If forms are done inside form tag than to prevent default behaviour of we need to use preventDefault.
+
+flexbox css:
+display :flex;
+flex-direction: column, row, row-reverse, column-reverse
+flex-wrap: wrap, nowrap, wrap-reverse
+flex-flow: row wrap (direction+wrap)
+justify-content:flex-start, center, flex-end, space-around, space-between
+align-items: flex-start,center,flex-end, strentch,baseline
+align-content: space-between, space-around, stretch, center,flex-start, flex-end
+
+componentDidUpdate is called after rendering so chaging state will render view again. (asynchronously)
+componentWillReceiveProps is called before rendering. (synchronously)
+setState in react is async
+
+componentWillMount: async
+componentWillReceiveProps : synchronous
+componentDidMount : async
+getDerivedStateFromProps: async
+
+
+ref creates reference to the component. good for focus, select text.
+in constructor, this.nameVariable=React.createRef();
+in return, <input ref={this.nameVariable}
+
+context api
+const MyContext = React.createContext(defaultValue);
+Context Provided: <MyContext.Provider value={/* some value */}>
+Context Consumer: 
+<MyContext.Consumer>
+  {value => /* render something based on the context value */}
+</MyContext.Consumer>
+
+
+use ()=>{} in defaultProps for function
+
+React.memo for stateless is same as shouldcomponentupdate for stateful

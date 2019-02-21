@@ -1,0 +1,31 @@
+Which is better to use ? componentWillRecieveProps or componentDidUpdate?
+
+componentDidUpdate(prevProps, prevState, snapshot)
+UNSAFE_componentWillReceiveProps(nextProps)
+
+both are not called for initial render.
+If I do setState in componentDidUpdate, render will trigger twice" – componentDidUpdate is called after the component updates (received new props or state). This is why the parameters to this function is prevProps and prevState.
+So if you wanted to do something before the component received new props, you'd use componentWillReceiveProps, and if you wanted to do something after it received new props or state, you'd use componentDidUpdate.
+The main difference here is:
+componentWillReceiveProps will update state synchronously 
+componentDidUpdate will update state Asynchronously
+This can be important as there are some cases that can come up when trying to sync state with other parts of your component's props.
+If you need to perform a side effect (for example, data fetching or an animation) in response to a change in props, use componentDidUpdate lifecycle instead.
+If you used componentWillReceiveProps to “reset” some state when a prop changes, consider either making a component fully controlled or fully uncontrolled with a key instead.
+componentWillReceiveProps is a synchronous hook. Calling asynchronous function like data fetching inside this hook will need to render in between when the new props are set and when data has finished loading. 
+But the getDerivedStateFromProps is an asynchronous hook won't require any additional render. Thus, componentWillReceiveProps is being deprecated in favor of the following reason:
+Use getDerivedStateFromProps
+Or, use componentDidUpdate
+
+Which won't give you unnecessary renders. Note that getDerivedStateFromProps is used only in rare case though. So, I suggest you to use componentDidUpdate hook as far as possible.
+
+componentWillReceiveProps is deprecated so its better to use componentDidUpdate. 
+ 
+ex.
+componentDidUpdate(prevProps) {
+  // Typical usage (don't forget to compare props):
+  if (this.props.userID !== prevProps.userID) {
+    this.fetchData(this.props.userID);
+  }
+}
+

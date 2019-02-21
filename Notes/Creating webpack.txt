@@ -1,0 +1,15 @@
+npm init
+
+npm install -D webpack webpack-dev-server
+or 
+npm install --save-dev webpack webpack-dev-server
+
+create folder structure and index.html file
+
+add "start" : "webpack-dev-server" in package.json -> scripts.
+
+create file with same name:
+webpack.config.js (for development workflow)
+
+
+
