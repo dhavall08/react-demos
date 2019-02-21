@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, Label, Input, FormText, FormFeedback } from 'reactstrap';
-import './InputElement.css'
+import './InputElement.css';
 
-const InputElement = (props) => {
-  
+const InputElement = React.memo((props) => {
+
   function validationHandler(e) {
     e.preventDefault();
     let regx = null, field = e.target;
@@ -24,7 +24,7 @@ const InputElement = (props) => {
           break;
         case 'confirmPassword':
           props.validationFunc();
-          return;
+          break;
         default:
           break;
       }
@@ -32,9 +32,21 @@ const InputElement = (props) => {
     else {
       regx = new RegExp(props.regularEx);
     }
-    regx && (regx.test(field.value)
-      ? props.validationFunc(true)
-      : props.validationFunc(false));
+
+    if (regx && (regx.test(field.value))) {
+      props.validationFunc(true)
+    } else {
+      props.validationFunc(false);
+      props.inputProps.value === ''
+        ? props.errMsgHandler(props.emptyMessage)
+        : props.errMsgHandler(props.validationErrMsgText)
+    }
+
+    /* regx && (regx.test(field.value)
+    ? props.validationFunc(true)
+    : this.props.inputProps.value === ''
+      ? props.validationFunc('Input is required.')
+      : props.validationFunc(this.props.errMsg)); */
   }
 
   function changeHandler(e) {
@@ -44,6 +56,7 @@ const InputElement = (props) => {
   let { inputProps, heading, valid, maxLength, errMsg, validSymbol } = props;
   return (
     <FormGroup>
+      {console.log('run')}
       {heading && <Label for={inputProps.name}>{heading}</Label>}
       <Input
         {...inputProps}
@@ -61,9 +74,7 @@ const InputElement = (props) => {
         !valid ?
           <React.Fragment>
             <FormFeedback className='is-invalid'>
-              {inputProps.name !== 'confirmPassword'
-                ? (errMsg || 'Please enter valid ' + inputProps.name)
-                : <>Password does not match or invalid.</>}
+              {errMsg || 'Please enter valid ' + inputProps.name}
             </FormFeedback>
           </React.Fragment>
           : null
@@ -72,17 +83,35 @@ const InputElement = (props) => {
     </FormGroup>
   );
 
-}
+},
+  function (prevProps, nextProps) {
+    return ((prevProps.inputProps.value === nextProps.inputProps.value)
+      && (prevProps.valid === nextProps.valid)
+      && (prevProps.errMsg === nextProps.errMsg))
+
+    /*
+    return true if passing nextProps to render would return
+    the same result as passing prevProps to render,
+    otherwise return false
+    */
+  })
+
 
 InputElement.defaultProps = {
-  validSymbol: true,
-  type: 'text',
-  placeholder: 'Enter text',
+  inputProps: {
+    name: 'text',
+    type: 'text',
+    placeholder: 'Enter text',
+  },
   valid: null,
+  validSymbol: true,
   maxLength: null,
   regularEx: null,
+  validationErrMsgText: 'Please enter valid value.',
+  emptyMessage: 'Please fill out this field',
   changeFunc: () => { },
   validationFunc: () => { },
+  errMsgHandler: () => { }
 }
 
 InputElement.propTypes = {
@@ -97,6 +126,9 @@ InputElement.propTypes = {
   validSymbol: PropTypes.bool,
   maxLength: PropTypes.number,
   errMsg: PropTypes.string,
+  emptyMessage: PropTypes.string,
+  validationErrMsgText: PropTypes.string,
+  errMsgHandler: PropTypes.func,
   info: PropTypes.string,
   regularEx: PropTypes.string,
   changeFunc: PropTypes.func.isRequired,
