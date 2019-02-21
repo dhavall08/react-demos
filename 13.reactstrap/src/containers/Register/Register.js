@@ -34,18 +34,43 @@ class Register extends Component {
     }
     this.cityNames = ['Ahmedabad', 'Rajkot', 'Surat'];
     this.radioFields = ['Male', 'Female'];
-    this.cityNamesNew = [{ value: '0', name: 'Ahmedabad' }, { value: '1', name: 'Rajkot' }, { value: '2', name: 'Surat' }]
-    this.radioFieldsNew = [{ genderId: '0', gender: 'Male' }, { genderId: '1', gender: 'Female' }, { genderId: '2', gender: 'Other' }];
+    this.cityNamesNew = [
+      { value: '0', name: 'Ahmedabad' },
+      { value: '1', name: 'Rajkot' },
+      { value: '2', name: 'Surat' }
+    ]
+    this.radioFieldsNew = [
+      { genderId: '0', gender: 'Male' },
+      { genderId: '1', gender: 'Female' },
+      { genderId: '2', gender: 'Other' }
+    ];
     this.baseState = cloneDeep(this.state.currentForm);
 
     this.editClickHandler = this.editClickHandler.bind(this);
     this.submitClickHandler = this.submitClickHandler.bind(this);
+
+    this.errMsg = {
+      username: 'Please fill out this field.',
+      email: 'Please fill out this field.',
+      mobileno: 'Please fill out this field.',
+    }
+  }
+
+  errMsgHandler = (field, newVal) => {
+    this.errMsg[field] = newVal;
   }
 
   editClickHandler = () => {
     !this.state.registered
       ? console.log('Please register before edit.')
-      : this.setState((state) => ({ currentForm: { ...state.registered, password: '', valid: { ...state.registered.valid, password: null } } }));
+      : this.setState((state) => (
+        {
+          currentForm: {
+            ...state.registered,
+            password: '',
+            valid: { ...state.registered.valid, password: null }
+          }
+        }));
   }
 
   submitClickHandler = (e) => {
@@ -131,11 +156,14 @@ class Register extends Component {
                   value: username,
                 }}
                 info="Username should starts with letter. ex. John_123"
-                errMsg="Please enter valid username."
                 regularEx="^([a-zA-Z]+[a-zA-Z0-9_]*)$"
+                emptyMessage='Please fill out this field'
+                validationErrMsgText='Please enter valid username'
+                errMsg={this.errMsg.username}
                 validSymbol={true}
                 valid={valid.username}
                 validationFunc={(value) => { this.validationHandler('username', value); }}
+                errMsgHandler={(newVal) => this.errMsgHandler('username', newVal)}
                 changeFunc={(value) => { this.changeHandler('username', value); }} />
 
               <InputElement
@@ -146,9 +174,12 @@ class Register extends Component {
                   value: email,
                 }}
                 info="ex. john@business.com"
-                errMsg="Please enter valid email id."
+                emptyMessage='Please fill out this field'
+                validationErrMsgText='Please enter valid email id.'
+                errMsg={this.errMsg.email}
                 valid={valid.email}
                 validationFunc={(value) => { this.validationHandler('email', value) }}
+                errMsgHandler={(newVal) => this.errMsgHandler('email', newVal)}
                 changeFunc={(value) => { this.changeHandler('email', value); }} />
 
               <Password
@@ -156,6 +187,9 @@ class Register extends Component {
                 value={password}
                 validVal={valid.password}
                 reset={this.state.reset}
+                emptyMessage='Please fill out this field'
+                validationErrMsgText='Please enter valid password.'
+                validationErrMsgTextConfirm='Password does not match or invalid.'
                 validationFunc={(value) => { this.validationHandler('password', value) }}
                 changeFunc={(value) => { this.changeHandler('password', value); }} />
 
@@ -166,9 +200,12 @@ class Register extends Component {
                   value: mobileno,
                 }}
                 info="Enter 10 digits mobile number."
-                errMsg="Please enter valid mobile no."
+                emptyMessage='Please fill out this field'
+                validationErrMsgText='Please enter valid mobile no.'
                 maxLength={10}
                 valid={valid.mobileno}
+                errMsg={this.errMsg.mobileno}
+                errMsgHandler={(newVal) => this.errMsgHandler('mobileno', newVal)}
                 validationFunc={(value) => { this.validationHandler('mobileno', value) }}
                 changeFunc={(value) => { this.changeHandler('mobileno', value); }} />
 
