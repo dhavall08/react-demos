@@ -165,3 +165,13 @@ Context Consumer:
 use ()=>{} in defaultProps for function
 
 React.memo for stateless is same as shouldcomponentupdate for stateful
+
+if watcher error while npm start, run command after closing editor
+
+add / in image path before image src. otherwise refreshing page doesnt load images
+
+should do lazy loading/code splitting to load component only needed see here.https://reactjs.org/docs/code-splitting.html
+
+css obfuscate
+
+https://stackoverflow.com/questions/44206782/do-i-commit-the-package-lock-json-file-created-by-npm-5

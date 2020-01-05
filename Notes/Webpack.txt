@@ -29,3 +29,19 @@ range of tasks like bundle optimization, asset management and injection of envir
 ---------
 Mode:
 development, production(default) or none
+
+-----
+
+if dynamic import like 'return import('./pizza.js');'
+then need to give chunkFilename in output of webpack config.
+lazy loading
+-video 369 of React16 course.
+
+html-webpack-plugin : to connect html file with bundle.js
+extratextplugin: to extract css from all files and put in a same file.
+hotmodulereplacement plugin: to reload when file changes
+
+
+for all new versions of webpack and package use 
+npm i -D extract-text-webpack-plugin@next to avoid errors.
+
