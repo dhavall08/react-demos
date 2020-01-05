@@ -1,0 +1,46 @@
+https://www.barrymichaeldoyle.com/fragment/
+
+DIV:
+unnecessary div. increase code when used inside map
+
+code:
+const MyComponent = () => (
+  <div className="my-app">
+    <ul>
+      <ListItems>
+    </ul>
+  </div>
+);
+
+const ListItems = () => (
+  <div>
+    <li>Barry</li>
+    <li>Michael</li>
+    <li>Doyle</li>
+  </div>
+);
+
+undesired result after render:
+<div class="my-app">
+  <ul>
+    <div>
+      <li>Barry</li>
+      <li>Michael</li>
+      <li>Doyle</li>
+    </div>
+  </ul>
+</div>
+
+
+React Fragment also has key property to use inside map function
+useful for nested ternary
+
+import { Fragment } from 'react' to use only <Fragment>
+
+Fragment has only property that is key.
+
+Some CSS mechanisms like Flexbox and CSS Grid have a special parent-child relationship, and adding divs in the middle makes it hard to keep the desired layout while extracting logical components.
+
+code readability
+
+

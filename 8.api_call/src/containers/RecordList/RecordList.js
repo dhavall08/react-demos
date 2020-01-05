@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import './RecordList.css'
 
@@ -85,7 +86,7 @@ class RecordList extends Component {
                     <div className="div-col heading-col"><strong>Action</strong></div>
                   </div>
                   {//condition for empty table
-                    users.data && users.data.map((user, index) => (
+                    users.data && users.data.length!==0 ? users.data.map((user, index) => (
                       <div key={index} className='div-row'>
                         <div className="div-col">{user.first_name}</div>
                         <div className="div-col">{user.last_name}</div>
@@ -95,7 +96,7 @@ class RecordList extends Component {
                           <Link to='#' onClick={(e) => { this.deleteRecordClickHandler(e, user.id) }} className='actions'>Delete</Link>
                         </div>
                       </div>
-                    ))
+                    )) : <p className='emptyMessage'>No data found.</p>
 
                   }
                 </div>
@@ -103,6 +104,7 @@ class RecordList extends Component {
                 {loading && <span className="fetching">Fetching data...</span>}
               </div>
             )}
+
       </div>
     );
   }

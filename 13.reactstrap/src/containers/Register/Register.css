@@ -1,0 +1,21 @@
+body{
+  font-family: 'Times New Roman', Times, serif
+}
+.form{
+  color: rgb(85, 85, 85);
+  margin-top: 5%;
+  margin-bottom: 5%;
+  border-radius: 15px;
+  border: rgb(172, 172, 172) solid 1px;
+  padding: 30px;
+  background-color: white;
+}
+
+.heading{
+  margin-top: 5%;
+  margin-bottom: 5%;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  color: #555;
+}

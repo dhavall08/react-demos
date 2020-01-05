@@ -1,0 +1,11 @@
+.pg-404
+{
+  margin :0 auto;
+  width: 400px;
+}
+
+.pg-404 p {
+  color: gray;
+  margin-top: 200px;
+  font-size: 30px;
+}

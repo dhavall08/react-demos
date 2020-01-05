@@ -1,0 +1,43 @@
+.add-user-container input
+{
+  padding : 15px;
+  width: 400px;
+  border-radius: 5px;
+  border:0;
+  background-color: rgb(236, 236, 236);
+}
+
+.add-user-container input[type='submit']{
+  background-color: pink;
+}
+
+.add-user-container input[type='submit']:hover{
+  background-color: rgb(255, 106, 130);
+  cursor: pointer;
+  color: white
+}
+
+.add-user-container{
+  display: flex;
+  align-items: center; 
+  flex-direction: column;
+  margin-top: 60px;
+}
+
+.back-btn{
+  float: left;
+  font-weight: bolder;
+  text-decoration: none;
+  color: rgb(255, 111, 135);
+}
+
+.back-btn:hover{
+  text-decoration: none;
+  color: rgb(255, 57, 90);
+}
+.heading-add{
+  text-align: center;
+  width: 400px;
+  margin-bottom: 30px;
+  color: #ff6f87;
+}

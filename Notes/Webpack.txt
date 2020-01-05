@@ -1,0 +1,47 @@
+
+---------
+Entry:
+An entry point indicates which module webpack should use to begin building out its internal dependency graph.
+if array is passed, then multiple entry points.
+
+---------
+Output:
+The output property tells webpack where to emit the bundles it creates and how to name these files.
+
+path:
+Local disk directory to store all your output files. (Absolute path).
+
+publicPath:
+Where you uploaded your bundled files. (Relative to server root).
+to where it load file when server is on
+https://medium.com/@raviroshan.talk/webpack-understanding-the-publicpath-mystery-aeb96d9effb1
+
+---------
+
+Loaders:
+webpack only understands JavaScript and JSON files. Loaders allow webpack to process other types of files and convert them into valid modules that can be consumed by your application and added to the dependency graph.
+
+---------
+
+Plugins:
+range of tasks like bundle optimization, asset management and injection of environment variables.
+
+---------
+Mode:
+development, production(default) or none
+
+-----
+
+if dynamic import like 'return import('./pizza.js');'
+then need to give chunkFilename in output of webpack config.
+lazy loading
+-video 369 of React16 course.
+
+html-webpack-plugin : to connect html file with bundle.js
+extratextplugin: to extract css from all files and put in a same file.
+hotmodulereplacement plugin: to reload when file changes
+
+
+for all new versions of webpack and package use 
+npm i -D extract-text-webpack-plugin@next to avoid errors.
+
