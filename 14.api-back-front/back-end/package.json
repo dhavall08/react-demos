@@ -1,0 +1,25 @@
+{
+  "name": "full_stack_demo",
+  "version": "1.0.0",
+  "description": "Full-stack-demo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Franklin P. Thaker",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chalk": "^2.4.2",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-validator": "^5.3.1",
+    "glob": "^7.1.3",
+    "nodemon": "^1.18.10",
+    "pg": "^7.8.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.42.0",
+    "sequelize-cli": "^5.4.0",
+    "serve-index": "^1.9.1"
+  }
+}

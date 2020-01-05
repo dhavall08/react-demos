@@ -1,0 +1,29 @@
+{
+  "name": "12.-webpack-project-2",
+  "version": "1.0.0",
+  "description": "1.  npm init -y",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf public",
+    "start": "webpack && webpack-dev-server",
+    "build": "webpack",
+    "build-prod": "webpack --config webpack.prod.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.3",
+    "style-loader": "^0.23.0",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.9",
+    "webpack-merge": "^4.1.4"
+  }
+}

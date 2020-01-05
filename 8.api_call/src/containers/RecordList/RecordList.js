@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import './RecordList.css'
 
@@ -103,6 +104,7 @@ class RecordList extends Component {
                 {loading && <span className="fetching">Fetching data...</span>}
               </div>
             )}
+
       </div>
     );
   }
